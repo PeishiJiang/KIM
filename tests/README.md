@@ -1,1 +1,0 @@
-Knowledge-Informed Mapping (KIM)
