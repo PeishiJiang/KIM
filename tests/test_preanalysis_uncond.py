@@ -31,7 +31,7 @@ def test_corrcoef():
     x1, y1 = get_samples_1()
     x2, y2 = get_samples_2()
 
-    metric_calculator = get_metric_calculator("corr")
+    metric_calculator, _ = get_metric_calculator("corr")
     m1 = metric_calculator(x1, y1)
     m2 = metric_calculator(x2, y2)
 
@@ -42,7 +42,7 @@ def test_mibins():
     x1, y1 = get_samples_3()
     x2, y2 = get_samples_4()
 
-    metric_calculator = get_metric_calculator("it-bins", bins=10)
+    metric_calculator, _ = get_metric_calculator("it-bins", bins=10)
     m1 = metric_calculator(x1, y1)
     m2 = metric_calculator(x2, y2)
 
@@ -52,7 +52,7 @@ def test_miknn():
     x1, y1 = get_samples_3()
     x2, y2 = get_samples_4()
 
-    metric_calculator = get_metric_calculator("it-knn", k=3)
+    metric_calculator, _ = get_metric_calculator("it-knn", k=3)
     m1 = metric_calculator(x1, y1)
     m2 = metric_calculator(x2, y2)
 
@@ -61,9 +61,9 @@ def test_miknn():
 def test_sst():
     x1, y1 = get_samples_3()
     x2, y2 = get_samples_4()
-    metric_calculator = get_metric_calculator("it-knn", k=3)
-    m1, sig1 = shuffle_test(x1, y1, metric_calculator, ntest=100, alpha=0.05)
-    m2, sig2 = shuffle_test(x2, y2, metric_calculator, ntest=100, alpha=0.05)
+    metric_calculator, _ = get_metric_calculator("it-knn", k=3)
+    m1, sig1 = shuffle_test(x1, y1, metric_calculator, cdata=None, ntest=100, alpha=0.05)
+    m2, sig2 = shuffle_test(x2, y2, metric_calculator, cdata=None, ntest=100, alpha=0.05)
     assert not sig1
     assert sig2
 
@@ -73,9 +73,9 @@ def test_pairwise_analysis():
     xdata = np.array([x1, x2]).T
     ydata = np.array([y1, y2]).T
 
-    metric_calculator = get_metric_calculator("it-knn", k=3)
+    metric_calculator, _ = get_metric_calculator("it-knn", k=3)
 
-    sensitivity, sensitivity_mask = pairwise_analysis(
+    sensitivity, sensitivity_mask, _ = pairwise_analysis(
         xdata, ydata, metric_calculator, 
         sst=True, ntest=100, alpha=0.05)
     
@@ -83,4 +83,3 @@ def test_pairwise_analysis():
     # print(sensitivity)
     assert sensitivity_mask[1,1]
     assert not sensitivity_mask[0,0]
-    

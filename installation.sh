@@ -1,6 +1,7 @@
 #!/bin/sh
-# conda env create -f environment.yml
-# conda activate kim
+conda env create -f environment.yml
+conda activate kim
+wait
 
 pip install parsl
 pip install joblib

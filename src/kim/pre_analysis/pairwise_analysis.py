@@ -39,7 +39,7 @@ def pairwise_analysis(xdata, ydata, metric_calculator, sst=False, ntest=100, alp
             if not sst:
                 sensitivity[i, j] = metric_calculator(x, y)
             else:
-                metric, significance = shuffle_test(x, y, metric_calculator, ntest, alpha)
+                metric, significance = shuffle_test(x, y, metric_calculator, None, ntest, alpha)
                 sensitivity[i, j] = metric
                 sensitivity_mask[i, j] = significance
     

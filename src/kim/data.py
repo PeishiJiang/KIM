@@ -26,6 +26,7 @@ class Data(object):
     self.sensitivity_done (bool): whether the sensitivity analysis is performed
     self.sensitivity (array-like): the calculated sensitivity with shape (Nx, Ny)
     self.sensitivity_mask (array-like): the calculated sensitivity mask with shape (Nx, Ny)
+    self.cond_sensitivity_mask (array-like): the calculated conditional sensitivity mask with shape (Nx, Ny)
 
     """
 
@@ -53,6 +54,7 @@ class Data(object):
         }
         self.sensitivity = np.zeros([self.Nx, self.Ny])
         self.sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
+        self.cond_sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
         self.sensitivity_done = False
     
 
@@ -82,7 +84,7 @@ class Data(object):
         sensitivity_config = self.sensitivity_config
         xdata, ydata = self.xdata, self.ydata
         # (TODO) Calculate sensitivity
-        sensitivity_mask, sensitivity = analyze_interdependency(
+        sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
             xdata, ydata, method, metric, sst, ntest, alpha, bins, k
         )
 
@@ -100,3 +102,4 @@ class Data(object):
         self.sensitivity_done = True
         self.sensitivity = sensitivity
         self.sensitivity_mask = sensitivity_mask
+        self.cond_sensitivity_mask = cond_sensitivity_mask

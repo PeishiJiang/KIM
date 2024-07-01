@@ -7,12 +7,13 @@
 import numpy as np
 
 
-def shuffle_test(x, y, metric_calculator, ntest=100, alpha=0.05, random_seed=1234):
+def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, random_seed=1234):
     """Shuffle test.
 
     Args:
         x (array): the x data with dimension (Ns,)
         y (array): the x data with dimension (Ns,)
+        cdata (array): the x data with dimension (Ns,Nc)
         metric_calculator (class): the metric calculator
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
@@ -27,7 +28,10 @@ def shuffle_test(x, y, metric_calculator, ntest=100, alpha=0.05, random_seed=123
     #     np.random.seed(random_seed)
     
     # Calculate the reference metric
-    metrics = metric_calculator(x, y)
+    if cdata is None:
+        metrics = metric_calculator(x, y)
+    else:
+        metrics = metric_calculator(x, y, cdata)
 
     # Calculate the suffled metrics
     metrics_shuffled_all = np.zeros(ntest)
@@ -35,8 +39,11 @@ def shuffle_test(x, y, metric_calculator, ntest=100, alpha=0.05, random_seed=123
         # Get shuffled data
         x_shuffled = np.random.permutation(x)
 
-       # Calculate the corresponding mi
-        metrics_shuffled = metric_calculator(x_shuffled, y)
+        # Calculate the corresponding mi
+        if cdata is None:
+            metrics_shuffled = metric_calculator(x_shuffled, y)
+        else:
+            metrics_shuffled = metric_calculator(x_shuffled, y, cdata)
 
         metrics_shuffled_all[i] = metrics_shuffled
 
@@ -51,5 +58,5 @@ def shuffle_test(x, y, metric_calculator, ntest=100, alpha=0.05, random_seed=123
         return 0.0, False
 
 
-def shuffle_test_cond(x, y, metric_calculator, ntest=100, alpha=0.05, random_seed=1234):
-    pass
+# def cond_shuffle_test(x, y, xc, cond_metric_calculator, ntest=100, alpha=0.05, random_seed=1234):
+#     pass
