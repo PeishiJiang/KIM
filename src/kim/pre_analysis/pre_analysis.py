@@ -60,7 +60,7 @@ def analyze_interdependency(
 
     elif method.lower() == "pc":
         sensitivity, sensitivity_mask, cond_sensitivity_mask = pc(
-            xdata, ydata, cond_metric_calculator, ntest=ntest, alpha=alpha
+            xdata, ydata, metric_calculator, cond_metric_calculator, ntest=ntest, alpha=alpha
         )
 
     else:

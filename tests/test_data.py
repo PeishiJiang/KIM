@@ -5,7 +5,7 @@ from kim import Data
 np.random.seed(1)
 
 Ns = 100
-method='gsa'
+Nz = 3
 metric='it-bins'
 sst=True
 ntest=100 
@@ -34,7 +34,20 @@ def get_samples_4():
     y = x**2 + 2*x + 3
     return x, y
 
-def test_Data():
+def get_samples_cond_1():
+    zdata = np.random.random(size=(Ns,Nz))
+    x= np.random.random(Ns) + np.dot(zdata, np.arange(Nz)) + 3
+    y= np.random.random(Ns) + np.sum(zdata, axis=-1) + 5
+    # y= np.random.random(Ns) + 5
+    return x, y, zdata
+
+def get_samples_cond_2():
+    zdata = np.random.random(size=(Ns,Nz))
+    x= np.random.random(Ns) + np.dot(zdata, np.arange(Nz)) + 3
+    y= np.random.random(Ns) + x
+    return x, y, zdata
+
+def test_Data_gsa():
     x1, y1 = get_samples_1()
     x2, y2 = get_samples_2()
     x3, y3 = get_samples_3()
@@ -49,13 +62,34 @@ def test_Data():
     assert data.Ny == 4
 
     data.calculate_sensitivity(
-        method, metric, sst, ntest, alpha, k=k
+        'gsa', metric, sst, ntest, alpha, k=k
     )
 
-    assert data.sensitivity_config['method'] == method
+    assert data.sensitivity_config['method'] == 'gsa'
     assert not data.sensitivity_mask[2,2]
     assert data.sensitivity_mask[-1,-1]
     assert data.sensitivity_mask[0,0]
 
     # print(data.sensitivity)
     # print(data.sensitivity_mask)
+
+def test_Data_pc():
+    x1, y1, cdata1 = get_samples_cond_1()
+    x2, y2, cdata2 = get_samples_cond_2()
+    xdata = np.array([x1, x2]).T
+    xdata = np.concat([xdata, cdata1, cdata2], axis=1)
+    ydata = np.array([y1, y2]).T
+
+    data = Data(xdata, ydata)
+    
+    assert data.Ns == Ns
+    assert data.Nx == 8
+    assert data.Ny == 2
+
+    data.calculate_sensitivity(
+        'pc', metric, sst, ntest, alpha, k=k
+    )
+
+    assert data.sensitivity_config['method'] == 'pc'
+    assert data.sensitivity_mask[1,1]
+    assert data.sensitivity_mask.sum() > data.cond_sensitivity_mask.sum()
