@@ -2,12 +2,11 @@
 
 # Author: Peishi Jiang <shixijps@gmail.com>
 
-# TODO: Use joblib to speed up the metric calculation
-
 import numpy as np
+from joblib import Parallel, delayed
 
 
-def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, random_seed=1234):
+def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, n_jobs=-1, random_seed=1234):
     """Shuffle test.
 
     Args:
@@ -17,6 +16,7 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, ran
         metric_calculator (class): the metric calculator
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
+        njobs (int): the number of processers/threads used by joblib. Defaults to -1.
         random_seed (int): the random seed number. Defaults to 1234.
 
     Returns:
@@ -34,8 +34,19 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, ran
         metrics = metric_calculator(x, y, cdata)
 
     # Calculate the suffled metrics
-    metrics_shuffled_all = np.zeros(ntest)
-    for i in range(ntest):
+    # metrics_shuffled_all = np.zeros(ntest)
+    # for i in range(ntest):
+    #     # Get shuffled data
+    #     x_shuffled = np.random.permutation(x)
+
+    #     # Calculate the corresponding mi
+    #     if cdata is None:
+    #         metrics_shuffled = metric_calculator(x_shuffled, y)
+    #     else:
+    #         metrics_shuffled = metric_calculator(x_shuffled, y, cdata)
+
+    #     metrics_shuffled_all[i] = metrics_shuffled
+    def shuffle(x, y, cdata, metric_calculator):
         # Get shuffled data
         x_shuffled = np.random.permutation(x)
 
@@ -43,9 +54,13 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, ran
         if cdata is None:
             metrics_shuffled = metric_calculator(x_shuffled, y)
         else:
-            metrics_shuffled = metric_calculator(x_shuffled, y, cdata)
+            metrics_shuffled = metric_calculator(x_shuffled, y, cdata) 
+        return metrics_shuffled
 
-        metrics_shuffled_all[i] = metrics_shuffled
+    metrics_shuffled_all = Parallel(n_jobs=n_jobs)(
+        delayed(shuffle)(x, y, cdata, metric_calculator) for i in range(ntest)
+    )
+    metrics_shuffled_all = np.array(metrics_shuffled_all)
 
     # Calculate 95% and 5% percentiles
     upper = np.percentile(metrics_shuffled_all, int(100*(1-alpha)))

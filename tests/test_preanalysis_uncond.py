@@ -75,7 +75,7 @@ def test_pairwise_analysis():
 
     metric_calculator, _ = get_metric_calculator("it-knn", k=3)
 
-    sensitivity, sensitivity_mask, _ = pairwise_analysis(
+    sensitivity, sensitivity_mask = pairwise_analysis(
         xdata, ydata, metric_calculator, 
         sst=True, ntest=100, alpha=0.05)
     
