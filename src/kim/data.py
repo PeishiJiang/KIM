@@ -5,6 +5,7 @@
 import numpy as np
 
 from .pre_analysis import analyze_interdependency
+from .utils import get_scaler
 
 
 class Data(object):
@@ -22,6 +23,10 @@ class Data(object):
     self.Ns (int): the number of samples
     self.Nx (int): the number of predictors
     self.Ny (int): the number of predictands
+    self.xscaler_type (str): the type of xdata scaler, either 'minmax', 'normalize', 'standard', or 'log'
+    self.yscaler_type (str): the type of ydata scaler, either 'minmax', 'normalize', 'standard', or 'log'
+    self.xscaler (str): the xdata scaler
+    self.yscaler (str): the ydata scaler
     self.sensitivity_config (dict): the sensitivity analysis configuration
     self.sensitivity_done (bool): whether the sensitivity analysis is performed
     self.sensitivity (array-like): the calculated sensitivity with shape (Nx, Ny)
@@ -30,7 +35,7 @@ class Data(object):
 
     """
 
-    def __init__(self, xdata, ydata):
+    def __init__(self, xdata, ydata, xscaler_type='', yscaler_type=''):
         # Data array
         self.xdata = xdata
         self.ydata = ydata
@@ -41,6 +46,12 @@ class Data(object):
         self.Ns = xdata.shape[0]
         self.Nx = xdata.shape[1]
         self.Ny = ydata.shape[1]
+
+        # Create the transformer of the data
+        self.xscaler_type = xscaler_type.lower()
+        self.yscaler_type = yscaler_type.lower()
+        self.xscaler = get_scaler(self.xdata, self.xscaler_type)
+        self.yscaler = get_scaler(self.ydata, self.yscaler_type)
 
         # Data sensitivity
         self.sensitivity_config = {
@@ -82,10 +93,11 @@ class Data(object):
             k (int): the number of nearest neighbors when metric == "it-knn". Defaults to 5.
         """
         sensitivity_config = self.sensitivity_config
-        xdata, ydata = self.xdata, self.ydata
+        # xdata, ydata = self.xdata, self.ydata
+        xdata_scaled, ydata_scaled = self.xdata_scaled, self.ydata_scaled
         # (TODO) Calculate sensitivity
         sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
-            xdata, ydata, method, metric, sst, ntest, alpha, bins, k
+            xdata_scaled, ydata_scaled, method, metric, sst, ntest, alpha, bins, k
         )
 
         # Update the configuration
@@ -103,3 +115,11 @@ class Data(object):
         self.sensitivity = sensitivity
         self.sensitivity_mask = sensitivity_mask
         self.cond_sensitivity_mask = cond_sensitivity_mask
+    
+    @property
+    def xdata_scaled(self):
+        return self.xscaler.transform(self.xdata)
+
+    @property
+    def ydata_scaled(self):
+        return self.yscaler.transform(self.ydata)

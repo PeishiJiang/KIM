@@ -12,6 +12,8 @@ ntest=100
 alpha=0.05 
 bins=10
 k=5
+xscaler_type='minmax'
+yscaler_type='minmax'
 
 def get_samples_1():
     xdata = np.arange(Ns)
@@ -55,7 +57,7 @@ def test_Data_gsa():
     xdata = np.array([x1, x2, x3, x4]).T
     ydata = np.array([y1, y2, y3, y4]).T
 
-    data = Data(xdata, ydata)
+    data = Data(xdata, ydata, xscaler_type=xscaler_type, yscaler_type=yscaler_type)
     
     assert data.Ns == Ns
     assert data.Nx == 4
@@ -80,7 +82,7 @@ def test_Data_pc():
     xdata = np.concat([xdata, cdata1, cdata2], axis=1)
     ydata = np.array([y1, y2]).T
 
-    data = Data(xdata, ydata)
+    data = Data(xdata, ydata, xscaler_type=xscaler_type, yscaler_type=yscaler_type)
     
     assert data.Ns == Ns
     assert data.Nx == 8
