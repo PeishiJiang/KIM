@@ -1,7 +1,14 @@
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
+"""A generic dataloader."""
 
-# import numpy as np
-# import torch
+# Author: Peishi Jiang <shixijps@gmail.com>
+#
+# The dataloader codes is revised from an early PyTorch implementation
+# written by Nis Meinert in the NASA FDL 2021 bootcampl.
+#
+# I adapted the codes to be compatible with JAX.
+
+
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import jax
 import jax.numpy as jnp
@@ -35,30 +42,11 @@ class BatchedDL:
 
     def __next__(self):
         first = next(self.data)
-        # xshape = (self.batch_size,) + first[0].shape
-        # yshape = (self.batch_size,) + first[1].shape
-        # x = jnp.empty(xshape, dtype=first[0].dtype, device=self.device)
-        # y = jnp.empty(yshape, dtype=first[1].dtype, device=self.device)
-        # x = torch.empty(self.batch_size, *first[0].shape, dtype=first[0].dtype, device=self.device)
-        # y = torch.empty(self.batch_size, *first[1].shape, dtype=first[1].dtype, device=self.device)
-
-        # x[0] = first[0]
-        # y[0] = first[1]
-
-        # last = 0
-        # for i in range(1, self.batch_size):
-        #     try:
-        #         x[i], y[i] = next(self.data)
-        #         last = i + 1
-        #     except StopIteration:
-        #         last = i
-        #         break
-
         x, y = [], []
         x.append(first[0])
         y.append(first[1])
 
-        last = 0
+        last = 1
         for i in range(1, self.batch_size):
             try:
                 then = next(self.data)
@@ -171,24 +159,6 @@ class DataSet:
         if not all([0 <= i < x.shape[-1] for i in statics]):
             raise ValueError("Found invalid index in statics.")
 
-        # x_is_tensor = type(x) is torch.Tensor
-        # y_is_tensor = type(y) is torch.Tensor
-        # x_is_array = isinstance(x, Array)
-        # y_is_array = isinstance(y, Array)
-
-        # sel = torch.tensor(sel, device=x.device) if x_is_tensor else np.array(sel)
-        # sel = jnp.array(sel, device=device) if x_is_array else jnp.array(sel)
-        # sel = jax.device_put(jnp.array(sel), device=device)
-
-        # self.x = (
-        #     x[..., sel] if x_is_array else jnp.array(x[..., sel], device=device)
-        # )
-        # self.y = y if y_is_array else jnp.array(y, device=device)
-
-        # self.statics = (
-        #     x[..., ~sel] if x_is_array else jnp.array(x[..., ~sel], device=device)
-        # )
-
         x = jax.device_put(x, device)
         y = jax.device_put(y, device)
 
@@ -212,13 +182,11 @@ class DataSet:
     def _generate_idx(self):
         idx = jnp.arange(self.n) + self.n_stack
         if self.key is not None:
-            # self.rng.shuffle(idx)
             # Perform the shuffle
             idx = jax.random.permutation(self.key, idx)
             # Update the key
             _, newkey = jax.random.split(self.key)
             self.key = newkey
-        # return jnp.array(idx, device=self.device)
         return jax.device_put(idx, device=self.device)
 
     def __iter__(self):
@@ -251,10 +219,10 @@ class DataSet:
 def make_big_data_loader(
     x: Any,
     y: Any,
-    statics: Any,
-    chunk_size: int,
-    n_hist: int,
-    n_fut: int,
+    statics: Any=None,
+    chunk_size: int=None,
+    n_hist: int=0,
+    n_fut: int=0,
     n_repeat: Optional[int] = 0,
     batch_size: Optional[int] = None,
     seed: Optional[int] = None,
@@ -278,6 +246,11 @@ def make_big_data_loader(
     :param device: The ``jax.device`` on which tensors should be stored.
     :return: An iterable that wraps :class:`DataSet` instances for each chunk.
     """
+    nsample = x.shape[0]
+    
+    if chunk_size is None:
+        chunk_size = nsample
+
     if chunk_size < n_hist:
         raise ValueError("The history size cannot be smaller than the chunk size.")
 

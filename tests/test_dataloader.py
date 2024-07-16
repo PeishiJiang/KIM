@@ -43,7 +43,6 @@ def test_data_set():
     assert y1.shape == (Ny,)
     assert y2.shape == (Ny,)
 
-
 def test_dataloader1():
     test_batch = 2
     batch_size = 3
@@ -67,10 +66,9 @@ def test_dataloader1():
         # print(bx.shape)
         # print(by.shape)
 
-
 def test_dataloader2():
     test_batch = 2
-    batch_size = 3
+    batch_size = 1
 
     x, y = get_samples()
 
@@ -80,6 +78,7 @@ def test_dataloader2():
     )
 
     for i, (bx,by) in enumerate(dl):
+        print(bx.shape)
         if i == test_batch:
             assert ~jnp.all(bx == x[i*batch_size:(i+1)*batch_size,:])
             assert ~jnp.all(by == y[i*batch_size:(i+1)*batch_size,:])
