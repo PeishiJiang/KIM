@@ -1,3 +1,6 @@
+import shutil
+from pathlib import Path
+
 import numpy as np
 
 from kim import Data
@@ -95,3 +98,28 @@ def test_Data_pc():
     assert data.sensitivity_config['method'] == 'pc'
     assert data.sensitivity_mask[1,1]
     assert data.sensitivity_mask.sum() > data.cond_sensitivity_mask.sum()
+
+def test_Data_save_load():
+    x1, y1, cdata1 = get_samples_cond_1()
+    x2, y2, cdata2 = get_samples_cond_2()
+    xdata = np.array([x1, x2]).T
+    xdata = np.concat([xdata, cdata1, cdata2], axis=1)
+    ydata = np.array([y1, y2]).T
+
+    root_path = Path("./data")
+    data = Data(xdata, ydata, xscaler_type=xscaler_type, yscaler_type=yscaler_type)
+    data.calculate_sensitivity(
+        'pc', metric, sst, ntest, alpha, k=k
+    )
+    data.save(root_path)
+
+    data2 = Data(xdata, ydata)
+    data2.load(root_path, check_xy=True)
+
+    assert data2.sensitivity_config == data.sensitivity_config
+    assert np.array_equal(data.sensitivity, data2.sensitivity)
+    assert np.array_equal(data.sensitivity_mask, data2.sensitivity_mask)
+    assert np.array_equal(data.cond_sensitivity_mask, data2.cond_sensitivity_mask)
+
+    # Remove the saving folder upon success
+    shutil.rmtree(root_path)

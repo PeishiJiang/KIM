@@ -56,7 +56,8 @@ def analyze_interdependency(
         sensitivity, sensitivity_mask = pairwise_analysis(
             xdata, ydata, metric_calculator, sst=sst, ntest=ntest, alpha=alpha
         )
-        cond_sensitivity_mask = np.zeros([Nx, Ny], dtype='bool')
+        # cond_sensitivity_mask = np.zeros([Nx, Ny], dtype='bool')
+        cond_sensitivity_mask = sensitivity_mask
 
     elif method.lower() == "pc":
         sensitivity, sensitivity_mask, cond_sensitivity_mask = pc(
