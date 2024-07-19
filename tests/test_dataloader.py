@@ -51,7 +51,7 @@ def test_dataloader1():
 
     dl = make_big_data_loader(
         x=x, y=y, statics=None, chunk_size=12, n_hist=0, n_fut=0,
-        batch_size=batch_size, seed=None, device=device
+        batch_size=batch_size, dl_seed=None, device=device
     )
 
     for i, (bx,by) in enumerate(dl):
@@ -74,7 +74,7 @@ def test_dataloader2():
 
     dl = make_big_data_loader(
         x=x, y=y, statics=None, chunk_size=12, n_hist=0, n_fut=0,
-        batch_size=batch_size, seed=1024, device=device
+        batch_size=batch_size, dl_seed=1024, device=device
     )
 
     for i, (bx,by) in enumerate(dl):

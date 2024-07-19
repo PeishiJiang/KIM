@@ -9,7 +9,7 @@ import jax.numpy as jnp
 import equinox as eqx
 from equinox.nn import Linear
 from typing import Callable
-from jaxtyping import PRNGKeyArray, Array
+from jaxtyping import Array
 
 
 class MLP(eqx.Module):
@@ -19,16 +19,18 @@ class MLP(eqx.Module):
 
     def __init__(
         self,
-        in_size: int,
-        out_size: int,
-        width_size: int,
-        depth: int,
-        key: PRNGKeyArray,
+        in_size: int=2,
+        out_size: int=1,
+        width_size: int=3,
+        depth: int=3,
+        # key: PRNGKeyArray=jrandom.key(1024),
+        model_seed: int=1024,
         hidden_activation: str='tanh',
         final_activation: str='tanh',
         **kwargs
     ):
         super().__init__(**kwargs)
+        key = jrandom.key(model_seed)
         keys = jrandom.split(key, depth + 1)
 
         # Get the activation functions
@@ -61,15 +63,17 @@ class MLP2(eqx.Module):
 
     def __init__(
         self,
-        in_size: int,
-        out_size: int,
-        depth: int,
-        key: PRNGKeyArray,
+        in_size: int=2,
+        out_size: int=1,
+        depth: int=3,
+        # key: PRNGKeyArray=jrandom.key(1024),
+        model_seed: int=1024,
         hidden_activation: str='tanh',
         final_activation: str='tanh',
         **kwargs
     ):
         super().__init__(**kwargs)
+        key = jrandom.key(model_seed)
         keys = jrandom.split(key, depth + 1)
 
         # Get the activation functions

@@ -1,33 +1,42 @@
-"""Functions for training the mapping."""
+"""Functions for training one mapping."""
 
 # Author: Peishi Jiang <shixijps@gmail.com>
 
+from .dataloader import BatchedDL
 
-import jax
 import jax.numpy as jnp
-# import jax.tree_util as jtu
 import optax
 import equinox as eqx
+from tqdm import tqdm
 
-from typing import Optional, Callable
+from typing import Optional, Callable, Tuple
 from jaxtyping import Array, PyTree
-
-
-def loss_mse(model: eqx.Module, x: Array, y: Array):
-    # Assume the first dimensions of x and y are the batch dimensions
-    pred_y = jax.vmap(model)(x)
-    return jnp.mean((y - pred_y) ** 2)
 
 
 def train(
     model: eqx.Module, nsteps:int, loss_func: Callable, 
     optim: optax.GradientTransformation, 
-    trainloader: Array, testloader: Optional[Array]=None
-):
+    trainloader: BatchedDL, testloader: Optional[BatchedDL]=None
+) -> Tuple[eqx.Module, Array, Array]:
+    """Function to train one model/mapping.
+
+    Args:
+        model (eqx.Module): the eqx.Module model to be trained
+        nsteps (int): the number of training steps
+        loss_func (Callable): the loss function
+        optim (optax.GradientTransformation): the optimizer
+        trainloader (BatchedDL): the training dataloader
+        testloader (Optional[BatchedDL], optional): the test dataloader. Defaults to None.
+
+    Returns:
+        model: the trained model
+        loss_train_set: the loss values of the train set
+        loss_test_set: the loss values of the test set
+    """
     opt_state = optim.init(eqx.filter(model, eqx.is_array))
 
     loss_train_set, loss_test_set = [], []
-    for i in range(nsteps):
+    for i in tqdm(range(nsteps)):
         # Update the model on the training data
         model, opt_state, loss_value_train = train_each_step(
             model, trainloader, loss_func, optim, opt_state)
@@ -35,9 +44,10 @@ def train(
         # Evaluate the model on the test data
         if testloader is not None:
             loss_value_test = evaluate(model, testloader, loss_func)
-
-        loss_train_set.append(loss_value_train)
-        loss_test_set.append(loss_value_test)
+            loss_train_set.append(loss_value_train)
+            loss_test_set.append(loss_value_test)
+        else:
+            loss_train_set.append(loss_value_train)
     
     loss_train_set = jnp.array(loss_train_set)
     loss_test_set = jnp.array(loss_test_set)

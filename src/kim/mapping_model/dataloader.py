@@ -3,7 +3,7 @@
 # Author: Peishi Jiang <shixijps@gmail.com>
 #
 # The dataloader codes is revised from an early PyTorch implementation
-# written by Nis Meinert in the NASA FDL 2021 bootcampl.
+# written by Nis Meinert in the NASA FDL 2021 bootcamp.
 #
 # I adapted the codes to be compatible with JAX.
 
@@ -12,6 +12,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import jax
 import jax.numpy as jnp
+from jaxlib.xla_extension import Device
 from jaxtyping import Array
 
 
@@ -29,7 +30,7 @@ class BatchedDL:
         self,
         it: Iterable[Tuple[Array, Array]],
         batch_size: int,
-        device: Optional[str] = None,
+        device: Optional[Device] = None,
     ) -> None:
         self.it = it
         self.data = iter(self.it)
@@ -149,7 +150,7 @@ class DataSet:
         statics: Optional[List[int]] = None,
         n_repeat: int = 0,
         seed: Optional[int] = None,
-        device: Optional[str] = None,
+        device: Optional[Device] = None,
     ) -> None:
         self.device = device
 
@@ -225,8 +226,8 @@ def make_big_data_loader(
     n_fut: int=0,
     n_repeat: Optional[int] = 0,
     batch_size: Optional[int] = None,
-    seed: Optional[int] = None,
-    device: Optional[str] = None,
+    dl_seed: Optional[int] = None,
+    device: Optional[Device] = None,
 ) -> Union[BatchedDL, MultiDL]:
     """Returns wrapped :class:`LazyFeatureCat` instances.
 
@@ -242,7 +243,7 @@ def make_big_data_loader(
     :param n_repeat: See :class:`DataSet` for details.
     :param batch_size: If not ``None`` the result of :class:`DataSet` are gathered in batches
                        of the given size.
-    :param seed: See :class:`DataSet` for details.
+    :param dl_seed: See :class:`DataSet` for details.
     :param device: The ``jax.device`` on which tensors should be stored.
     :return: An iterable that wraps :class:`DataSet` instances for each chunk.
     """
@@ -275,7 +276,7 @@ def make_big_data_loader(
         if n_x >= min_length:
             args.append((x[x_first:x_last], y[y_first:y_last], statics))
 
-    kwargs = [{"n_repeat": n_repeat, "seed": seed, "device": device}] * len(args)
+    kwargs = [{"n_repeat": n_repeat, "seed": dl_seed, "device": device}] * len(args)
 
     dl = MultiDL(DataSet, args, kwargs)
     return BatchedDL(dl, batch_size=batch_size, device=device) if batch_size else dl
