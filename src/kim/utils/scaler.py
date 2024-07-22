@@ -23,7 +23,7 @@ def get_scaler(data=None, scaler_type=''):
         scaler.fit(data)
         return scaler
 
-    elif scaler_type == 'minmax':
+    elif scaler_type == 'standard':
         scaler = StandardScaler()
         scaler.fit(data)
         return scaler

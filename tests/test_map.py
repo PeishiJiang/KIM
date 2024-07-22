@@ -152,8 +152,8 @@ def test_map_train_parallel():
 
     assert not kimap.trained
     kimap.train(training_verbose)
-    # pprint.pprint(kimap.loss_train_ens)
-    # pprint.pprint(kimap.loss_test_ens)
+    pprint.pprint(kimap.loss_train_ens)
+    pprint.pprint(kimap.loss_test_ens)
 
     assert len(kimap.model_ens) == kimap.n_model
     assert len(kimap.loss_train_ens) == kimap.n_model
@@ -200,6 +200,7 @@ def test_map_save_load():
     kimap.save(root_path)
     assert not kimap.loaded_from_other_sources
 
+    # Load the model
     kimap2 = Map(x, y)
     assert not kimap2.trained
     kimap2.load(root_path)

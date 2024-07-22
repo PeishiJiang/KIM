@@ -95,6 +95,8 @@ def test_Data_pc():
         'pc', metric, sst, ntest, alpha, k=k
     )
 
+    # print(data.cond_sensitivity_mask)
+    # print(data.sensitivity)
     assert data.sensitivity_config['method'] == 'pc'
     assert data.sensitivity_mask[1,1]
     assert data.sensitivity_mask.sum() > data.cond_sensitivity_mask.sum()

@@ -1,42 +1,234 @@
-"""The general mapping class."""
+"""The general KIM class."""
 
 # Author: Peishi Jiang <shixijps@gmail.com>
 
 from .data import Data
 from .mapping_model import train_ensemble, loss_mse
-from .mapping_model import MLP, MLP2
+from .mapping_model import MLP
 
 import json
 import random
 import pickle
 import itertools
+from copy import deepcopy
 from pathlib import PosixPath, Path
 
 import jax
 import jax.numpy as jnp
+import numpy as np
 import equinox as eqx
 
 from jaxlib.xla_extension import Device
 from typing import Optional
 from jaxtyping import Array
 
+# TODO: Add verbosity
+# TODO: Add test codes for class KIM
+# TODO: Add documentation string for class KIM
+# TODO: Add random seed for shuffle test
+# TODO: Add checkpoint for cases where no inputs is sensible to one particular output ("many2one")
 
-class Maps(object):
 
-    def __init__(self, data: Data):
-        pass
+class KIM(object):
+
+    def __init__(
+        self, data: Data, map_configs: dict, 
+        mask_option: str='cond_sensitivity', 
+        map_option: str='many2one'
+    ):
+        # Check whether sensitivity has been performed in Data
+        if not data.sensitivity_done and map_option == "many2one":
+            raise Exception(
+                "Sensitivity analysis has not been performed. So, KIM can not be executed in many to one mode."
+            )
+        self.data = data
+        self.trained = False
+        self.loaded_from_other_sources = False
+
+        self.Ns, self.Nx, self.Ny = data.Ns, data.Nx, data.Ny
+        self.mask_option = mask_option
+        if mask_option == "sensitivity":
+            self.mask = data.sensitivity_mask
+        elif mask_option == "cond_sensitivity":
+            self.mask = data.cond_sensitivity_mask
+        else:
+            raise Exception("Unknown mask_option: %s" % mask_option)
+
+        # Initialize variables/attributes for mappings
+        if map_option == "many2one":
+            n_maps = self.Ny
+        elif map_option == "many2many":
+            n_maps = 1 
+        else:
+            raise Exception("Unknown mapping option: %s" % map_option)
+        self.map_configs = map_configs
+        self.map_option = map_option
+        self._n_maps = n_maps
+
+    @property
+    def maps(self):
+        if self.trained:
+            return self._maps
+        else:
+            print("KIM has not been trained yet.")
+
+    @property
+    def n_maps(self):
+        return self._n_maps
 
     def train(self):
-        pass
+        # Initialize
+        if self.map_option == "many2many":
+            maps = self._init_map_many2many()
+        elif self.map_option == "many2one":
+            maps = self._init_map_many2one()
+        # Train
+        for one_map in maps:
+            one_map.train(verbose=0)
+        self._maps = maps
+        self.trained = True
+    
+    def _init_map_many2many(self):
+        x, y = self.data.xdata_scaled, self.data.ydata_scaled
+        x, y = jnp.array(x), jnp.array(y)  # convert to jnp array
+        map_configs = deepcopy(self.map_configs)
+        one_map = Map(x, y, **map_configs)
+        # one_map.train(verbose=0)
+        return [one_map]
 
-    def predict(self):
-        pass
+    def _init_map_many2one(self):
+        if not self.data.sensitivity_done:
+            raise Exception(
+                "The sensitivity analysis is not done. \
+                    We can't train the knowledge-informed mapping."
+            )
+        xall, yall = self.data.xdata_scaled, self.data.ydata_scaled
+        mask_all = self.mask
+        maps = []
+        for i in range(self.n_maps):
+            # Get the masked inputs and the outpus
+            mask = mask_all[:,i]
+            x, y = xall[:, mask], yall[:, [i]]
+            x, y = jnp.array(x), jnp.array(y) # convert to jnp array
+            # Initialize and train the mapping
+            # print(self.map_configs, x.shape)
+            map_configs = deepcopy(self.map_configs)
+            one_map = Map(x, y, **map_configs)
+            # one_map.train(verbose=0)
+            maps.append(one_map)
+        return maps
 
-    def save(self):
-        pass
+    def predict(self, x: Array):
+        """Prediction using the trained KIM.
 
-    def load(self):
-        pass
+        Args:
+            x (Array): predictors with shape (Ns,...,Nx)
+
+        """
+        assert x.shape[-1] == self.Nx  # The same dimension
+        assert len(x.shape) >= 2  # At least 2 dimensions with the leading batch dimension
+
+        xraw = x
+        xscaler, yscaler = self.data.xscaler, self.data.yscaler
+        x = xscaler.transform(xraw)
+
+        if self.map_option == "many2many":
+            one_map = self._maps[0]
+            y_ens, y_mean, y_mean_w = one_map.predict(x)
+        elif self.map_option == "many2one":
+            y_ens, y_mean, y_mean_w = [], [], []
+            for i,one_map in enumerate(self._maps):
+                one_mask = self.mask[:,i]
+                y_e, y_m, y_mw = one_map.predict(x[:, one_mask])
+                y_ens.append(np.array(y_e))
+                y_mean.append(np.array(y_m))
+                y_mean_w.append(np.array(y_mw))
+            y_ens = np.concat(y_ens, axis=-1)
+            y_mean = np.concat(y_mean, axis=-1)
+            y_mean_w = np.concat(y_mean_w, axis=-1)
+
+        # Scale back
+        y_ens = np.array([yscaler.inverse_transform(y) for y in y_ens])
+        y_mean = yscaler.inverse_transform(y_mean)
+        y_mean_w= yscaler.inverse_transform(y_mean_w)
+        
+        return y_ens, y_mean, y_mean_w
+        
+    def save(self, rootpath: PosixPath=Path('./')):
+        """Save the KIM, including:
+            - the data object
+            - all the mappings
+            - the remaining configurations
+
+        Args:
+            rootpath (PosixPath): the root path where data will be saved
+
+        """
+        if not self.trained:
+            raise Exception("KIM has not been trained yet.")
+
+        if not rootpath.exists():
+            rootpath.mkdir(parents=True)
+        
+        # Save the data object
+        f_data = rootpath / "data"
+        self.data.save(f_data)
+
+        # Save all the mappings
+        f_map_set = [rootpath / f'map{i}' for i in range(self._n_maps)]
+        for i,one_map in enumerate(self._maps):
+            one_map.save(f_map_set[i])
+
+        # Save the remaining configurations
+        f_configs = rootpath / "configs.pkl"
+        configs = {
+            "map_configs": self.map_configs,
+            "map_option": self.map_option,
+            "n_maps": self._n_maps
+        }
+        with open(f_configs, "wb") as f:
+            pickle.dump(configs, f)
+
+    def load(self, rootpath: PosixPath=Path("./")):
+        """load the trained KIM from specified location.
+
+        Args:
+            rootpath (PosixPath): the root path where KIM will be loaded
+        """
+        # Load the overall configurations
+        f_configs = rootpath / "configs.pkl"
+        with open(f_configs, "rb") as f:
+            configs = pickle.load(f)
+        self.map_configs = configs["map_configs"]
+        self.map_options = configs["map_option"]
+        self._n_maps = configs["n_maps"]
+
+        # Load the data object
+        f_data = rootpath / "data"
+        self.data.load(f_data, overwrite=True)
+        self.Ns, self.Nx, self.Ny = self.data.Ns, self.data.Nx, self.data.Ny
+        if self.mask_option == "sensitivity":
+            self.mask = self.data.sensitivity_mask
+        elif self.mask_option == "cond_sensitivity":
+            self.mask = self.data.cond_sensitivity_mask
+        else:
+            raise Exception("Unknown mask_option: %s" % self.mask_option)
+
+        # Load the trained mappings
+        if self.map_option == "many2many":
+            f_mapping = rootpath / 'map0'
+            one_map = self._init_map_many2many()
+            one_map.load(f_mapping)
+            maps = [one_map]
+        elif self.map_option == "many2one":
+            f_mapping_set = [rootpath / f'map{i}' for i in range(self._n_maps)]
+            maps = self._init_map_many2one()
+            for i,one_map in enumerate(maps):
+                one_map.load(f_mapping_set[i])
+        self._maps = maps
+
+        self.trained = True
+        self.loaded_from_other_sources = True
 
 
 class Map(object):
@@ -193,6 +385,14 @@ class Map(object):
         # TODO: A naming convention should be implemented in KIM.
         # e.g., the input and output parameters used in the DNN models.
         # Numbers of model inputs and outputs should be fixed
+        if "in_size" in self.model_hp_choices:
+            raise Exception("Input size should not be tunabled!")
+        if "out_size" in self.model_hp_choices:
+            raise Exception("Output size should not be tunabled!")
+        if 'in_size' in self.model_hp_fixed and self.model_hp_fixed['in_size'] != self.Nx:
+            raise Exception("Input size of the model is not: ", self.model_hp_fixed['in_size'])
+        if 'out_size' in self.model_hp_fixed and self.model_hp_fixed['out_size'] != self.Ny:
+            raise Exception("Output size of the model is not: ", self.model_hp_fixed['out_size'])
         self.model_hp_fixed['in_size'] = self.Nx
         self.model_hp_fixed['out_size'] = self.Ny
 
@@ -346,7 +546,7 @@ class Map(object):
                 pickle.dump(loss, f)
 
     def load(self, rootpath: PosixPath=Path("./")):
-        """Save the trained mapping to specified location.
+        """load the trained mapping from specified location.
 
         Args:
             rootpath (PosixPath): the root path where mappings will be loaded

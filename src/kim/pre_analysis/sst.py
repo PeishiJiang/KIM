@@ -22,10 +22,10 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, n_j
     Returns:
         (float, bool): metric_value, significance_or_not
     """
-    # if random_seed is None:
-    #     np.random.seed()
-    # else:
-    #     np.random.seed(random_seed)
+    if random_seed is None:
+        np.random.seed()
+    else:
+        np.random.seed(random_seed)
     
     # Calculate the reference metric
     if cdata is None:
@@ -46,10 +46,14 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, n_j
     #         metrics_shuffled = metric_calculator(x_shuffled, y, cdata)
 
     #     metrics_shuffled_all[i] = metrics_shuffled
-    def shuffle(x, y, cdata, metric_calculator):
-        # Get shuffled data
-        x_shuffled = np.random.permutation(x)
+    # Get shuffled data
+    x_shuffled_all = [np.random.permutation(x) for i in range(ntest)]
 
+    # def shuffle(x, y, cdata, metric_calculator):
+        # # Get shuffled data
+        # x_shuffled = np.random.permutation(x)
+
+    def shuffle(x_shuffled, y, cdata, metric_calculator):
         # Calculate the corresponding mi
         if cdata is None:
             metrics_shuffled = metric_calculator(x_shuffled, y)
@@ -58,12 +62,13 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, n_j
         return metrics_shuffled
 
     metrics_shuffled_all = Parallel(n_jobs=n_jobs)(
-        delayed(shuffle)(x, y, cdata, metric_calculator) for i in range(ntest)
+        delayed(shuffle)(x_shuffled_all[i], y, cdata, metric_calculator) for i in range(ntest)
     )
     metrics_shuffled_all = np.array(metrics_shuffled_all)
 
     # Calculate 95% and 5% percentiles
     upper = np.percentile(metrics_shuffled_all, int(100*(1-alpha)))
+    # print(upper)
     # lower = np.percentile(metrics_shuffled_all, int(100*alpha))
 
     # Return

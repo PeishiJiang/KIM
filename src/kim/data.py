@@ -170,7 +170,7 @@ class Data(object):
         np.save(f_mask, self.sensitivity_mask)
         np.save(f_cond_mask, self.cond_sensitivity_mask)
     
-    def load(self, rootpath: PosixPath=Path("./"), check_xy=True):
+    def load(self, rootpath: PosixPath=Path("./"), check_xy=True, overwrite=False):
         """load data and sensitivity analysis results from specified location, including:
             - data (x, y) and scaler
             - sensitivity analysis configuration
@@ -180,7 +180,7 @@ class Data(object):
             rootpath (PosixPath): the root path where data will be loaded
 
         """
-        if self.sensitivity_done:
+        if self.sensitivity_done and not overwrite:
             raise Exception("Sensitivity analysis has been performed.")
         
         # Load xdata and ydata
