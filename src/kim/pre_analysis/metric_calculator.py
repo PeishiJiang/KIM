@@ -7,8 +7,10 @@ from numpy import ma
 from scipy.spatial import cKDTree
 from scipy.special import digamma
 
+from jaxtyping import Array
 
-def get_metric_calculator(metric="corr", bins=10, k=5):
+
+def get_metric_calculator(metric: str="corr", bins: int=10, k: int=5):
 
     if metric.lower() == "corr":
         metric_calculator = CorrCoef()
@@ -23,23 +25,35 @@ def get_metric_calculator(metric="corr", bins=10, k=5):
     return metric_calculator, cond_metric_calculator
 
 
-class CorrCoef(object):
+class MetricBase(object):
+    """Correlation coefficient"""
+
+    def __init__(self, metric_name: str):
+        self.metric = metric_name
+
+    def __call__(self, x: Array, y: Array) -> float:
+        raise Exception("Not implemented.")
+
+
+class CorrCoef(MetricBase):
     """Correlation coefficient"""
 
     def __init__(self):
-        self.metric = "corr"
+        super(CorrCoef, self).__init__("corr")
+        # self.metric = "corr"
 
-    def __call__(self, x, y) -> float:
+    def __call__(self, x: Array, y: Array) -> float:
         return np.corrcoef(x, y)[0,1] 
 
 
-class ParCorrCoef(object):
+class ParCorrCoef(MetricBase):
     """Conditional correlation coefficient"""
 
     def __init__(self):
-        self.metric = "corr"
+        super(ParCorrCoef, self).__init__("parcorr")
+        # self.metric = "corr"
 
-    def __call__(self, x, y, cdata) -> float:
+    def __call__(self, x: Array, y: Array, cdata: Array) -> float:
         # This implementation is inspired by the following code:
         # https://github.com/jakobrunge/tigramite/blob/4a6a470eaa67bc57a827b2f70b26ef35650ffcdc/tigramite/independence_tests/parcorr.py#L124
         xresiduals = self._get_ols_residuals(x, cdata)
@@ -55,51 +69,55 @@ class ParCorrCoef(object):
         return residuals
 
 
-class MIbins(object):
+class MIbins(MetricBase):
     """Mutual information using the binning method"""
 
-    def __init__(self, bins=10):
-        self.metric = "it-bins"
+    def __init__(self, bins: int=10):
+        super(MIbins, self).__init__("it-bins")
+        # self.metric = "it-bins"
         self.bins = bins
 
-    def __call__(self, x, y) -> float:
+    def __call__(self, x: Array, y: Array) -> float:
         return computeMIbins(x, y, self.bins)
 
 
-class CMIbins(object):
+class CMIbins(MetricBase):
     """Conditional mutual information using the binning method"""
 
-    def __init__(self, bins=10):
-        self.metric = "it-bins"
+    def __init__(self, bins: int=10):
+        super(CMIbins, self).__init__("it-bins")
+        # self.metric = "it-bins"
         self.bins = bins
 
-    def __call__(self, x, y, cdata) -> float:
+    def __call__(self, x: Array, y: Array, cdata: Array) -> float:
         return computeCMIbins(x, y, cdata, self.bins)
 
 
-class MIknn(object):
+class MIknn(MetricBase):
     """Mutual information using the k-nearest-neighbor method"""
 
-    def __init__(self, k=10):
-        self.metric = "it-knn"
+    def __init__(self, k: int=10):
+        super(MIknn, self).__init__("it-knn")
+        # self.metric = "it-knn"
         self.k = k
 
-    def __call__(self, x, y) -> float:
+    def __call__(self, x: Array, y: Array) -> float:
         return computeMIknn(x, y, self.k)
 
 
-class CMIknn(object):
+class CMIknn(MetricBase):
     """Conditional mutual information using the k-nearest-neighbor method"""
 
-    def __init__(self, k=10):
-        self.metric = "it-knn"
+    def __init__(self, k: int=10):
+        super(CMIknn, self).__init__("it-knn")
+        # self.metric = "it-knn"
         self.k = k
 
-    def __call__(self, x, y, cdata) -> float:
+    def __call__(self, x: Array, y: Array, cdata: Array) -> float:
         return computeCMIknn(x, y, cdata, self.k)
 
 
-def computeEntropybins(data, bins):
+def computeEntropybins(data: Array, bins: int):
     """Compute the entropy using the binning method.
 
     Args:
@@ -119,7 +137,7 @@ def computeEntropybins(data, bins):
     return ent
 
 
-def computeMIbins(x, y, bins=10) -> float:
+def computeMIbins(x: Array, y: Array, bins: int=10) -> float:
     """Compute the mutual information I(X;Y) using the binning method.
 
     Args:
@@ -141,7 +159,7 @@ def computeMIbins(x, y, bins=10) -> float:
     return mi
 
 
-def computeCMIbins(x, y, cdata, bins=10) -> float:
+def computeCMIbins(x: Array, y: Array, cdata: Array, bins: int=10) -> float:
     """Compute the conditional mutual information I(X;Y|C) using the binning method.
 
     Args:
@@ -168,7 +186,7 @@ def computeCMIbins(x, y, cdata, bins=10) -> float:
     return cmi
 
 
-def computeMIknn(x, y, k=2) -> float:
+def computeMIknn(x: Array, y: Array, k: int=2) -> float:
     """Compute the  mutual information I(X;Y) using the k-nearest-neighbor method,
        based on the original formula (not the average version).
        Modified from: https://github.com/PeishiJiang/info/blob/master/info/core/info.py#L1315.
@@ -206,7 +224,7 @@ def computeMIknn(x, y, k=2) -> float:
     return digamma(npts) + digamma(k) - np.mean(digamma(kyset)) - np.mean(digamma(kxset))
 
 
-def computeCMIknn(x, y, cdata, k=2) -> float:
+def computeCMIknn(x: Array, y: Array, cdata: Array, k: int=2) -> float:
     """Compute the conditional mutual information I(X;Y|C) using the k-nearest-neighbor method,
        based on the original formula (not the average version).
        Modified from: https://github.com/PeishiJiang/info/blob/master/info/core/info.py#L1315.

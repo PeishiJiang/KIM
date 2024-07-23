@@ -5,8 +5,15 @@
 import numpy as np
 from joblib import Parallel, delayed
 
+from .metric_calculator import MetricBase
 
-def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, n_jobs=-1, random_seed=1234):
+from typing import Optional
+from jaxtyping import Array
+
+
+def shuffle_test(
+    x: Array, y: Array, metric_calculator: MetricBase, cdata: Optional[Array]=None, 
+    ntest: int=100, alpha: float=0.05, n_jobs: int=-1, random_seed: int=1234):
     """Shuffle test.
 
     Args:
@@ -68,7 +75,6 @@ def shuffle_test(x, y, metric_calculator, cdata=None, ntest=100, alpha=0.05, n_j
 
     # Calculate 95% and 5% percentiles
     upper = np.percentile(metrics_shuffled_all, int(100*(1-alpha)))
-    # print(upper)
     # lower = np.percentile(metrics_shuffled_all, int(100*alpha))
 
     # Return

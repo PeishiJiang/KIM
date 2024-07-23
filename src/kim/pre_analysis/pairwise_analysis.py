@@ -5,9 +5,15 @@
 import numpy as np
 
 from .sst import shuffle_test
+from .metric_calculator import MetricBase
+
+from jaxtyping import Array
 
 
-def pairwise_analysis(xdata, ydata, metric_calculator, sst=False, ntest=100, alpha=0.05):
+def pairwise_analysis(
+    xdata: Array, ydata: Array, metric_calculator: MetricBase, sst: bool=False, 
+    ntest: int=100, alpha: float=0.05, seed_shuffle: int=1234
+):
     """Perform the pairwise analysis.
 
     Args:
@@ -17,6 +23,7 @@ def pairwise_analysis(xdata, ydata, metric_calculator, sst=False, ntest=100, alp
         sst (bool): whether to perform statistical significance test. Defaults to False.
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
+        seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 1234.
 
     Returns:
         (array, array): the sensitivity result
@@ -39,7 +46,10 @@ def pairwise_analysis(xdata, ydata, metric_calculator, sst=False, ntest=100, alp
             if not sst:
                 sensitivity[i, j] = metric_calculator(x, y)
             else:
-                metric, significance = shuffle_test(x, y, metric_calculator, None, ntest, alpha)
+                metric, significance = shuffle_test(
+                    x, y, metric_calculator, None, ntest, alpha, 
+                    random_seed=seed_shuffle
+                )
                 sensitivity[i, j] = metric
                 sensitivity_mask[i, j] = significance
     

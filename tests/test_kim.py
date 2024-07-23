@@ -23,6 +23,7 @@ seed = 1024
 seed_predict = 3636
 seed_dl = 10
 seed_model = 100
+seed_shuffle = 1234
 training_verbose = 1
 
 # Data configuration
@@ -36,7 +37,8 @@ data_params = {
 # Sensitivity analysis configuration
 sensitivity_params = {
     "method": "pc", "metric": "it-knn",
-    "sst": True, "ntest": 100, "alpha": 0.05, "k": 3
+    "sst": True, "ntest": 100, "alpha": 0.05, "k": 3,
+    "seed_shuffle": seed_shuffle,
 }
 
 # Mapping parameters for each test below

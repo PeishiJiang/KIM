@@ -11,6 +11,8 @@ from pathlib import Path, PosixPath
 from .pre_analysis import analyze_interdependency
 from .utils import get_scaler
 
+from jaxtyping import Array
+
 
 class Data(object):
     """Data object.
@@ -39,7 +41,7 @@ class Data(object):
 
     """
 
-    def __init__(self, xdata, ydata, xscaler_type='', yscaler_type=''):
+    def __init__(self, xdata: Array, ydata: Array, xscaler_type: str='', yscaler_type: str=''):
         # Data array
         self.xdata = xdata
         self.ydata = ydata
@@ -66,6 +68,7 @@ class Data(object):
             "alpha": None,
             "bins": None,
             "k": None,
+            "seed_shuffle": None,
         }
         self.sensitivity = np.zeros([self.Nx, self.Ny])
         self.sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
@@ -75,9 +78,9 @@ class Data(object):
     
 
     def calculate_sensitivity(
-        self, method='gsa', metric='it-bins', 
-        sst=False, ntest=100, alpha=0.05, 
-        bins=10, k=5
+        self, method: str='gsa', metric: str='it-bins', 
+        sst: bool=False, ntest: int=100, alpha: float=0.05, 
+        bins: int=10, k: int=5, seed_shuffle: int=1234
     ):
         """Calculate the sensitivity between xdata and ydata.
 
@@ -96,13 +99,14 @@ class Data(object):
             alpha (float): the significance level. Defaults to 0.05.
             bins (int): the number of bins for each dimension when metric == "it-knn". Defaults to 10.
             k (int): the number of nearest neighbors when metric == "it-knn". Defaults to 5.
+            seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 5.
         """
         sensitivity_config = self.sensitivity_config
         # xdata, ydata = self.xdata, self.ydata
         xdata_scaled, ydata_scaled = self.xdata_scaled, self.ydata_scaled
         # (TODO) Calculate sensitivity
         sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
-            xdata_scaled, ydata_scaled, method, metric, sst, ntest, alpha, bins, k
+            xdata_scaled, ydata_scaled, method, metric, sst, ntest, alpha, bins, k, seed_shuffle
         )
 
         # Update the configuration
@@ -113,6 +117,7 @@ class Data(object):
         sensitivity_config['alpha'] = alpha
         sensitivity_config['bins'] = bins
         sensitivity_config['k'] = k
+        sensitivity_config['seed_shuffle'] = seed_shuffle
         self.sensitivity_config = sensitivity_config
 
         # Update the analysis result
@@ -170,7 +175,7 @@ class Data(object):
         np.save(f_mask, self.sensitivity_mask)
         np.save(f_cond_mask, self.cond_sensitivity_mask)
     
-    def load(self, rootpath: PosixPath=Path("./"), check_xy=True, overwrite=False):
+    def load(self, rootpath: PosixPath=Path("./"), check_xy: bool=True, overwrite: bool=False):
         """load data and sensitivity analysis results from specified location, including:
             - data (x, y) and scaler
             - sensitivity analysis configuration

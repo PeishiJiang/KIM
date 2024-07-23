@@ -1,3 +1,4 @@
+
 """The general KIM class."""
 
 # Author: Peishi Jiang <shixijps@gmail.com>
@@ -23,9 +24,7 @@ from typing import Optional
 from jaxtyping import Array
 
 # TODO: Add verbosity
-# TODO: Add test codes for class KIM
 # TODO: Add documentation string for class KIM
-# TODO: Add random seed for shuffle test
 # TODO: Add checkpoint for cases where no inputs is sensible to one particular output ("many2one")
 
 

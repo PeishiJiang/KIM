@@ -6,10 +6,13 @@ import numpy as np
 
 from .sst import shuffle_test
 from .pairwise_analysis import pairwise_analysis
+from .metric_calculator import MetricBase
+
+from jaxtyping import Array
 
 
-def pc(xdata, ydata, metric_calculator, cond_metric_calculator, 
-       ntest=100, alpha=0.05, Ncond_max=3):
+def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_calculator: MetricBase, 
+       ntest: int=100, alpha: float=0.05, Ncond_max: int=3, seed_shuffle: int=1234):
     """The modified PC algorithm adapted to the X --> Y mapping problem.
 
     Args:
@@ -20,6 +23,7 @@ def pc(xdata, ydata, metric_calculator, cond_metric_calculator,
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
         Ncond_max (int): the maximum number of conditions used by cond_metric_calculator. Defaults to 3.
+        seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 1234.
 
     Returns:
         (array, array, array): the sensitivity result
@@ -86,7 +90,8 @@ def pc(xdata, ydata, metric_calculator, cond_metric_calculator,
 
                 # Perform the conditional pairwise analysis
                 metric, significance = shuffle_test(
-                    x, y, cond_metric_calculator, cdata=xc, ntest=ntest, alpha=alpha
+                    x, y, cond_metric_calculator, cdata=xc, ntest=ntest, alpha=alpha,
+                    random_seed=seed_shuffle
                 )
                 # print(xc.shape, cond_all_but_xi.shape, cond_all.shape, yj, xi, cond, k, significance)
 
