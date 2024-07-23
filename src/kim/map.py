@@ -23,12 +23,39 @@ from jaxlib.xla_extension import Device
 from typing import Optional
 from jaxtyping import Array
 
-# TODO: Add verbosity
-# TODO: Add documentation string for class KIM
 # TODO: Add checkpoint for cases where no inputs is sensible to one particular output ("many2one")
 
 
 class KIM(object):
+    """The class for knowledge-informed mapping training, prediction, saving and loading.
+
+    Arguments:
+    ----------
+    data (Data): the Data object containing the ensemble data and sensitivity analysis result.
+    map_configs (dict): the mapping configuration, including all the arguments of Map class except x and y.
+    mask_option (str): the masking option including 
+                      - "sensitivity" (using data.sensitivity_mask), and 
+                      - "cond_sensitivity" (using data.cond_sensitivity_mask).
+    map_option (str): the map option including
+                      - "many2one": knowledge-informed mapping using sensitivity analysis result as filter, and
+                      - "many2many": normal mapping without being knowledge-informed
+
+    Attributes:
+    ----------
+    self.data (Data) : argument copy
+    self.map_configs (dict) : argument copy
+    self.map_option (str) : argument copy
+    self.mask_option (str) : argument copy
+    self.trained (bool) : whether KIM has been trained
+    self.loaded_from_other_sources (bool) : whether KIM is loaded from other sources.
+    self.Ns (int) : the number of ensemble members (from data.Ns)
+    self.Nx (int) : the number of input features (from data.Nx)
+    self.Ny (int) : the number of output features (from data.Ny)
+    self.mask (Array) : the masked array with shape (Nx, Ny)
+    self._n_maps (int) : the number of maps
+    self._maps (int) : the trained maps
+
+    """
 
     def __init__(
         self, data: Data, map_configs: dict, 
@@ -75,7 +102,7 @@ class KIM(object):
     def n_maps(self):
         return self._n_maps
 
-    def train(self):
+    def train(self, verbose: int=0):
         # Initialize
         if self.map_option == "many2many":
             maps = self._init_map_many2many()
@@ -83,7 +110,7 @@ class KIM(object):
             maps = self._init_map_many2one()
         # Train
         for one_map in maps:
-            one_map.train(verbose=0)
+            one_map.train(verbose=verbose)
         self._maps = maps
         self.trained = True
     
