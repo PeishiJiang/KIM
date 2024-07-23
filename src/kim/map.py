@@ -1,4 +1,3 @@
-
 """The general KIM class."""
 
 # Author: Peishi Jiang <shixijps@gmail.com>
@@ -23,7 +22,7 @@ from jaxlib.xla_extension import Device
 from typing import Optional
 from jaxtyping import Array
 
-# TODO: Add checkpoint for cases where no inputs is sensible to one particular output ("many2one")
+# TODO: Need a great way to pass the computational device
 
 
 class KIM(object):
@@ -134,12 +133,16 @@ class KIM(object):
         for i in range(self.n_maps):
             # Get the masked inputs and the outpus
             mask = mask_all[:,i]
-            x, y = xall[:, mask], yall[:, [i]]
-            x, y = jnp.array(x), jnp.array(y) # convert to jnp array
-            # Initialize and train the mapping
-            # print(self.map_configs, x.shape)
-            map_configs = deepcopy(self.map_configs)
-            one_map = Map(x, y, **map_configs)
+            if mask.sum() == 0:
+                print(f"There is no sensitive input to the {i} output.")
+                one_map = None
+            else:
+                x, y = xall[:, mask], yall[:, [i]]
+                x, y = jnp.array(x), jnp.array(y) # convert to jnp array
+                # Initialize and train the mapping
+                # print(self.map_configs, x.shape)
+                map_configs = deepcopy(self.map_configs)
+                one_map = Map(x, y, **map_configs)
             # one_map.train(verbose=0)
             maps.append(one_map)
         return maps
@@ -158,6 +161,10 @@ class KIM(object):
         xscaler, yscaler = self.data.xscaler, self.data.yscaler
         x = xscaler.transform(xraw)
 
+        n_ens = self.map_configs['n_model']
+        Nx = self.Nx
+        # xshape = list(x.shape)
+
         if self.map_option == "many2many":
             one_map = self._maps[0]
             y_ens, y_mean, y_mean_w = one_map.predict(x)
@@ -165,9 +172,15 @@ class KIM(object):
             y_ens, y_mean, y_mean_w = [], [], []
             for i,one_map in enumerate(self._maps):
                 one_mask = self.mask[:,i]
-                y_e, y_m, y_mw = one_map.predict(x[:, one_mask])
-                y_ens.append(np.array(y_e))
-                y_mean.append(np.array(y_m))
+                if one_mask.sum() == 0:
+                    assert one_map is None
+                    y_e = np.empty([n_ens, Nx, 1]) + np.nan
+                    y_m = np.empty([Nx, 1]) + np.nan
+                    y_mw = np.empty([Nx, 1]) + np.nan
+                else:
+                    y_e, y_m, y_mw = one_map.predict(x[:, one_mask])
+                    y_ens.append(np.array(y_e))
+                    y_mean.append(np.array(y_m))
                 y_mean_w.append(np.array(y_mw))
             y_ens = np.concat(y_ens, axis=-1)
             y_mean = np.concat(y_mean, axis=-1)
@@ -355,7 +368,7 @@ class Map(object):
 
         # Get the data dimensions
         assert self.x.shape[0] == self.y.shape[0]
-        self.Ns, self.Nx, self.Ny = x.shape[0], x.shape[1], y.shape[1]
+        self.Ns, self.Nx, self.Ny = x.shape[0], x.shape[-1], y.shape[-1]
     
         # Get model configs
         self.model_type = model_type

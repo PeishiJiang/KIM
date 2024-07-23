@@ -104,7 +104,7 @@ class Data(object):
         sensitivity_config = self.sensitivity_config
         # xdata, ydata = self.xdata, self.ydata
         xdata_scaled, ydata_scaled = self.xdata_scaled, self.ydata_scaled
-        # (TODO) Calculate sensitivity
+        # Calculate sensitivity
         sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
             xdata_scaled, ydata_scaled, method, metric, sst, ntest, alpha, bins, k, seed_shuffle
         )
