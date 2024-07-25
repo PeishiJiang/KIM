@@ -12,7 +12,7 @@ from jaxtyping import Array
 
 
 def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_calculator: MetricBase, 
-       ntest: int=100, alpha: float=0.05, Ncond_max: int=3, seed_shuffle: int=1234):
+       ntest: int=100, alpha: float=0.05, Ncond_max: int=3, n_jobs: int=-1, seed_shuffle: int=1234):
     """The modified PC algorithm adapted to the X --> Y mapping problem.
 
     Args:
@@ -23,6 +23,7 @@ def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_ca
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
         Ncond_max (int): the maximum number of conditions used by cond_metric_calculator. Defaults to 3.
+        n_jobs (int): the number of processers/threads used by joblib. Defaults to -1.
         seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 1234.
 
     Returns:
@@ -91,7 +92,7 @@ def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_ca
                 # Perform the conditional pairwise analysis
                 metric, significance = shuffle_test(
                     x, y, cond_metric_calculator, cdata=xc, ntest=ntest, alpha=alpha,
-                    random_seed=seed_shuffle
+                    n_jobs=n_jobs, random_seed=seed_shuffle
                 )
                 # print(xc.shape, cond_all_but_xi.shape, cond_all.shape, yj, xi, cond, k, significance)
 

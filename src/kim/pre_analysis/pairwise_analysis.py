@@ -12,7 +12,7 @@ from jaxtyping import Array
 
 def pairwise_analysis(
     xdata: Array, ydata: Array, metric_calculator: MetricBase, sst: bool=False, 
-    ntest: int=100, alpha: float=0.05, seed_shuffle: int=1234
+    ntest: int=100, alpha: float=0.05, n_jobs: int=-1, seed_shuffle: int=1234
 ):
     """Perform the pairwise analysis.
 
@@ -23,6 +23,7 @@ def pairwise_analysis(
         sst (bool): whether to perform statistical significance test. Defaults to False.
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
+        n_jobs (int): the number of processers/threads used by joblib. Defaults to -1.
         seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 1234.
 
     Returns:
@@ -48,7 +49,7 @@ def pairwise_analysis(
             else:
                 metric, significance = shuffle_test(
                     x, y, metric_calculator, None, ntest, alpha, 
-                    random_seed=seed_shuffle
+                    n_jobs=n_jobs, random_seed=seed_shuffle
                 )
                 sensitivity[i, j] = metric
                 sensitivity_mask[i, j] = significance

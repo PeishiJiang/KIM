@@ -8,6 +8,7 @@ import equinox as eqx
 
 from jaxtyping import Array
 
+@eqx.filter_jit
 def loss_mse(model: eqx.Module, x: Array, y: Array):
     # Assume the first dimensions of x and y are the batch dimensions
     pred_y = jax.vmap(model)(x)

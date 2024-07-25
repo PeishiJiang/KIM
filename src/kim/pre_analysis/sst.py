@@ -23,7 +23,7 @@ def shuffle_test(
         metric_calculator (class): the metric calculator
         ntest (int): number of shuffled samples in sst. Defaults to 100.
         alpha (float): the significance level. Defaults to 0.05.
-        njobs (int): the number of processers/threads used by joblib. Defaults to -1.
+        n_jobs (int): the number of processers/threads used by joblib. Defaults to -1.
         random_seed (int): the random seed number. Defaults to 1234.
 
     Returns:
@@ -68,6 +68,7 @@ def shuffle_test(
             metrics_shuffled = metric_calculator(x_shuffled, y, cdata) 
         return metrics_shuffled
 
+    # n_jobs = ntest
     metrics_shuffled_all = Parallel(n_jobs=n_jobs)(
         delayed(shuffle)(x_shuffled_all[i], y, cdata, metric_calculator) for i in range(ntest)
     )

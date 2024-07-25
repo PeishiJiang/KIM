@@ -451,6 +451,8 @@ class Map(object):
         if 'num_train_sample' not in self.dl_hp_fixed and \
             'num_train_sample' not in self.dl_hp_choices:
             self.dl_hp_fixed['num_train_sample'] = self.Ns
+        # if 'device' not in self.dl_hp_fixed:
+        #     self.dl_hp_fixed['device'] = self.de
 
         # Generate ensemble configurations
         n_model, model_configs, optax_configs, dl_configs = generate_ensemble_configs(

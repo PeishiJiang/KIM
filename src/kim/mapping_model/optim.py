@@ -36,7 +36,7 @@ def train(
     opt_state = optim.init(eqx.filter(model, eqx.is_array))
 
     loss_train_set, loss_test_set = [], []
-    for i in tqdm(range(nsteps)):
+    for step in tqdm(range(nsteps)):
         # Update the model on the training data
         model, opt_state, loss_value_train = train_each_step(
             model, trainloader, loss_func, optim, opt_state)
@@ -48,6 +48,10 @@ def train(
             loss_test_set.append(loss_value_test)
         else:
             loss_train_set.append(loss_value_train)
+
+        # print(
+        #     f"The training loss of step {step}: {loss_value_train}."
+        # )
     
     loss_train_set = jnp.array(loss_train_set)
     loss_test_set = jnp.array(loss_test_set)
@@ -70,13 +74,14 @@ def make_step(
     model = eqx.apply_updates(model, updates)
     return model, opt_state, loss_value
 
-
+# @eqx.filter_jit
 def train_each_step(
-    model: eqx.Module, trainloader: Array, loss_func: Callable,
+    model: eqx.Module, trainloader: BatchedDL, loss_func: Callable,
     optim: optax.GradientTransformation, opt_state: PyTree,
 ):
     train_loss, k = 0, 0
     for i, (x, y) in enumerate(trainloader):
+        x, y = jnp.array(x), jnp.array(y)
         model, opt_state, train_loss_each = make_step(
             model, opt_state, x, y, loss_func, optim
         )
@@ -86,9 +91,10 @@ def train_each_step(
     return model, opt_state, train_loss
 
 
-def evaluate(model: eqx.Module, testloader: Array, loss_func: Callable):
+def evaluate(model: eqx.Module, testloader: BatchedDL, loss_func: Callable):
     test_loss, k = 0, 0
     for i, (x, y) in enumerate(testloader):
+        x, y = jnp.array(x), jnp.array(y)
         test_loss_each = loss_func(model, x, y)
         k += 1
         test_loss += test_loss_each

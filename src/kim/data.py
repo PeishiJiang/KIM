@@ -68,6 +68,7 @@ class Data(object):
             "alpha": None,
             "bins": None,
             "k": None,
+            "n_jobs": None,
             "seed_shuffle": None,
         }
         self.sensitivity = np.zeros([self.Nx, self.Ny])
@@ -80,7 +81,7 @@ class Data(object):
     def calculate_sensitivity(
         self, method: str='gsa', metric: str='it-bins', 
         sst: bool=False, ntest: int=100, alpha: float=0.05, 
-        bins: int=10, k: int=5, seed_shuffle: int=1234
+        bins: int=10, k: int=5, n_jobs=-1, seed_shuffle: int=1234
     ):
         """Calculate the sensitivity between xdata and ydata.
 
@@ -106,7 +107,8 @@ class Data(object):
         xdata_scaled, ydata_scaled = self.xdata_scaled, self.ydata_scaled
         # Calculate sensitivity
         sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
-            xdata_scaled, ydata_scaled, method, metric, sst, ntest, alpha, bins, k, seed_shuffle
+            xdata_scaled, ydata_scaled, method, metric, sst, 
+            ntest, alpha, bins, k, n_jobs, seed_shuffle
         )
 
         # Update the configuration
@@ -117,6 +119,7 @@ class Data(object):
         sensitivity_config['alpha'] = alpha
         sensitivity_config['bins'] = bins
         sensitivity_config['k'] = k
+        sensitivity_config['n_jobs'] = n_jobs
         sensitivity_config['seed_shuffle'] = seed_shuffle
         self.sensitivity_config = sensitivity_config
 

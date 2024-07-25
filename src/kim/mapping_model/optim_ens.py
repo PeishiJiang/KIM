@@ -12,7 +12,9 @@ from jaxtyping import Array
 
 from .optim import train
 from .dataloader import make_big_data_loader
+from .dataloader_torch import make_pytorch_data_loader
 
+make_data_loader = make_pytorch_data_loader
 
 def train_ensemble(
     x: Array, y: Array, model_type: eqx._module._ModuleMeta,
@@ -84,6 +86,8 @@ def train_ensemble_serial(
     model_config_ens: List[Dict], optax_config_ens: List[Dict], 
     dl_config_ens: List[Dict], verbose: int
 ) -> Tuple:
+    print(x.devices())
+    print(y.devices())
     assert x.shape[0] == y.shape[0]
     assert len(model_config_ens) == len(optax_config_ens)
     assert len(dl_config_ens) == len(optax_config_ens)
@@ -127,10 +131,12 @@ def train_each_model(x, y, model_type, model_config, optax_config, dl_config):
     Ns_train = min(Ns_train, Ns)
     Ns_test = Ns - Ns_train
     xtrain, ytrain = x[:Ns_train], y[:Ns_train]
-    traindl = make_big_data_loader(xtrain, ytrain, **dl_config)
+    # traindl = make_data_loader(xtrain, ytrain, **dl_config)
+    traindl = make_data_loader(xtrain, ytrain, **dl_config)
     if Ns_test != 0:
         xtest, ytest = x[Ns_train:], y[Ns_train:]
-        testdl = make_big_data_loader(xtest, ytest, **dl_config)
+        # testdl = make_data_loader(xtest, ytest, **dl_config)
+        testdl = make_data_loader(xtest, ytest, **dl_config)
     else:
         testdl = None
 
