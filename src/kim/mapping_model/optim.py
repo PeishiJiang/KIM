@@ -93,6 +93,7 @@ def train_each_step(
 
 def evaluate(model: eqx.Module, testloader: BatchedDL, loss_func: Callable):
     test_loss, k = 0, 0
+    loss_func = eqx.filter_jit(loss_func)
     for i, (x, y) in enumerate(testloader):
         x, y = jnp.array(x), jnp.array(y)
         test_loss_each = loss_func(model, x, y)

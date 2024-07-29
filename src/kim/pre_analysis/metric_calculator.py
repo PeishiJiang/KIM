@@ -10,17 +10,25 @@ from scipy.special import digamma
 from jaxtyping import Array
 
 
-def get_metric_calculator(metric: str="corr", bins: int=10, k: int=5):
+def get_metric_calculator(metric: str="corr", bins: int=10, k: int=5, verbose: int=0):
 
     if metric.lower() == "corr":
+        if verbose == 1:
+            print("Using correlation metrics ...")
         metric_calculator = CorrCoef()
         cond_metric_calculator = ParCorrCoef()
     elif metric.lower() == "it-bins":
+        if verbose == 1:
+            print("Using the binning-based information theoretic metrics ...")
         metric_calculator = MIbins(bins)
         cond_metric_calculator = CMIbins(bins)
     elif metric.lower() == "it-knn":
+        if verbose == 1:
+            print("Using the kNN-based information theoretic metrics ...")
         metric_calculator = MIknn(k)
         cond_metric_calculator = CMIknn(k)
+    else:
+        raise Exception("Unknown metric calculator ", metric.lower())
     
     return metric_calculator, cond_metric_calculator
 

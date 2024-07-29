@@ -12,7 +12,7 @@ from jaxtyping import Array
 
 def pairwise_analysis(
     xdata: Array, ydata: Array, metric_calculator: MetricBase, sst: bool=False, 
-    ntest: int=100, alpha: float=0.05, n_jobs: int=-1, seed_shuffle: int=1234
+    ntest: int=100, alpha: float=0.05, n_jobs: int=-1, seed_shuffle: int=1234, verbose: int=0
 ):
     """Perform the pairwise analysis.
 
@@ -25,6 +25,7 @@ def pairwise_analysis(
         alpha (float): the significance level. Defaults to 0.05.
         n_jobs (int): the number of processers/threads used by joblib. Defaults to -1.
         seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 1234.
+        verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
 
     Returns:
         (array, array): the sensitivity result
@@ -39,6 +40,9 @@ def pairwise_analysis(
     # Initialize the return sensitivity values and masks
     sensitivity = np.zeros([Nx, Ny])
     sensitivity_mask = np.ones([Nx, Ny], dtype='bool')
+
+    if verbose == 1:
+        print("Performing pairwise analysis to remove insensitive inputs ...")
 
     for i in range(Nx):
         x = xdata[:,i]

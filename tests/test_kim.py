@@ -13,7 +13,7 @@ from kim.map import KIM
 from kim.data import Data
 from kim.mapping_model import MLP2, MLP
 
-Ns = 300
+Ns = 500
 Ns_train = 250
 in_size = 12
 out_size = 1

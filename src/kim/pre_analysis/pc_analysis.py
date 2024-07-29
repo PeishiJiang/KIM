@@ -12,7 +12,9 @@ from jaxtyping import Array
 
 
 def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_calculator: MetricBase, 
-       ntest: int=100, alpha: float=0.05, Ncond_max: int=3, n_jobs: int=-1, seed_shuffle: int=1234):
+       ntest: int=100, alpha: float=0.05, Ncond_max: int=3, n_jobs: int=-1, seed_shuffle: int=1234,
+       verbose: int=0
+    ):
     """The modified PC algorithm adapted to the X --> Y mapping problem.
 
     Args:
@@ -25,6 +27,7 @@ def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_ca
         Ncond_max (int): the maximum number of conditions used by cond_metric_calculator. Defaults to 3.
         n_jobs (int): the number of processers/threads used by joblib. Defaults to -1.
         seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 1234.
+        verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
 
     Returns:
         (array, array, array): the sensitivity result
@@ -45,13 +48,16 @@ def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_ca
     # Perform the pairwise analysis
     # shape: (Nx, Ny)
     sensitivity, sensitivity_mask = pairwise_analysis(
-        xdata, ydata, metric_calculator, True, ntest, alpha
+        xdata, ydata, metric_calculator, True, ntest, alpha, verbose=verbose
     )
     cond_sensitivity_mask = sensitivity_mask.copy()
 
     # Order the sensitivity results
     # shape: (Nx, Ny)
     sensitivity_order = np.argsort(sensitivity, axis=0)[::-1,:]
+
+    if verbose == 1:
+        print("Performing conditional independence testing to remove redundant inputs ...")
 
     # Perform the conditional pairwise analysis
     for yj in range(Ny):  # For each target predictand

@@ -7,7 +7,7 @@ from kim.pre_analysis import pc
 
 np.random.seed(1)
 
-Ns = 100
+Ns = 1000
 Nz = 3
 
 def get_samples_1():

@@ -18,6 +18,7 @@ k=5
 seed_shuffle = 998
 xscaler_type='minmax'
 yscaler_type='minmax'
+verbose=1
 
 def get_samples_1():
     xdata = np.arange(Ns)
@@ -68,7 +69,7 @@ def test_Data_gsa():
     assert data.Ny == 4
 
     data.calculate_sensitivity(
-        'gsa', metric, sst, ntest, alpha, k=k, seed_shuffle=seed_shuffle
+        'gsa', metric, sst, ntest, alpha, k=k, seed_shuffle=seed_shuffle, verbose=verbose
     )
 
     assert data.sensitivity_config['method'] == 'gsa'
@@ -93,7 +94,7 @@ def test_Data_pc():
     assert data.Ny == 2
 
     data.calculate_sensitivity(
-        'pc', metric, sst, ntest, alpha, k=k, seed_shuffle=seed_shuffle
+        'pc', metric, sst, ntest, alpha, k=k, seed_shuffle=seed_shuffle, verbose=verbose
     )
 
     # print(data.cond_sensitivity_mask)
@@ -112,7 +113,7 @@ def test_Data_save_load():
     root_path = Path("./data")
     data = Data(xdata, ydata, xscaler_type=xscaler_type, yscaler_type=yscaler_type)
     data.calculate_sensitivity(
-        'pc', metric, sst, ntest, alpha, k=k, seed_shuffle=seed_shuffle
+        'pc', metric, sst, ntest, alpha, k=k, seed_shuffle=seed_shuffle, verbose=verbose
     )
     data.save(root_path)
 

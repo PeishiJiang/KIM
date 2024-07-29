@@ -3,7 +3,8 @@
 # Author: Peishi Jiang <shixijps@gmail.com>
 
 from .data import Data
-from .mapping_model import train_ensemble, loss_mse
+from .mapping_model.loss_func import loss_mse
+from .mapping_model import train_ensemble
 from .mapping_model import MLP
 
 import json

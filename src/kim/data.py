@@ -81,7 +81,8 @@ class Data(object):
     def calculate_sensitivity(
         self, method: str='gsa', metric: str='it-bins', 
         sst: bool=False, ntest: int=100, alpha: float=0.05, 
-        bins: int=10, k: int=5, n_jobs=-1, seed_shuffle: int=1234
+        bins: int=10, k: int=5, n_jobs=-1, seed_shuffle: int=1234,
+        verbose: int=0
     ):
         """Calculate the sensitivity between xdata and ydata.
 
@@ -101,6 +102,7 @@ class Data(object):
             bins (int): the number of bins for each dimension when metric == "it-knn". Defaults to 10.
             k (int): the number of nearest neighbors when metric == "it-knn". Defaults to 5.
             seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 5.
+            verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
         """
         sensitivity_config = self.sensitivity_config
         # xdata, ydata = self.xdata, self.ydata
@@ -108,7 +110,7 @@ class Data(object):
         # Calculate sensitivity
         sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
             xdata_scaled, ydata_scaled, method, metric, sst, 
-            ntest, alpha, bins, k, n_jobs, seed_shuffle
+            ntest, alpha, bins, k, n_jobs, seed_shuffle, verbose=verbose
         )
 
         # Update the configuration

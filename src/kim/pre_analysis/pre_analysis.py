@@ -13,7 +13,7 @@ from jaxtyping import Array
 def analyze_interdependency(
     xdata: Array, ydata: Array, method: str='gsa', metric: str='it-bins', 
     sst: bool=False, ntest: int=100, alpha: float=0.05, bins: int=10, 
-    k: int=5, n_jobs: int=-1, seed_shuffle: int=1234
+    k: int=5, n_jobs: int=-1, seed_shuffle: int=1234, verbose: int=0,
 ):
     """Function for performing the interdependency between x and y.
 
@@ -36,6 +36,7 @@ def analyze_interdependency(
         k (int): the number of nearest neighbors when metric == "it-knn". Defaults to 5.
         n_jobs (int): the number of processers/threads used by joblib. Defaults to -1.
         seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 5.
+        verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
 
     Returns:
         (array, array, array): the sensitivity result
@@ -53,13 +54,13 @@ def analyze_interdependency(
     # cond_sensitivity_mask = np.zeros([Nx, Ny], dtype='bool')
 
     # Get metric calculator
-    metric_calculator, cond_metric_calculator = get_metric_calculator(metric, bins, k)
+    metric_calculator, cond_metric_calculator = get_metric_calculator(metric, bins, k, verbose)
 
     # Analyze the interdependency between xdata and ydata
     if method.lower() == "gsa":
         sensitivity, sensitivity_mask = pairwise_analysis(
             xdata, ydata, metric_calculator, sst=sst, ntest=ntest, alpha=alpha,
-            n_jobs=n_jobs, seed_shuffle=seed_shuffle
+            n_jobs=n_jobs, seed_shuffle=seed_shuffle, verbose=verbose
         )
         # cond_sensitivity_mask = np.zeros([Nx, Ny], dtype='bool')
         cond_sensitivity_mask = sensitivity_mask
@@ -67,7 +68,7 @@ def analyze_interdependency(
     elif method.lower() == "pc":
         sensitivity, sensitivity_mask, cond_sensitivity_mask = pc(
             xdata, ydata, metric_calculator, cond_metric_calculator, ntest=ntest, 
-            alpha=alpha, n_jobs=n_jobs, seed_shuffle=seed_shuffle
+            alpha=alpha, n_jobs=n_jobs, seed_shuffle=seed_shuffle, verbose=verbose
         )
 
     else:
