@@ -6,6 +6,7 @@ import numpy as np
 
 from .sst import shuffle_test
 from .metric_calculator import MetricBase
+from tqdm import tqdm
 
 from jaxtyping import Array
 
@@ -44,7 +45,7 @@ def pairwise_analysis(
     if verbose == 1:
         print("Performing pairwise analysis to remove insensitive inputs ...")
 
-    for i in range(Nx):
+    for i in tqdm(range(Nx)):
         x = xdata[:,i]
         for j in range(Ny):
             y = ydata[:,j]
