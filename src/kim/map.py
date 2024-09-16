@@ -6,6 +6,7 @@ from .data import Data
 from .mapping_model.loss_func import loss_mse
 from .mapping_model import train_ensemble
 from .mapping_model import MLP
+from .utils import compute_metrics
 
 import json
 import random
@@ -147,16 +148,90 @@ class KIM(object):
             # one_map.train(verbose=0)
             maps.append(one_map)
         return maps
+    
+    def evaluate_maps_on_givendata(self):
+        """Perform predictions on the given dataset
+        """
+        # Make the prediction
+        y_ens, y_mean, y_mean_w = self.predict(x=None)
+        y_true = self.data.ydata
 
-    def predict(self, x: Array):
+        # Separate them into train and test set
+        if 'num_train_sample' in self.map_configs['dl_hp_fixed']:
+            sep = self.map_configs['dl_hp_fixed']['num_train_sample']
+            y_ens_train, y_ens_test = y_ens[:,:sep,...], y_ens[:,sep:,...]
+            y_true_train, y_true_test = y_true[:sep,...], y_true[sep:,...]
+            y_mw_train, y_mw_test = y_mean_w[:sep,...], y_mean_w[sep:,...]
+        else:
+            y_ens_train, y_ens_test = y_ens, None
+            y_true_train, y_true_test = y_true[:sep,...], None
+            y_mw_train, y_mw_test = y_mean_w, None
+
+        # Calculate the performance metrics
+        Nens, Ny = y_ens.shape[0], self.Ny
+        if 'num_train_sample' in self.map_configs['dl_hp_fixed']:
+            rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            rmse_test, mkge_test = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            for i in range(Nens):
+                for j in range(Ny):
+                    metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j])
+                    rmse_train[i,j] = metrics['rmse']
+                    mkge_train[i,j] = metrics['mkge']
+                    metrics = compute_metrics(y_ens_test[i,...,j], y_true_test[...,j])
+                    rmse_test[i,j] = metrics['rmse']
+                    mkge_test[i,j] = metrics['mkge']
+        else:
+            rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            rmse_test, mkge_test = None, None
+            for i in range(Nens):
+                for j in range(Ny):
+                    metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j])
+                    rmse_train[i,j] = metrics['rmse']
+                    mkge_train[i,j] = metrics['mkge']
+
+        # # Separate them into train and test set
+        # if 'num_train_sample' in self.map_configs['dl_hp_fixed']:
+        #     sep = self.map_configs['dl_hp_fixed']['num_train_sample']
+        #     y_ens_train, y_ens_test = y_ens[:,:sep,...], y_ens[:,sep:,...]
+        #     y_mw_train, y_mw_test = y_mean_w[:sep,...], y_mean_w[sep:,...]
+        #     rmse_train, rmse_test = rmse[:sep], rmse[sep:]
+        #     mkge_train, mkge_test = mkge[:sep], mkge[sep:]
+        # else:
+        #     y_ens_train, y_ens_test = y_ens, None
+        #     y_mw_train, y_mw_test = y_mean_w, None
+        #     rmse_train, rmse_test = rmse, None
+        #     mkge_train, mkge_test = mkge, None
+
+        ens_predict = {'train': y_ens_train, 'test': y_ens_test}
+        wm_predict = {'train': y_mw_train, 'test': y_mw_test}
+        true = {'train': y_true_train, 'test': y_true_test}
+        rmse = {'train': rmse_train, 'test': rmse_test}
+        mkge = {'train': mkge_train, 'test': mkge_test}
+
+        return {
+            'ens predict': ens_predict,
+            'weighted mean predict': wm_predict,
+            'true': true,
+            'rmse': rmse,
+            'mkge': mkge
+        }
+
+        # return y_ens_train, y_ens_test, y_mw_train, y_mw_test, \
+        #        y_true_train, y_true_test, rmse_train, rmse_test, \
+        #        mkge_train, mkge_test
+
+    def predict(self, x: Optional[Array]=None):
         """Prediction using the trained KIM.
 
         Args:
             x (Array): predictors with shape (Ns,...,Nx)
 
         """
-        assert x.shape[-1] == self.Nx  # The same dimension
-        assert len(x.shape) >= 2  # At least 2 dimensions with the leading batch dimension
+        if x is not None:
+            assert x.shape[-1] == self.Nx  # The same dimension
+            assert len(x.shape) >= 2  # At least 2 dimensions with the leading batch dimension
+        else:
+            x = self.data.xdata
 
         xraw = x
         xscaler, yscaler = self.data.xscaler, self.data.yscaler
@@ -257,7 +332,7 @@ class KIM(object):
         # Load the trained mappings
         if self.map_option == "many2many":
             f_mapping = rootpath / 'map0'
-            one_map = self._init_map_many2many()
+            one_map = self._init_map_many2many()[0]
             one_map.load(f_mapping)
             maps = [one_map]
         elif self.map_option == "many2one":

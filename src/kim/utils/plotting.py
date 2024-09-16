@@ -34,6 +34,6 @@ def plot_sensitivity_mask(sensitivity_mask, ax=None, xlabels=None, ylabels=None)
         sensitivity_mask, ax=ax, cmap=cmap, norm=norm, 
         cbar_kws={"ticks": [0, 1]}
       )
-    ax.collections[0].colorbar.set_ticklabels(["sensitive", "not sensitive"], rotation=90)
+    ax.collections[0].colorbar.set_ticklabels(["not sensitive", "sensitive"], rotation=90)
     ax.set(title='Sensitivity mask')
 
