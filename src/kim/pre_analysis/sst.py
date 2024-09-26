@@ -69,7 +69,7 @@ def shuffle_test(
         return metrics_shuffled
 
     # n_jobs = ntest
-    metrics_shuffled_all = Parallel(n_jobs=n_jobs)(
+    metrics_shuffled_all = Parallel(n_jobs=n_jobs, backend='loky')(
         delayed(shuffle)(x_shuffled_all[i], y, cdata, metric_calculator) for i in range(ntest)
     )
     metrics_shuffled_all = np.array(metrics_shuffled_all)
