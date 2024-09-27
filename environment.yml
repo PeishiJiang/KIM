@@ -1,4 +1,6 @@
 name: kim
+channels:
+  - conda-forge
 dependencies:
   - numpy
   - pandas
