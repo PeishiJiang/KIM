@@ -40,6 +40,8 @@ class KIM(object):
     map_option (str): the map option including
                       - "many2one": knowledge-informed mapping using sensitivity analysis result as filter, and
                       - "many2many": normal mapping without being knowledge-informed
+    other_mask (List): the additional mask to be assigned to self.mask with size Nx. Default to None.
+    name (str): the name of the KIM object
 
     Attributes:
     ----------
@@ -61,8 +63,11 @@ class KIM(object):
     def __init__(
         self, data: Data, map_configs: dict, 
         mask_option: str='cond_sensitivity', 
-        map_option: str='many2one'
+        map_option: str='many2one',
+        other_mask: Optional[Array]=None,
+        name: str='kim'
     ):
+        self.name = name
         # Check whether sensitivity has been performed in Data
         if not data.sensitivity_done and map_option == "many2one":
             raise Exception(
@@ -74,12 +79,19 @@ class KIM(object):
 
         self.Ns, self.Nx, self.Ny = data.Ns, data.Nx, data.Ny
         self.mask_option = mask_option
+        self.other_mask = other_mask
         if mask_option == "sensitivity":
             self.mask = data.sensitivity_mask
         elif mask_option == "cond_sensitivity":
             self.mask = data.cond_sensitivity_mask
         else:
             raise Exception("Unknown mask_option: %s" % mask_option)
+        
+        # Check whether additional masks are needed
+        if self.other_mask is not None:
+            assert len(self.other_mask) == self.Nx
+            for i in range(self.Ny):
+                self.mask[~self.other_mask,i] = False
 
         # Initialize variables/attributes for mappings
         if map_option == "many2one":
@@ -297,9 +309,11 @@ class KIM(object):
         # Save the remaining configurations
         f_configs = rootpath / "configs.pkl"
         configs = {
+            "name": self.name,
             "map_configs": self.map_configs,
             "map_option": self.map_option,
-            "n_maps": self._n_maps
+            "n_maps": self._n_maps,
+            "other_mask": self.other_mask
         }
         with open(f_configs, "wb") as f:
             pickle.dump(configs, f)
@@ -314,9 +328,17 @@ class KIM(object):
         f_configs = rootpath / "configs.pkl"
         with open(f_configs, "rb") as f:
             configs = pickle.load(f)
+        self.name = configs["name"]
         self.map_configs = configs["map_configs"]
         self.map_options = configs["map_option"]
         self._n_maps = configs["n_maps"]
+        self.other_mask = configs["other_mask"]
+
+        # Check whether additional masks are needed
+        if self.other_mask is not None:
+            assert len(self.other_mask) == self.Nx
+            for i in range(self.Ny):
+                self.mask[~self.other_mask,i] = False
 
         # Load the data object
         f_data = rootpath / "data"

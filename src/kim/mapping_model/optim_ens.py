@@ -10,8 +10,11 @@ from joblib import Parallel, delayed
 from typing import List, Dict, Tuple, Optional
 from jaxtyping import Array
 
+# import ray
+# from ray.util.joblib import register_ray
+
 from .optim import train
-from .dataloader import make_big_data_loader
+# from .dataloader import make_big_data_loader
 from .dataloader_torch import make_pytorch_data_loader
 
 make_data_loader = make_pytorch_data_loader
@@ -68,7 +71,11 @@ def train_ensemble_parallel(
     backend = parallel_config['backend'] if 'backend' in parallel_config else 'loky'
     verbose = parallel_config['verbose'] if 'verbose' in parallel_config else 0
 
+    # if backend == 'ray':
+    #     ray.init(address='auto')
+    #     register_ray()
     model_ens, loss_train_ens, loss_test_ens = zip(
+        # *Parallel(n_jobs=n_jobs, backend=backend, verbose=verbose, pre_dispatch='1.5*n_jobs')(
         *Parallel(n_jobs=n_jobs, backend=backend, verbose=verbose)(
             delayed(train_each_model)(
                 x, y, model_type, model_config_ens[i], optax_config_ens[i], dl_config_ens[i]
