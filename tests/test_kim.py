@@ -15,6 +15,7 @@ from kim.mapping_model import MLP2, MLP
 
 Ns = 500
 Ns_train = 250
+Ns_val = 50
 in_size = 12
 out_size = 1
 hidden_activation = 'sigmoid'
@@ -68,7 +69,8 @@ map_configs = {
     },
     'dl_hp_fixed': {
         'dl_seed': seed_dl,
-        'num_train_sample': Ns_train
+        'num_train_sample': Ns_train,
+        'num_val_sample': Ns_val
     },
     'ens_seed': seed,
     'training_parallel': True,
@@ -133,12 +135,12 @@ def test_train_many2many():
     # print(data.xdata_scaled.std(axis=0))
     # print(kim)
     # print(kim.maps[0].loss_train_ens)
-    # print(kim.maps[0].loss_test_ens)
+    # print(kim.maps[0].loss_val_ens)
     assert kim.n_maps == 1
     assert kim.n_maps == len(kim.maps)
     assert kim.maps[0].n_model == map_configs["n_model"]
     assert len(kim.maps[0].loss_train_ens[0]) == map_configs["optax_hp_fixed"]["nsteps"]
-    assert len(kim.maps[0].loss_test_ens[-1]) == map_configs["optax_hp_fixed"]["nsteps"]
+    assert len(kim.maps[0].loss_val_ens[-1]) == map_configs["optax_hp_fixed"]["nsteps"]
 
 def test_train_many2one():
     x, y = get_samples()
@@ -149,15 +151,15 @@ def test_train_many2one():
     kim.train()
 
     print(kim.maps[0].loss_train_ens)
-    print(kim.maps[0].loss_test_ens)
+    print(kim.maps[0].loss_val_ens)
     print(kim.maps[-1].loss_train_ens)
-    print(kim.maps[-1].loss_test_ens)
+    print(kim.maps[-1].loss_val_ens)
 
     assert kim.n_maps == out_size
     assert kim.n_maps == len(kim.maps)
     assert kim.maps[0].n_model == map_configs["n_model"]
     assert len(kim.maps[0].loss_train_ens[0]) == map_configs["optax_hp_fixed"]["nsteps"]
-    assert len(kim.maps[0].loss_test_ens[-1]) == map_configs["optax_hp_fixed"]["nsteps"]
+    assert len(kim.maps[0].loss_val_ens[-1]) == map_configs["optax_hp_fixed"]["nsteps"]
 
 def test_predict():
     # Training data
@@ -172,6 +174,7 @@ def test_predict():
     xb, yb = get_samples_predict()
 
     # Initialize three diffferent KIMs
+    n_model = map_configs['n_model']
     kim1 = KIM(data, map_configs, map_option='many2many')
     kim2 = KIM(data, map_configs, mask_option="sensitivity", map_option='many2one')
     kim3 = KIM(data, map_configs, mask_option="cond_sensitivity", map_option='many2one')
@@ -190,15 +193,19 @@ def test_predict():
     # Predict
     def mse(y, ypred):
         return jnp.mean((y-ypred) ** 2)
-    y_ens1, y_mean1, y_mean_w1 = kim1.predict(xb)
-    y_ens2, y_mean2, y_mean_w2 = kim2.predict(xb)
-    y_ens3, y_mean3, y_mean_w3 = kim3.predict(xb)
+    y_ens1, y_mean1, y_mean_w1, weights1 = kim1.predict(xb)
+    y_ens2, y_mean2, y_mean_w2, weights2 = kim2.predict(xb)
+    y_ens3, y_mean3, y_mean_w3, weights3 = kim3.predict(xb)
     error1, error_w1 = mse(yb, y_mean1), mse(yb, y_mean_w1)
     error2, error_w2 = mse(yb, y_mean2), mse(yb, y_mean_w2)
     error3, error_w3 = mse(yb, y_mean3), mse(yb, y_mean_w3)
     print(error1, error2, error3, error_w1, error_w2, error_w3)
     # print(y_mean2)
     # print(y_mean3)
+
+    assert weights1.shape == (n_model, kim1.n_maps)
+    assert weights2.shape == (n_model, kim2.n_maps)
+    assert weights3.shape == (n_model, kim3.n_maps)
 
     # I expect weighted predictions better than the normal average result
     assert error1 >= error_w1
@@ -238,9 +245,11 @@ def test_save_load():
 
     # Evaluation/prediction data
     xb, yb = get_samples_predict()
-    y_ens1, y_mean1, y_mean_w1 = kim.predict(xb)
-    y_ens2, y_mean2, y_mean_w2 = kim2.predict(xb)
+    y_ens1, y_mean1, y_mean_w1, weights1 = kim.predict(xb)
+    y_ens2, y_mean2, y_mean_w2, weights2 = kim2.predict(xb)
 
+    assert np.array_equal(weights1.sum(axis=0), np.ones(kim.n_maps))
+    assert np.array_equal(weights2.sum(axis=0), np.ones(kim2.n_maps))
     assert np.array_equal(y_ens1, y_ens2)
     assert np.array_equal(y_mean1, y_mean2)
     assert np.array_equal(y_mean_w1, y_mean_w2)

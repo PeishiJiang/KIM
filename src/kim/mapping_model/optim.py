@@ -54,7 +54,7 @@ def train(
         # )
     
     loss_train_set = jnp.array(loss_train_set)
-    loss_test_set = jnp.array(loss_test_set)
+    loss_test_set = jnp.array(loss_test_set) if testloader is not None else None
     
     return model, loss_train_set, loss_test_set
         

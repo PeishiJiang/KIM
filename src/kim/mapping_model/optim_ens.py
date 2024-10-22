@@ -39,19 +39,19 @@ def train_ensemble(
         verbose (int):  the verbosity level (0: normal, 1: debug)
 
     Returns:
-        Tuple: the trained models, the loss values of the training and test dataloaders
+        Tuple: the trained models, the loss values of the training and validation dataloaders
     """
     if training_parallel:
-        model_ens, loss_train_ens, loss_test_ens = train_ensemble_parallel(
+        model_ens, loss_train_ens, loss_val_ens = train_ensemble_parallel(
             x, y, model_type, model_config_ens, optax_config_ens, dl_config_ens,
             parallel_config, verbose
         )
     else:
-        model_ens, loss_train_ens, loss_test_ens = train_ensemble_serial(
+        model_ens, loss_train_ens, loss_val_ens = train_ensemble_serial(
             x, y, model_type, model_config_ens, optax_config_ens, dl_config_ens,
             verbose
         )
-    return model_ens, loss_train_ens, loss_test_ens
+    return model_ens, loss_train_ens, loss_val_ens
 
 
 def train_ensemble_parallel(
@@ -74,7 +74,7 @@ def train_ensemble_parallel(
     # if backend == 'ray':
     #     ray.init(address='auto')
     #     register_ray()
-    model_ens, loss_train_ens, loss_test_ens = zip(
+    model_ens, loss_train_ens, loss_val_ens = zip(
         # *Parallel(n_jobs=n_jobs, backend=backend, verbose=verbose, pre_dispatch='1.5*n_jobs')(
         *Parallel(n_jobs=n_jobs, backend=backend, verbose=verbose)(
             delayed(train_each_model)(
@@ -85,7 +85,7 @@ def train_ensemble_parallel(
 
     print("Training completes.")
     
-    return model_ens, loss_train_ens, loss_test_ens
+    return model_ens, loss_train_ens, loss_val_ens
 
 
 def train_ensemble_serial(
@@ -103,7 +103,7 @@ def train_ensemble_serial(
     print(f"\n Performing ensemble training in serial with {n_model} model configurations...")
     print("")
 
-    model_ens, loss_train_ens, loss_test_ens = [], [], []
+    model_ens, loss_train_ens, loss_val_ens = [], [], []
     for i in range(n_model):
         model_config = model_config_ens[i]
         optax_config = optax_config_ens[i]
@@ -114,16 +114,16 @@ def train_ensemble_serial(
             print("Model configuration: ", model_config)
             print("Optimizer configuration: ", model_config)
             print("Dataloader configuration: ", model_config)
-        model, loss_train, loss_test = train_each_model(
+        model, loss_train, loss_val = train_each_model(
             x, y, model_type, model_config, optax_config, dl_config
         )
         model_ens.append(model)
         loss_train_ens.append(loss_train)
-        loss_test_ens.append(loss_test)
+        loss_val_ens.append(loss_val)
     
     print("Training completes.")
 
-    return model_ens, loss_train_ens, loss_test_ens
+    return model_ens, loss_train_ens, loss_val_ens
 
 
 def train_each_model(x, y, model_type, model_config, optax_config, dl_config):
@@ -136,16 +136,18 @@ def train_each_model(x, y, model_type, model_config, optax_config, dl_config):
     Ns = x.shape[0]
     Ns_train = dl_config.pop('num_train_sample')
     Ns_train = min(Ns_train, Ns)
-    Ns_test = Ns - Ns_train
+    Ns_val = dl_config.pop('num_val_sample')
+    Ns_val = min(Ns_val, Ns-Ns_train)
+    # Ns_test = Ns - Ns_train - Ns_val
     xtrain, ytrain = x[:Ns_train], y[:Ns_train]
     # traindl = make_data_loader(xtrain, ytrain, **dl_config)
     traindl = make_data_loader(xtrain, ytrain, **dl_config)
-    if Ns_test != 0:
-        xtest, ytest = x[Ns_train:], y[Ns_train:]
-        # testdl = make_data_loader(xtest, ytest, **dl_config)
-        testdl = make_data_loader(xtest, ytest, **dl_config)
+    if Ns_val != 0:
+        xval, yval = x[Ns_train:Ns_train+Ns_val], y[Ns_train:Ns_train+Ns_val]
+        # xtest, ytest = x[Ns_train:], y[Ns_train:]
+        valdl = make_data_loader(xval, yval, **dl_config)
     else:
-        testdl = None
+        valdl = None
 
     # Create the optimizer
     def get_optimizer(optimizer_type):
@@ -167,9 +169,9 @@ def train_each_model(x, y, model_type, model_config, optax_config, dl_config):
     model = model_type(**model_config)
 
     # Let's train the model
-    model, loss_train, loss_test = train(
-        model, nsteps, loss_func, optim, traindl, testdl
+    model, loss_train, loss_val = train(
+        model, nsteps, loss_func, optim, traindl, valdl
     )
 
-    return model, loss_train, loss_test
+    return model, loss_train, loss_val
     

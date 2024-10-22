@@ -4,6 +4,8 @@ import jax.random as jrn
 
 import equinox as eqx
 
+import numpy as np
+
 import pprint
 import shutil
 from pathlib import Path
@@ -12,8 +14,9 @@ from copy import deepcopy
 from kim.map import Map
 from kim.mapping_model import MLP2
 
-Ns = 100
+Ns = 120
 Ns_train = 80
+Ns_val = 20
 in_size = 10
 out_size = 2
 hidden_activation = 'sigmoid'
@@ -75,6 +78,7 @@ map_train_single['dl_hp_choices'] = {}
 map_train_serial = deepcopy(map_init_params_random)
 map_train_serial['training_parallel'] = False
 map_train_serial['dl_hp_fixed']['num_train_sample'] = Ns_train
+map_train_serial['dl_hp_fixed']['num_val_sample'] = Ns_val
 
 map_train_parallel = deepcopy(map_train_serial)
 map_train_parallel['training_parallel'] = True
@@ -141,7 +145,7 @@ def test_map_train_serial():
 
     assert len(kimap.model_ens) == kimap.n_model
     assert len(kimap.loss_train_ens) == kimap.n_model
-    assert len(kimap.loss_test_ens) == kimap.n_model
+    assert len(kimap.loss_val_ens) == kimap.n_model
     assert kimap.loss_train_ens[0].size == kimap.optax_configs[0]['nsteps']
 
 def test_map_train_parallel():
@@ -153,11 +157,11 @@ def test_map_train_parallel():
     assert not kimap.trained
     kimap.train(training_verbose)
     pprint.pprint(kimap.loss_train_ens)
-    pprint.pprint(kimap.loss_test_ens)
+    pprint.pprint(kimap.loss_val_ens)
 
     assert len(kimap.model_ens) == kimap.n_model
     assert len(kimap.loss_train_ens) == kimap.n_model
-    assert len(kimap.loss_test_ens) == kimap.n_model
+    assert len(kimap.loss_val_ens) == kimap.n_model
     assert kimap.loss_train_ens[0].size == kimap.optax_configs[0]['nsteps']
 
 def test_map_predict():
@@ -172,7 +176,7 @@ def test_map_predict():
     # x_samples = jrn.uniform(key, shape=(N_predict, in_size))
     x_samples = x[-N_predict:]
     y_samples = y[-N_predict:]
-    y_pred, y_mu, y_mu_w = kimap.predict(x_samples)
+    y_pred, y_mu, y_mu_w, weights = kimap.predict(x_samples)
     # print(y_pred)
     # print(y_mu.shape)
     # print(y_mu_w.shape)
@@ -183,6 +187,8 @@ def test_map_predict():
     error = mse(y_samples, y_mu)
     error_w = mse(y_samples, y_mu_w)
 
+    assert np.isclose(weights.sum(), 1.0)
+    assert weights.shape[0] == kimap.n_model
     assert y_pred.shape[0] == kimap.n_model
     assert y_mu.shape[1:] == y.shape[1:]
     assert y_mu_w.shape[1:] == y.shape[1:]
@@ -205,8 +211,8 @@ def test_map_save_load():
     assert not kimap2.trained
     kimap2.load(root_path)
 
-    yp1, _, _ = kimap.predict(x)
-    yp2, _, _ = kimap2.predict(x)
+    yp1, _, _, _ = kimap.predict(x)
+    yp2, _, _, _ = kimap2.predict(x)
     # print(yp1.shape)
     # print(yp2.shape) 
     # print(jnp.all(d))

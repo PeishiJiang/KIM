@@ -164,25 +164,54 @@ class KIM(object):
     def evaluate_maps_on_givendata(self):
         """Perform predictions on the given dataset
         """
+        # TODO
         # Make the prediction
-        y_ens, y_mean, y_mean_w = self.predict(x=None)
+        y_ens, y_mean, y_mean_w, weights = self.predict(x=None)
         y_true = self.data.ydata
 
-        # Separate them into train and test set
-        if 'num_train_sample' in self.map_configs['dl_hp_fixed']:
-            sep = self.map_configs['dl_hp_fixed']['num_train_sample']
-            y_ens_train, y_ens_test = y_ens[:,:sep,...], y_ens[:,sep:,...]
-            y_true_train, y_true_test = y_true[:sep,...], y_true[sep:,...]
-            y_mw_train, y_mw_test = y_mean_w[:sep,...], y_mean_w[sep:,...]
+        # Separate them into trainining, validation, and test set
+        if 'num_train_sample' in self.map_configs['dl_hp_fixed'] and \
+           'num_val_sample' in self.map_configs['dl_hp_fixed']:
+            Ns_train = self.map_configs['dl_hp_fixed']['num_train_sample']
+            Ns_val = self.map_configs['dl_hp_fixed']['num_val_sample']
+            sep1, sep2 = Ns_train, Ns_train+Ns_val
+            y_ens_train, y_ens_val, y_ens_test = y_ens[:,:sep1,...], y_ens[:,sep1:sep2,...], y_ens[:,sep2:,...]
+            y_true_train, y_true_val, y_true_test = y_true[:sep1,...], y_true[sep1:sep2,...], y_true[sep2:,...]
+            y_mw_train, y_mw_val, y_mw_test = y_mean_w[:sep1,...], y_mean_w[sep1:sep2,...], y_mean_w[sep2:,...]
+        elif 'num_train_sample' in self.map_configs['dl_hp_fixed'] and \
+             'num_val_sample' not in self.map_configs['dl_hp_fixed']:
+            Ns_train = self.map_configs['dl_hp_fixed']['num_train_sample']
+            sep1 = Ns_train
+            y_ens_train, y_ens_val, y_ens_test = y_ens[:,:sep1,...], None, y_ens[:,sep1:,...]
+            y_true_train, y_true_val, y_true_test = y_true[:sep1,...], None, y_true[sep1:,...]
+            y_mw_train, y_mw_val, y_mw_test = y_mean_w[:sep1,...], None, y_mean_w[sep1:,...]
         else:
-            y_ens_train, y_ens_test = y_ens, None
-            y_true_train, y_true_test = y_true[:sep,...], None
-            y_mw_train, y_mw_test = y_mean_w, None
+            y_ens_train, y_ens_val, y_ens_test = y_ens, None, None
+            y_true_train, y_true_val, y_true_test = y_true, None, None
+            y_mw_train, y_mw_val, y_mw_test = y_mean_w, None
 
         # Calculate the performance metrics
         Nens, Ny = y_ens.shape[0], self.Ny
-        if 'num_train_sample' in self.map_configs['dl_hp_fixed']:
+        if 'num_train_sample' in self.map_configs['dl_hp_fixed'] and \
+           'num_val_sample' in self.map_configs['dl_hp_fixed']:
             rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            rmse_val, mkge_val = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            rmse_test, mkge_test = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            for i in range(Nens):
+                for j in range(Ny):
+                    metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j])
+                    rmse_train[i,j] = metrics['rmse']
+                    mkge_train[i,j] = metrics['mkge']
+                    metrics = compute_metrics(y_ens_val[i,...,j], y_true_val[...,j])
+                    rmse_val[i,j] = metrics['rmse']
+                    mkge_val[i,j] = metrics['mkge']
+                    metrics = compute_metrics(y_ens_test[i,...,j], y_true_test[...,j])
+                    rmse_test[i,j] = metrics['rmse']
+                    mkge_test[i,j] = metrics['mkge']
+        elif 'num_train_sample' in self.map_configs['dl_hp_fixed'] and \
+             'num_val_sample' not in self.map_configs['dl_hp_fixed']:
+            rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            rmse_val, mkge_val = None, None
             rmse_test, mkge_test = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
             for i in range(Nens):
                 for j in range(Ny):
@@ -194,6 +223,7 @@ class KIM(object):
                     mkge_test[i,j] = metrics['mkge']
         else:
             rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
+            rmse_val, mkge_val = None, None
             rmse_test, mkge_test = None, None
             for i in range(Nens):
                 for j in range(Ny):
@@ -201,36 +231,20 @@ class KIM(object):
                     rmse_train[i,j] = metrics['rmse']
                     mkge_train[i,j] = metrics['mkge']
 
-        # # Separate them into train and test set
-        # if 'num_train_sample' in self.map_configs['dl_hp_fixed']:
-        #     sep = self.map_configs['dl_hp_fixed']['num_train_sample']
-        #     y_ens_train, y_ens_test = y_ens[:,:sep,...], y_ens[:,sep:,...]
-        #     y_mw_train, y_mw_test = y_mean_w[:sep,...], y_mean_w[sep:,...]
-        #     rmse_train, rmse_test = rmse[:sep], rmse[sep:]
-        #     mkge_train, mkge_test = mkge[:sep], mkge[sep:]
-        # else:
-        #     y_ens_train, y_ens_test = y_ens, None
-        #     y_mw_train, y_mw_test = y_mean_w, None
-        #     rmse_train, rmse_test = rmse, None
-        #     mkge_train, mkge_test = mkge, None
-
-        ens_predict = {'train': y_ens_train, 'test': y_ens_test}
-        wm_predict = {'train': y_mw_train, 'test': y_mw_test}
-        true = {'train': y_true_train, 'test': y_true_test}
-        rmse = {'train': rmse_train, 'test': rmse_test}
-        mkge = {'train': mkge_train, 'test': mkge_test}
+        ens_predict = {'train': y_ens_train, 'val': y_ens_val, 'test': y_ens_test}
+        wm_predict = {'train': y_mw_train, 'val': y_mw_val, 'test': y_mw_test}
+        true = {'train': y_true_train, 'val': y_true_val, 'test': y_true_test}
+        rmse = {'train': rmse_train, 'val': rmse_val, 'test': rmse_test}
+        mkge = {'train': mkge_train, 'val': mkge_val, 'test': mkge_test}
 
         return {
             'ens predict': ens_predict,
+            'weights': weights,
             'weighted mean predict': wm_predict,
             'true': true,
             'rmse': rmse,
             'mkge': mkge
         }
-
-        # return y_ens_train, y_ens_test, y_mw_train, y_mw_test, \
-        #        y_true_train, y_true_test, rmse_train, rmse_test, \
-        #        mkge_train, mkge_test
 
     def predict(self, x: Optional[Array]=None):
         """Prediction using the trained KIM.
@@ -248,38 +262,44 @@ class KIM(object):
         xraw = x
         xscaler, yscaler = self.data.xscaler, self.data.yscaler
         x = xscaler.transform(xraw)
+        Ns = x.shape[0]
 
         n_ens = self.map_configs['n_model']
-        Nx = self.Nx
+        n_maps = self.n_maps
         # xshape = list(x.shape)
 
         if self.map_option == "many2many":
             one_map = self._maps[0]
-            y_ens, y_mean, y_mean_w = one_map.predict(x)
+            y_ens, y_mean, y_mean_w, weights = one_map.predict(x)
+            weights = np.stack([weights]*n_maps, axis=-1)
         elif self.map_option == "many2one":
-            y_ens, y_mean, y_mean_w = [], [], []
+            y_ens, y_mean, y_mean_w, weights = [], [], [], []
             for i,one_map in enumerate(self._maps):
                 one_mask = self.mask[:,i]
                 if one_mask.sum() == 0:
                     assert one_map is None
-                    y_e = np.empty([n_ens, Nx, 1]) + np.nan
-                    y_m = np.empty([Nx, 1]) + np.nan
-                    y_mw = np.empty([Nx, 1]) + np.nan
+                    y_e = np.empty([n_ens, Ns, 1]) + np.nan
+                    w = np.empty([n_ens, Ns, 1]) + np.nan
+                    y_m = np.empty([Ns, 1]) + np.nan
+                    y_mw = np.empty([Ns, 1]) + np.nan
                 else:
-                    y_e, y_m, y_mw = one_map.predict(x[:, one_mask])
-                    y_ens.append(np.array(y_e))
-                    y_mean.append(np.array(y_m))
+                    y_e, y_m, y_mw, w = one_map.predict(x[:, one_mask])
+                    w = np.expand_dims(w, axis=-1)
+                y_ens.append(np.array(y_e))
+                y_mean.append(np.array(y_m))
+                weights.append(np.array(w))
                 y_mean_w.append(np.array(y_mw))
             y_ens = np.concat(y_ens, axis=-1)
             y_mean = np.concat(y_mean, axis=-1)
             y_mean_w = np.concat(y_mean_w, axis=-1)
+            weights = np.concat(weights, axis=-1)
 
         # Scale back
         y_ens = np.array([yscaler.inverse_transform(y) for y in y_ens])
         y_mean = yscaler.inverse_transform(y_mean)
         y_mean_w= yscaler.inverse_transform(y_mean_w)
         
-        return y_ens, y_mean, y_mean_w
+        return y_ens, y_mean, y_mean_w, weights
         
     def save(self, rootpath: PosixPath=Path('./')):
         """Save the KIM, including:
@@ -436,7 +456,7 @@ class Map(object):
     self.dl_configs (list): dataloader hyperparameters for all ensemble models
     self.model_ens (list): list of trained model ensemble
     self.loss_train_ens (list): list of the training losses over steps
-    self.loss_test_ens (list): list of the test losses over steps
+    self.loss_val_ens (list): list of the val losses over steps
 
     """
 
@@ -511,9 +531,9 @@ class Map(object):
             print("Mapping has not been trained yet.")
 
     @property
-    def loss_test_ens(self):
+    def loss_val_ens(self):
         if self.trained:
-            return self._loss_test_ens
+            return self._loss_val_ens
         else:
             print("Mapping has not been trained yet.")
 
@@ -549,6 +569,9 @@ class Map(object):
         if 'num_train_sample' not in self.dl_hp_fixed and \
             'num_train_sample' not in self.dl_hp_choices:
             self.dl_hp_fixed['num_train_sample'] = self.Ns
+        if 'num_val_sample' not in self.dl_hp_fixed and \
+            'num_val_sample' not in self.dl_hp_choices:
+            self.dl_hp_fixed['num_val_sample'] = self.Ns - self.dl_hp_fixed['num_train_sample']
         # if 'device' not in self.dl_hp_fixed:
         #     self.dl_hp_fixed['device'] = self.de
 
@@ -582,14 +605,14 @@ class Map(object):
         if self.trained:
             raise Exception("The mapping has already been trained!")
 
-        model_ens, loss_train_ens, loss_test_ens = train_ensemble(
+        model_ens, loss_train_ens, loss_val_ens = train_ensemble(
             self.x, self.y, self.model_type, 
             self.model_configs, self.optax_configs, self.dl_configs, 
             self.training_parallel, self.parallel_config, verbose
         )
         self._model_ens = model_ens
         self._loss_train_ens = loss_train_ens
-        self._loss_test_ens = loss_test_ens
+        self._loss_val_ens = loss_val_ens
         self.trained = True
 
     def predict(self, x: Array):
@@ -614,20 +637,21 @@ class Map(object):
         # print(y_mean)
 
         # Calculate weighted mean based on loss
-        loss_ens = self.loss_test_ens if len(self.loss_test_ens)>0 else self.loss_train_ens
+        # loss_ens = self.loss_val_ens if len(self.loss_val_ens)>0 else self.loss_train_ens
+        loss_ens = self.loss_val_ens if self.loss_val_ens[0] is not None else self.loss_train_ens
         loss = jnp.array([l_all[-1] for l_all in loss_ens])
         weights = 1./loss / jnp.sum(1./loss)
         weighted_product = jax.vmap(lambda w, y: w*y, in_axes=(0,0))
         y_ens_w = weighted_product(weights, y_ens)
         y_mean_w = y_ens_w.sum(axis=0)
 
-        return y_ens, y_mean, y_mean_w
+        return y_ens, y_mean, y_mean_w, weights
 
     def save(self, rootpath: PosixPath=Path("./")):
         """Save the trained mapping to specified location, including:
             - trained models
             - model/optax/dl configurations
-            - loss values for both training and test sets
+            - loss values for both training and validation sets
 
         Args:
             rootpath (PosixPath): the root path where mappings will be saved
@@ -679,7 +703,7 @@ class Map(object):
             # Save its loss values
             loss = {
                 "train": self.loss_train_ens[i],
-                "test": self.loss_test_ens[i]
+                "val": self.loss_val_ens[i]
             }
             with open(f_loss, "wb") as f:
                 pickle.dump(loss, f)
@@ -711,7 +735,7 @@ class Map(object):
         # Load each model, its configuration, and its loss values
         model_ens = []
         model_configs, optax_configs, dl_configs = [], [], []
-        loss_train_ens, loss_test_ens = [], []
+        loss_train_ens, loss_val_ens = [], []
         for i in range(n_model):
             f_model = rootpath / str(i) / "model.eqx"
             f_configs = rootpath / str(i) / "configs.pkl"
@@ -732,14 +756,14 @@ class Map(object):
             with open(f_loss, "rb") as f:
                 loss = pickle.load(f)
             loss_train_ens.append(loss["train"])
-            loss_test_ens.append(loss["test"])
+            loss_val_ens.append(loss["val"])
 
         self._model_ens = model_ens
         self._model_configs = model_configs
         self._optax_configs = optax_configs
         self._dl_configs = dl_configs
         self._loss_train_ens = loss_train_ens
-        self._loss_test_ens = loss_test_ens
+        self._loss_val_ens = loss_val_ens
 
         self.loaded_from_other_sources = True
         self.trained = True
