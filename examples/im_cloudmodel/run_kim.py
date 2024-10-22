@@ -67,6 +67,7 @@ sensitivity_params = {
 
 # %%
 Ns_train = 400
+Ns_val = 50
 hidden_activation = 'sigmoid'
 final_activation = 'leaky_relu'
 seed_ens = 1024
@@ -108,6 +109,7 @@ map_configs = {
     'dl_hp_fixed': {
         'dl_seed': seed_dl,
         'num_train_sample': Ns_train,
+        'num_val_sample': Ns_val,
         'batch_size': 64
     },
     'ens_seed': seed_ens,
@@ -122,16 +124,13 @@ map_configs = {
 }
 
 # %% [markdown]
-# # Exploratory data analysis
-# data = Data(x, y, **data_params)
-# data.calculate_sensitivity(**sensitivity_params)
+# Exploratory data analysis
+data = Data(x, y, **data_params)
+data.calculate_sensitivity(**sensitivity_params)
 # Save the sensitivity analysis to disk
-# data.save(f_data_save)
-
-
-# %%
-data = Data(x, y)
-data.load(f_data_save)
+data.save(f_data_save)
+# data = Data(x, y)
+# data.load(f_data_save)
 
 # %%
 # Train the inverse mapping

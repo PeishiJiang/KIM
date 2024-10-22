@@ -265,13 +265,14 @@ class KIM(object):
         Ns = x.shape[0]
 
         n_ens = self.map_configs['n_model']
-        n_maps = self.n_maps
+        Ny = self.Ny
+        # n_maps = self.n_maps
         # xshape = list(x.shape)
 
         if self.map_option == "many2many":
             one_map = self._maps[0]
             y_ens, y_mean, y_mean_w, weights = one_map.predict(x)
-            weights = np.stack([weights]*n_maps, axis=-1)
+            weights = np.stack([weights]*Ny, axis=-1)
         elif self.map_option == "many2one":
             y_ens, y_mean, y_mean_w, weights = [], [], [], []
             for i,one_map in enumerate(self._maps):

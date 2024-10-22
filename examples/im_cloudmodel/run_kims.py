@@ -21,18 +21,20 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(m
 # Parameters
 ###########################################
 # Training data
-f_para = Path("./data/Output_512.csv")
-f_state = Path("./data/Input_512.csv")
+dir_data = Path("./data")
+f_para = dir_data / "Output_512.csv"
+f_state = dir_data / "Input_512.csv"
 
 # Saving folder
 dir_results = Path("./results")
-dir_data_save = Path("./results/data")
+# dir_data_save = Path("./results/data")
 
 # Training configurations
 mask_option = "cond_sensitivity"
 map_option = "many2one"
 seed_shuffle = 1234
 Ns_train = 400
+Ns_val = 50
 hidden_activation = 'sigmoid'
 final_activation = 'leaky_relu'
 seed_ens = 1024
@@ -98,6 +100,7 @@ map_configs = {
     'dl_hp_fixed': {
         'dl_seed': seed_dl,
         'num_train_sample': Ns_train,
+        'num_val_sample': Ns_val,
         'batch_size': 64
     },
     'ens_seed': seed_ens,
@@ -132,8 +135,8 @@ nxkeys = len(x_keys)
 # data.calculate_sensitivity(**sensitivity_params)
 # # Save the sensitivity analysis to disk
 # data.save(dir_data_save)
-data = Data(x, y)
-data.load(dir_data_save)
+# data = Data(x, y)
+# data.load(dir_data_save)
 
 
 ###########################################
@@ -183,9 +186,25 @@ for mp, ss, w, wall in combinations:
     # Combine all removed sets
     removed_set = reduce(np.logical_or, [removed_set1, removed_set2, removed_set3, removed_set4])
     other_mask = ~removed_set
-
     label = f'{label1}-{label2}-{label3}-{label4}'
     logging.info(f'Combination: {label}; total number of keys: {other_mask.sum()}')
-    f_kim_save = dir_results / label
-    kim = KIM(data, map_configs, mask_option=mask_option, map_option=map_option, other_mask=other_mask)
+
+    # Subset the data
+    df_state_subset = df_state.iloc[:,other_mask].copy()
+
+    # Perform sensitivity analysis
+    x_subset = df_state_subset.values
+    data = Data(x_subset, y, **data_params)
+    data.calculate_sensitivity(**sensitivity_params)
+
+    # Train the inverse mappings
+    kim = KIM(data, map_configs, mask_option=mask_option, map_option=map_option)
+    kim.train()
+
+    # Save data and model
+    f_state_subset = dir_data / f'Input-{label}.csv'
+    f_kim_save = dir_results / f'KIM-{label}'
+    dir_sensitivity_save = dir_results / f'Data-{label}'
+    df_state_subset.to_csv(f_state_subset)
+    data.save(dir_sensitivity_save)
     kim.save(f_kim_save)
