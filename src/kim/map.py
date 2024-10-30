@@ -166,7 +166,7 @@ class KIM(object):
         """
         # TODO
         # Make the prediction
-        y_ens, y_mean, y_mean_w, weights = self.predict(x=None)
+        y_ens, y_mean, y_mean_w, y_std_w, weights = self.predict(x=None)
         y_true = self.data.ydata
 
         # Separate them into trainining, validation, and test set
@@ -178,6 +178,7 @@ class KIM(object):
             y_ens_train, y_ens_val, y_ens_test = y_ens[:,:sep1,...], y_ens[:,sep1:sep2,...], y_ens[:,sep2:,...]
             y_true_train, y_true_val, y_true_test = y_true[:sep1,...], y_true[sep1:sep2,...], y_true[sep2:,...]
             y_mw_train, y_mw_val, y_mw_test = y_mean_w[:sep1,...], y_mean_w[sep1:sep2,...], y_mean_w[sep2:,...]
+            y_stdw_train, y_stdw_val, y_stdw_test = y_std_w[:sep1,...], y_std_w[sep1:sep2,...], y_std_w[sep2:,...]
         elif 'num_train_sample' in self.map_configs['dl_hp_fixed'] and \
              'num_val_sample' not in self.map_configs['dl_hp_fixed']:
             Ns_train = self.map_configs['dl_hp_fixed']['num_train_sample']
@@ -185,10 +186,12 @@ class KIM(object):
             y_ens_train, y_ens_val, y_ens_test = y_ens[:,:sep1,...], None, y_ens[:,sep1:,...]
             y_true_train, y_true_val, y_true_test = y_true[:sep1,...], None, y_true[sep1:,...]
             y_mw_train, y_mw_val, y_mw_test = y_mean_w[:sep1,...], None, y_mean_w[sep1:,...]
+            y_stdw_train, y_stdw_val, y_stdw_test = y_std_w[:sep1,...], None, y_std_w[sep1:,...]
         else:
             y_ens_train, y_ens_val, y_ens_test = y_ens, None, None
             y_true_train, y_true_val, y_true_test = y_true, None, None
             y_mw_train, y_mw_val, y_mw_test = y_mean_w, None
+            y_stdw_train, y_stdw_val, y_stdw_test = y_std_w, None
 
         # Calculate the performance metrics
         Nens, Ny = y_ens.shape[0], self.Ny
@@ -233,14 +236,30 @@ class KIM(object):
 
         ens_predict = {'train': y_ens_train, 'val': y_ens_val, 'test': y_ens_test}
         wm_predict = {'train': y_mw_train, 'val': y_mw_val, 'test': y_mw_test}
+        wstd_predict = {'train': y_stdw_train, 'val': y_stdw_val, 'test': y_stdw_test}
         true = {'train': y_true_train, 'val': y_true_val, 'test': y_true_test}
         rmse = {'train': rmse_train, 'val': rmse_val, 'test': rmse_test}
         mkge = {'train': mkge_train, 'val': mkge_val, 'test': mkge_test}
+
+        # Calculate bias and uncertainty
+        wbias = {
+            'train': np.mean(np.abs(y_true_train-y_mw_train), axis=0), 
+            'val': np.mean(np.abs(y_true_val-y_mw_val), axis=0),
+            'test': np.mean(np.abs(y_true_test-y_mw_test), axis=0)
+        }
+        wrelauncert = {
+            'train': np.mean(y_stdw_train/y_true_train, axis=0), 
+            'val': np.mean(y_stdw_val/y_true_val, axis=0),
+            'test': np.mean(y_stdw_test/y_true_test, axis=0)
+        }
 
         return {
             'ens predict': ens_predict,
             'weights': weights,
             'weighted mean predict': wm_predict,
+            'weighted std predict': wstd_predict,
+            'weighted bias': wbias,
+            'weighted relative uncertainty': wrelauncert,
             'true': true,
             'rmse': rmse,
             'mkge': mkge
@@ -299,8 +318,20 @@ class KIM(object):
         y_ens = np.array([yscaler.inverse_transform(y) for y in y_ens])
         y_mean = yscaler.inverse_transform(y_mean)
         y_mean_w= yscaler.inverse_transform(y_mean_w)
+
+        # Calculate the weighted standard deviation
+        def calculate_wstd(yens, ymw, w):
+            return np.sqrt(np.average((yens-ymw)**2, weights=w, axis=0))
+        # y_std_w = np.sqrt(np.average((y_ens-y_mean_w)**2, weights=weights, axis=0))
+        y_std_w = []
+        for i in range(weights.shape[-1]):
+            yens, ymw, w = y_ens[...,i], y_mean_w[...,i], weights[...,i]
+            y_std_w.append(calculate_wstd(yens, ymw, w))
+        y_std_w = np.stack(y_std_w, axis=-1)
+        # calculate_wstd = np.vectorize(calculate_wstd, signature='(m,n),(n),(m)->(n)')
+        # y_std_w = calculate_wstd(y_ens, y_mean_w, weights)
         
-        return y_ens, y_mean, y_mean_w, weights
+        return y_ens, y_mean, y_mean_w, y_std_w, weights
         
     def save(self, rootpath: PosixPath=Path('./')):
         """Save the KIM, including:

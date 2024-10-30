@@ -193,9 +193,9 @@ def test_predict():
     # Predict
     def mse(y, ypred):
         return jnp.mean((y-ypred) ** 2)
-    y_ens1, y_mean1, y_mean_w1, weights1 = kim1.predict(xb)
-    y_ens2, y_mean2, y_mean_w2, weights2 = kim2.predict(xb)
-    y_ens3, y_mean3, y_mean_w3, weights3 = kim3.predict(xb)
+    y_ens1, y_mean1, y_mean_w1, y_std_w1, weights1 = kim1.predict(xb)
+    y_ens2, y_mean2, y_mean_w2, y_std_w2, weights2 = kim2.predict(xb)
+    y_ens3, y_mean3, y_mean_w3, y_std_w3, weights3 = kim3.predict(xb)
     error1, error_w1 = mse(yb, y_mean1), mse(yb, y_mean_w1)
     error2, error_w2 = mse(yb, y_mean2), mse(yb, y_mean_w2)
     error3, error_w3 = mse(yb, y_mean3), mse(yb, y_mean_w3)
@@ -245,8 +245,8 @@ def test_save_load():
 
     # Evaluation/prediction data
     xb, yb = get_samples_predict()
-    y_ens1, y_mean1, y_mean_w1, weights1 = kim.predict(xb)
-    y_ens2, y_mean2, y_mean_w2, weights2 = kim2.predict(xb)
+    y_ens1, y_mean1, y_mean_w1, y_std_w1, weights1 = kim.predict(xb)
+    y_ens2, y_mean2, y_mean_w2, y_std_w2, weights2 = kim2.predict(xb)
 
     assert np.array_equal(weights1.sum(axis=0), np.ones(kim.n_maps))
     assert np.array_equal(weights2.sum(axis=0), np.ones(kim2.n_maps))

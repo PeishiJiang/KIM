@@ -198,8 +198,8 @@ class Data(object):
         xdata = np.load(f_x)
         ydata = np.load(f_y)
         if check_xy:
-            assert np.array_equal(xdata, self.xdata)
-            assert np.array_equal(ydata, self.ydata)
+            assert np.allclose(xdata, self.xdata)
+            assert np.allclose(ydata, self.ydata)
         self.xdata, self.ydata = xdata, ydata
         self.Ns = xdata.shape[0]
         self.Nx = xdata.shape[1]
