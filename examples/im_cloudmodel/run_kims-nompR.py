@@ -54,7 +54,6 @@ middle_pts_r = [True, False]
 all_ss_varns = [True, False]
 wstd = [True, False]
 wall_types = ['cold', 'warm', 'both']
-temperature = [True, False]
 
 
 ###########################################
@@ -129,18 +128,32 @@ nxkeys = len(x_keys)
 
 
 ###########################################
+# Perform sensitivity analysis
+# Or, load the existing one 
+###########################################
+# data = Data(x, y, **data_params)
+# data.calculate_sensitivity(**sensitivity_params)
+# # Save the sensitivity analysis to disk
+# data.save(dir_data_save)
+# data = Data(x, y)
+# data.load(dir_data_save)
+
+
+###########################################
 # Train different mappings for different
 # subsets of the input data
 ###########################################
 # kim3 = KIM(data, map_configs, mask_option=mask_option, map_option=map_option)
-combinations = itertools.product(middle_pts_r, all_ss_varns, wstd, wall_types, temperature)
-for mp, ss, w, wall, t in combinations:
+combinations = itertools.product(middle_pts_r, all_ss_varns, wstd, wall_types)
+for mp, ss, w, wall in combinations:
     # If keeping all R variables at middle points
     label1 = 'mp'
     removed_set1 = [False] * nxkeys
     if not mp:
-        label1 = 'nomp'
-        removed_set1 = [l in middle_pts for l in locs]
+        label1 = 'nompR'
+        c1 = [l in middle_pts for l in locs]
+        c2 = [v.startswith('R') for v in varns]
+        removed_set1 = [a and b for a, b in zip(c1, c2)]
     removed_set1 = np.array(removed_set1)
 
     # If keeping all SS variables
@@ -169,19 +182,11 @@ for mp, ss, w, wall, t in combinations:
         label4 = 'warm'
         removed_set4 = [l in cold_pts for l in locs]
     removed_set4 = np.array(removed_set4)
-
-    # If using temperature data
-    label5 = 't'
-    removed_set5 = [False] * nxkeys
-    if not t:
-        label5 = 'not'
-        removed_set5 = [v.startswith('T') for v in varns]
-    removed_set5 = np.array(removed_set5)
     
     # Combine all removed sets
-    removed_set = reduce(np.logical_or, [removed_set1, removed_set2, removed_set3, removed_set4, removed_set5])
+    removed_set = reduce(np.logical_or, [removed_set1, removed_set2, removed_set3, removed_set4])
     other_mask = ~removed_set
-    label = f'{label1}-{label2}-{label3}-{label4}-{label5}'
+    label = f'{label1}-{label2}-{label3}-{label4}'
     logging.info(f'Combination: {label}; total number of keys: {other_mask.sum()}')
 
     # Subset the data
