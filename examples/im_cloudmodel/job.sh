@@ -16,5 +16,8 @@ source /people/jian449/env_kim.sh
 # srun -n 50 python run_kim.py
 # srun -N 2 python run_kim.py
 # srun python run_kim.py
-python run_kims.py
+# python run_kims.py
+# python run_kims-holodec.py
+python run_kims-holodec-1loc.py
+python run_kims-holodec-1locR.py
 wait
