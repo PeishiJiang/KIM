@@ -43,7 +43,7 @@ x.shape, y.shape
 
 # %%
 seed_shuffle = 1234
-f_data_save = Path("./results/data")
+f_data_save = Path("./results-holodec/data")
 
 
 # %%
@@ -77,9 +77,10 @@ seed_model = 100
 training_verbose = 1
 n_models = 100
 
-f_kim_save1 = Path("./results/map_many2many")
-f_kim_save2 = Path("./results/map_many2one")
-f_kim_save3 = Path("./results/map_many2one_cond")
+# dir_results = Path("./results-holodec")
+f_kim_save1 = Path("./results-holodec/map_many2many")
+f_kim_save2 = Path("./results-holodec/map_many2one")
+f_kim_save3 = Path("./results-holodec/map_many2one_cond")
 
 
 # %%
