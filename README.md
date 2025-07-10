@@ -15,9 +15,14 @@
 KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the development of the mapping $ƒ$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM mainly builds on the methodology development of deep learning-based inverse mapping in [Jiang et al. 2023](https://hess.copernicus.org/articles/27/2621/2023/hess-27-2621-2023.html) and [Wang et al. 2025](TBD). It involves two key procedures: (1) an exploratory data analysis using information theory to identify the dependency between $\mathbf{X}$ and $\mathbf{Y}$ and filter out both insignificant and redundant inputs through global sensitivity analysis and conditional independence testing; and (2) ensemble learning of $ƒ$ using neural networks to account for its structural uncertainty. KIM is mostly rewritten in [JAX](https://github.com/jax-ml/jax) and also supports basic parallel computing on CPU cores for statistical significance test and ensemble learning by using [Joblib](https://joblib.readthedocs.io/en/stable/).
 
 ## Installation
-To install the latest stable release from `PyPI`:
+1. To install the latest stable release from `PyPI`:
 ```bash
 pip install kim-jax
+```
+
+2. Download the repo to get the example jupyter notebooks:
+```bash
+git clone https://github.com/PeishiJiang/KIM.git
 ```
 
 ## Background
