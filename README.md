@@ -12,26 +12,41 @@
 - [Contacts](#contacts)
 
 ## Overview
+KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the development of the mapping $ƒ$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM mainly builds on the methodology development of deep learning-based inverse mapping in [Jiang et al. 2023](https://hess.copernicus.org/articles/27/2621/2023/hess-27-2621-2023.html) and [Wang et al. 2025](TBD). It involves two key procedures: (1) an exploratory data analysis using information theory to identify the dependency between $\mathbf{X}$ and $\mathbf{Y}$ and filter out both insignificant and redundant inputs through global sensitivity analysis and conditional independence testing; and (2) ensemble learning of $ƒ$ using neural networks to account for its structural uncertainty. KIM is mostly rewritten in [JAX](https://github.com/jax-ml/jax) and also supports basic parallel computing on CPU cores for statistical significance test and ensemble learning by using [Joblib](https://joblib.readthedocs.io/en/stable/).
 
 ## Installation
+To install the latest stable release from `PyPI`:
+```bash
+pip install kim-jax
+```
 
-
-## Getting started
-
+## Background
+Please refer to [the Approach](./doc/math.md) for a complete description of the mathematical method.
 
 ## Examples
+We provide three cases of applying KIM to performing inverse and forward modeling by using Jupyter notebook to illustrate the package usage
 
+**Case 1: [Calibrating a cloud chamber model](./examples/im_cloudmodel/).** We develop inverse mappings to estimate two key parameters, i.e., wall fluxes ($\lambda_w$) and collision processes ($\lambda_c$) of a cloud chamber model from synthetic observations.
+
+**Case 2: [Calibrating an integrated hydrological model](./examples/im_ats/).** We develop inverse mappings to estimate eight parameters of the Advanced Terrestrial Simulator (ATS) from the streamflow observations at the outlet of Coal Creek watershed, CO, USA.
+
+**Case 3: [Developing emulator for surface heat fluxes from eddy covariance observations](./examples/fm_evapotranspiration/).** We developes a forward mapping to emulate the surface heat fluxes by using the atmospheric forcings and environmental states. The data are collected through an integrated flux tower system located at US-Bi1 -- an agricultural land on Bouldin island of the San Joaquin Sacramento Delta region.
 
 ## Documentation
 
 
 ## License
-
+Distributed under the Simplified BSD License. See [LICENSE](./LICENSE) for more information.
 
 ## Acknowledgements
-
+This work was funded by the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory. 
 
 ## How to Cite
 
 
 ## Contacts
+Peishi Jiang (shixijps@gmail.com)
+
+<hr>
+
+[Go to Top](#table-of-contents)

@@ -26,7 +26,7 @@ bibliography: paper.bib
 ---
 
 # Summary
-We present a Knowledge-Informed Mapping toolkit in Python programming language, named KIM, to optimize the development of the mapping $ƒ$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM builds on the methodology development of deep learning-based inverse mapping in @Jiang:2023 and @Wang:2025. It involves two key procedures: (1) an exploratory data analysis to identify the dependency between $\mathbf{X}$ and $\mathbf{Y}$ to filter out both insignificant and redundant inputs through global sensitivity analysis and conditional independence testing; and (2) ensemble learning of $ƒ$ using neural networks to account for its structural uncertainty. KIM offers a preliminary understanding of data interdependencies while optimizing the training step with uncertainty accounted for. We demonstrate the applications of KIM through three use cases. The first two adopt KIM to develop inverse mappings for learning the parameters of an integrated hydrological model and a large eddy simulation cloud model. The third case establishes a forward mapping that predicts ecosystem-scale evapotranspiration from observed ambient conditions and atmospheric forcings. We expect this toolkit will be helpful to glue the model data integration for Earth science applications.
+We present a Knowledge-Informed Mapping toolkit in Python programming language, named KIM, to optimize the development of the mapping $ƒ$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM builds on the methodology development of deep learning-based inverse mapping in @Jiang:2023 and @Wang:2025. It involves two key procedures: (1) an exploratory data analysis using information theory to identify the dependency between $\mathbf{X}$ and $\mathbf{Y}$ and filter out both insignificant and redundant inputs through global sensitivity analysis and conditional independence testing; and (2) ensemble learning of $ƒ$ using neural networks to account for its structural uncertainty. KIM offers a preliminary understanding of data interdependencies while optimizing the training step with uncertainty accounted for. We demonstrate the applications of KIM through three use cases. The first two adopt KIM to develop inverse mappings for learning the parameters of an integrated hydrological model and a large eddy simulation cloud model. The third case establishes a forward mapping that predicts ecosystem-scale evapotranspiration from observed ambient conditions and atmospheric forcings. We expect this toolkit will be helpful to glue the model data integration for Earth science applications.
 
 
 # Statement of need
@@ -74,11 +74,9 @@ where $E$ is the expectation operator and $y$ is the true value.
 
 
 # Examples
-We present three applications of KIM in performing inverse and forward modeling, with Jupyter notebook provided in the repository to guide the package usage.
+We present three applications of KIM in performing inverse and forward modeling, with Jupyter notebook provided in the repository to guide the package usage. For each case, we developed three types of inverse mappings: (1) the original inverse mapping without knowledge-informed, denoted as $M_0$; (2) the knowledge-informed inverse mapping only using global sensitivity analysis (Step 1), denoted as $M_1$; and (3) the knowledge-informed inverse mapping using both Step 1 and Step 2, denoted as $M_2$. 100 neural networks, $N_e=1$, are trained for each mapping. The remaining configurations can be found in the example jupyter notebook.
 
 **Case 1: Calibrating a cloud chamber model.** Cloud chamber model has been widely applied as a virtual reality of a true cloud chamber to study both turbulence and clouds and reveal aerosol–cloud–turbulence interactions CITE. The objective of this example is to estimate two key parameters, i.e., wall fluxes ($\lambda_w$) and collision processes ($\lambda_c$) using inverse mapping. To that, an ensemble of 513 model runs were generated based on a model set up shown in Figure CITE, by varying the values of the two parameters using Sobol sequence CITE. 27 Virtual sensors are configured, each of which 'records' multiple variables including flow properties and cloud properties. The statistics of these variables, calculated over six 5-min periods, are used as the inputs of the inverse mappings, including the temporal standard deviation of vertical velocity ($W$ std), the temporal mean of temperature ($T$ mean), the temporal standard deviation of temperature ($T$ std), the temporal mean of supersaturation ($SS$ mean), the temporal standard deviation of supersaturation ($SS$ std), the mean radius of droplet size distribution (DSD) ($R$ mean, with $R$ representing radius hereafter), the standard deviation of radius ($R$ std), the skewness of radius ($R$ skew), and the kurtosis of radius ($R$ kurt).
-
-We developed three types of inverse mappings: (1) the original inverse mapping without knowledge-informed, denoted as $M_0$; (2) the knowledge-informed inverse mapping only using global sensitivity analysis (Step 1), denoted as $M_1$; and (3) the knowledge-informed inverse mapping using both Step 1 and Step 2, denoted as $M_2$. 100 neural networks, $N_e=1$, are trained for each mapping. The remaining configurations can be found in the example jupyter notebook.
 
 The training results are shown in Figure CITE. We found that ...
 
@@ -86,13 +84,17 @@ The training results are shown in Figure CITE. We found that ...
 
 **Add a result figure for Ex1.**
 
-**Case 2: Calibrating an integrated hydrological model.** The Advanced Terrestrial Simulator (ATS)is an integrated hydrological models used to simulate hydrological fluxes across a watershed CITE. Here, we calibrated ATS against the streamflow observations at the outlet of Coal Creek watershed, CO, USA CITE. The objective is to estimate .... TBD
+**Case 2: Calibrating an integrated hydrological model.** The Advanced Terrestrial Simulator (ATS) is an integrated hydrological models used to simulate hydrological fluxes across a watershed CITE. Here, we calibrated ATS against the streamflow observations at the outlet of Coal Creek watershed, CO, USA CITE. The objective is to estimate eight models parameters categorized into evapotranspiration (ET), snow melting, and subsurface permeability. See @Jiang:2023 for more detailed information.
+
+The training results are shown in Figure CITE. We found that ...
 
 **Add a time series figure for Ex2.**
 
 **Add a result figure for Ex2.**
 
-**Case 3: Developing emulator for surface heat fluxes from eddy covariance observations.**
+**Case 3: Developing emulator for surface heat fluxes from eddy covariance observations.** The last example developes a forward mapping for emulating the surface heat fluxes, i.e., latent heat fluxes, sensible heat fluxes, and net radiation at US-Bi1 -- an agricultural land on Bouldin island of the San Joaquin Sacramento Delta region CITE. The emulator is driven by the corresponding observed atmospheric forcings and environmental states, including air temperature, shortwave radiation, air pressure, wind speed, ambient CO2 concentration, friction velocity, soil temperature, soil moisture, and leaf area index. The observations of both the nine inputs and the three heat flux outputs are collected through the integrated flux tower site at the site US-Bi1. Figure CITE shows the time series of the data.
+
+The training results are shown in Figure CITE. We found that ...
 
 **Add a time series figure for Ex3.**
 
@@ -100,7 +102,7 @@ The training results are shown in Figure CITE. We found that ...
 
 
 # Acknowledgements
-This work was funded by both the ExaSheds project and the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory. The Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory is a multiprogram national laboratory operated by Battelle for the U.S. Department of Energy. Pacific Northwest National Laboratory is operated for the DOE by Battelle Memorial Institute under contract DE-AC05-76RL01830. This paper describes objective technical results and analysis. Any subjective views or opinions that might be expressed in the paper do not necessarily represent the views of the United States Department of Energy or the United States Government. The United States Government retains and the publisher, by accepting the article for publication, acknowledges that the United States Government retains a non-exclusive, paidup, irrevocable, world-wide license to publish, or reproduce the published form of this manuscript, or allow others to do so, for United States Government purposes.
+This work was funded by the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory. The Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory is a multiprogram national laboratory operated by Battelle for the U.S. Department of Energy. Pacific Northwest National Laboratory is operated for the DOE by Battelle Memorial Institute under contract DE-AC05-76RL01830. This paper describes objective technical results and analysis. Any subjective views or opinions that might be expressed in the paper do not necessarily represent the views of the United States Department of Energy or the United States Government. The United States Government retains and the publisher, by accepting the article for publication, acknowledges that the United States Government retains a non-exclusive, paidup, irrevocable, world-wide license to publish, or reproduce the published form of this manuscript, or allow others to do so, for United States Government purposes.
 
 
 # References
