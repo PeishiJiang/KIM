@@ -3,7 +3,15 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+
+parts:
+- caption: Getting started
+  chapters:
+  - file: installation
+  - file: math
+  - file: examples/examples
+
+- caption: API and references
+  chapters:
+  - file: api/kim
+  - file: bibliography

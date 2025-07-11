@@ -20,7 +20,8 @@ import jax.numpy as jnp
 import numpy as np
 import equinox as eqx
 
-from jaxlib.xla_extension import Device
+# from jaxlib.xla_extension import Device
+from jax import Device
 from typing import Optional
 from jaxtyping import Array
 
@@ -430,7 +431,7 @@ class Map(object):
     ----------
     x (array-like): the predictors with shape (Ns, Nx)
     y (array-like): the predictands with shape (Ns, Ny)
-    model_type (eqx._module._ModuleMeta): the equinox model class
+    model_type (type): the equinox model class
     n_model (int): the number of ensemble models
     ensemble_type (str): the ensemble type, either 'single', 'serial' or 'parallel'.
     model_hp_choices (dict): the tunable model hyperparameters, in dictionary format 
@@ -466,7 +467,7 @@ class Map(object):
     self.y (array_like): argument copy
     self.n_model (int): argument copy
     self.training_parallel (bool) : argument copy
-    self.model_type (eqx._module._ModuleMeta): argument copy
+    self.model_type (type): argument copy
     self.ensemble_type (str): argument copy
     self.model_hp_choices (dict): argument copy
     self.model_hp_fixed (dict): argument copy
@@ -493,7 +494,7 @@ class Map(object):
     """
 
     def __init__(
-        self, x: Array, y: Array, model_type: eqx._module._ModuleMeta=MLP, 
+        self, x: Array, y: Array, model_type: type=MLP, 
         n_model: int=0, ensemble_type: str='single',
         model_hp_choices: dict={}, model_hp_fixed: dict={}, 
         optax_hp_choices: dict={}, optax_hp_fixed: dict={},

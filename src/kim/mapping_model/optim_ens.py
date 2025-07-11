@@ -20,7 +20,8 @@ from .dataloader_torch import make_pytorch_data_loader
 make_data_loader = make_pytorch_data_loader
 
 def train_ensemble(
-    x: Array, y: Array, model_type: eqx._module._ModuleMeta,
+    # x: Array, y: Array, model_type: eqx._module._ModuleMeta,
+    x: Array, y: Array, model_type: type,
     model_config_ens: List[Dict], optax_config_ens: List[Dict], dl_config_ens: List[Dict], 
     training_parallel: bool=True, parallel_config: Optional[dict]=None,
     verbose: int=0,
@@ -30,7 +31,7 @@ def train_ensemble(
     Args:
         x (Array): the input data with shape (Ns, Nx)
         y (Array): the output data with shape (Ns, Ny)
-        model_type (eqx._module._ModuleMeta): the type of DNN model
+        model_type (type): the type of DNN model
         model_config_ens (List[Dict]): the model configurations specific to the selected model_type
         optax_config_ens (List[Dict]): the optimizer configurations specific to optax optimizers
         dl_config_ens (List[Dict]):  the dataloader configurations specific to the BatchedDL
@@ -55,7 +56,7 @@ def train_ensemble(
 
 
 def train_ensemble_parallel(
-    x: Array, y: Array, model_type: eqx._module._ModuleMeta,
+    x: Array, y: Array, model_type: type,
     model_config_ens: List[Dict], optax_config_ens: List[Dict], 
     dl_config_ens: List[Dict], parallel_config: Dict, verbose: int
 ) -> Tuple:
@@ -89,7 +90,7 @@ def train_ensemble_parallel(
 
 
 def train_ensemble_serial(
-    x: Array, y: Array, model_type: eqx._module._ModuleMeta,
+    x: Array, y: Array, model_type: type,
     model_config_ens: List[Dict], optax_config_ens: List[Dict], 
     dl_config_ens: List[Dict], verbose: int
 ) -> Tuple:

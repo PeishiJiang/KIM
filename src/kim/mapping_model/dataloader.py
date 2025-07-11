@@ -12,7 +12,8 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import jax
 import jax.numpy as jnp
-from jaxlib.xla_extension import Device
+# from jaxlib.xla_extension import Device
+from jax import Device
 from jaxtyping import Array
 
 
