@@ -13,35 +13,68 @@ from .utils import get_scaler
 
 from jaxtyping import Array
 
+    # Attributes
+    # ----------
+    # xdata (array-like): the copy of xdata
+    # ydata (array-like): the copy of ydata
+    # Ns (int): the number of samples
+    # Nx (int): the number of predictors
+    # Ny (int): the number of predictands
+    # xscaler_type (str): the type of xdata scaler, either 'minmax', 'normalize', 'standard', or 'log'
+    # yscaler_type (str): the type of ydata scaler, either 'minmax', 'normalize', 'standard', or 'log'
+    # xscaler (str): the xdata scaler
+    # yscaler (str): the ydata scaler
+    # sensitivity_config (dict): the sensitivity analysis configuration
+    # sensitivity_done (bool): whether the sensitivity analysis is performed
+    # sensitivity (array-like): the calculated sensitivity with shape (Nx, Ny)
+    # sensitivity_mask (array-like): the calculated sensitivity mask with shape (Nx, Ny)
+    # cond_sensitivity_mask (array-like): the calculated conditional sensitivity mask with shape (Nx, Ny)
 
 class Data(object):
-    """Data object.
-
-    Arguments:
-    ----------
-    xdata (array-like): the predictors with shape (Ns, Nx)
-    ydata (array-like): the predictands with shape (Ns, Ny)
+    """The Data object.
 
     Attributes
     ----------
-    self.xdata (array-like): the copy of xdata
-    self.ydata (array-like): the copy of ydata
-    self.Ns (int): the number of samples
-    self.Nx (int): the number of predictors
-    self.Ny (int): the number of predictands
-    self.xscaler_type (str): the type of xdata scaler, either 'minmax', 'normalize', 'standard', or 'log'
-    self.yscaler_type (str): the type of ydata scaler, either 'minmax', 'normalize', 'standard', or 'log'
-    self.xscaler (str): the xdata scaler
-    self.yscaler (str): the ydata scaler
-    self.sensitivity_config (dict): the sensitivity analysis configuration
-    self.sensitivity_done (bool): whether the sensitivity analysis is performed
-    self.sensitivity (array-like): the calculated sensitivity with shape (Nx, Ny)
-    self.sensitivity_mask (array-like): the calculated sensitivity mask with shape (Nx, Ny)
-    self.cond_sensitivity_mask (array-like): the calculated conditional sensitivity mask with shape (Nx, Ny)
+    xdata : array-like
+        the copy of xdata
+    ydata : array-like
+        the copy of ydata
+    Ns : int
+        the number of samples
+    Nx : int
+        the number of predictors
+    Ny : int
+        the number of predictands
+    xscaler_type : str
+        the type of xdata scaler, either 'minmax', 'normalize', 'standard', or 'log'
+    yscaler_type : str
+        the type of ydata scaler, either 'minmax', 'normalize', 'standard', or 'log'
+    xscaler : str
+        the xdata scaler
+    yscaler : str
+        the ydata scaler
+    sensitivity_config : dict
+        the sensitivity analysis configuration
+    sensitivity_done : bool
+        whether the sensitivity analysis is performed
+    sensitivity : array-like
+        the calculated sensitivity with shape (Nx, Ny)
+    sensitivity_mask : array-like
+        the calculated sensitivity mask with shape (Nx, Ny)
+    cond_sensitivity_mask : array-like
+        the calculated conditional sensitivity mask with shape (Nx, Ny)
 
     """
 
     def __init__(self, xdata: Array, ydata: Array, xscaler_type: str='', yscaler_type: str=''):
+        """Initialization function.
+
+        Args:
+            xdata (array-like): the predictors with shape (Ns, Nx)
+            ydata (array-like): the predictands with shape (Ns, Ny)
+            xscaler_type (str): the type of xdata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
+            yscaler_type (str): the type of ydata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
+        """
         # Data array
         self.xdata = xdata
         self.ydata = ydata
@@ -84,18 +117,19 @@ class Data(object):
         bins: int=10, k: int=5, n_jobs=-1, seed_shuffle: int=1234,
         verbose: int=0
     ):
-        """Calculate the sensitivity between xdata and ydata.
-
+        """Calculate the sensitivity between `self.xdata` and `self.ydata` using either `pairwise_analysis` or `pc` method.
+           The results are updated in `self.sensitivity_done`, `self.sensitivity`, `self.sensitivity_mask`, and `self.cond_sensitivity_mask`.
+        
         Args:
             method (str): The sensitivity methods, including:
-                "gsa": the pairwise global sensitivity analysis
-                "pc": a modified PC algorithm that include conditional indendpence test after gsa
-                Defaults to 'mi-bins'.
+                `gsa`: the pairwise global sensitivity analysis
+                `pc`: a modified PC algorithm that include conditional indendpence test after gsa
+                Defaults to `gsa`.
             metric (str): The metric calculating the sensitivity, including:
-                "it-bins": the information-theoretic measures (MI and CMI) using binning approach
-                "it-knn": the information-theoretic measures (MI and CMI) using knn approach
-                "corr": the correlation coefficient
-                Defaults to 'corr'.
+                `it-bins`: the information-theoretic measures (MI and CMI) using binning approach
+                `it-knn`: the information-theoretic measures (MI and CMI) using knn approach
+                `corr`: the correlation coefficient
+                Defaults to `corr`.
             sst (bool): whether to perform statistical significance test. Defaults to False.
             ntest (int): number of shuffled samples in sst. Defaults to 100.
             alpha (float): the significance level. Defaults to 0.05.
@@ -133,10 +167,20 @@ class Data(object):
     
     @property
     def xdata_scaled(self):
+        """Perform normalization on `self.xdata` based on the given normalization type `self.xscaler_type`.
+        
+        Returns:
+            array-like: the scaled `self.xdata`
+        """
         return self.xscaler.transform(self.xdata)
 
     @property
     def ydata_scaled(self):
+        """Perform normalization on `self.ydata` based on the given normalization type `self.yscaler_type`.
+
+        Returns:
+            array-like: the scaled `self.ydata`
+        """
         return self.yscaler.transform(self.ydata)
     
     def save(self, rootpath: PosixPath=Path("./")):

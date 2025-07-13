@@ -1,5 +1,5 @@
-"""Pairwise analysis using either mutual information or correlation coefficient"""
-
+# Pairwise analysis using either mutual information or correlation coefficient
+#
 # Author: Peishi Jiang <shixijps@gmail.com>
 
 import numpy as np
@@ -15,7 +15,7 @@ def pairwise_analysis(
     xdata: Array, ydata: Array, metric_calculator: MetricBase, sst: bool=False, 
     ntest: int=100, alpha: float=0.05, n_jobs: int=-1, seed_shuffle: int=1234, verbose: int=0
 ):
-    """Perform the pairwise analysis.
+    """Perform the pairwise analysis using either mutual information or correlation coefficient.
 
     Args:
         xdata (array-like): the predictors with shape (Ns, Nx)
@@ -29,7 +29,7 @@ def pairwise_analysis(
         verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
 
     Returns:
-        (array, array): the sensitivity result
+        (array, array): the sensitivity, the sensitivity mask
     """
     # Data dimensions
     assert xdata.shape[0] == ydata.shape[0], \

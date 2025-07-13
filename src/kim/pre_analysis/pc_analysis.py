@@ -1,5 +1,5 @@
-"""The PC algorithm suited to the X --> Y mapping problem."""
-
+# The PC algorithm suited to the X --> Y mapping problem.
+#
 # Author: Peishi Jiang <shixijps@gmail.com>
 
 import numpy as np
@@ -30,7 +30,7 @@ def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_ca
         verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
 
     Returns:
-        (array, array, array): the sensitivity result
+        (array, array, array): the sensitivity, the sensitivity mask, the conditional sensitivity mask
     """
 
     # Data dimensions
