@@ -249,9 +249,10 @@ class KIM(object):
             'test': np.mean(np.abs(y_true_test-y_mw_test), axis=0)
         }
         wrelauncert = {
-            'train': np.mean(y_stdw_train/y_true_train, axis=0), 
-            'val': np.mean(y_stdw_val/y_true_val, axis=0),
-            'test': np.mean(y_stdw_test/y_true_test, axis=0)
+            'train': np.mean(y_stdw_train/np.abs(y_true_train), axis=0), 
+            'val': np.mean(y_stdw_val/np.abs(y_true_val), axis=0),
+            'test': np.mean(y_stdw_test/np.abs(y_true_test), axis=0)
+            # 'test': np.mean(y_stdw_test, axis=0)
         }
 
         return {
