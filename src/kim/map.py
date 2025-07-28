@@ -27,37 +27,50 @@ from jaxtyping import Array
 
 # TODO: Need a great way to pass the computational device
 
+    # Attributes:
+    # ----------
+    # data (Data) : argument copy
+    # map_configs (dict) : argument copy
+    # map_option (str) : argument copy
+    # mask_option (str) : argument copy
+    # trained (bool) : whether KIM has been trained
+    # loaded_from_other_sources (bool) : whether KIM is loaded from other sources.
+    # Ns (int) : the number of ensemble members (from data.Ns)
+    # Nx (int) : the number of input features (from data.Nx)
+    # Ny (int) : the number of output features (from data.Ny)
+    # mask (Array) : the masked array with shape (Nx, Ny)
+    # _n_maps (int) : the number of maps
+    # _maps (int) : the trained maps
 
 class KIM(object):
     """The class for knowledge-informed mapping training, prediction, saving and loading.
 
-    Arguments:
-    ----------
-    data (Data): the Data object containing the ensemble data and sensitivity analysis result.
-    map_configs (dict): the mapping configuration, including all the arguments of Map class except x and y.
-    mask_option (str): the masking option including 
-                      - "sensitivity" (using data.sensitivity_mask), and 
-                      - "cond_sensitivity" (using data.cond_sensitivity_mask).
-    map_option (str): the map option including
-                      - "many2one": knowledge-informed mapping using sensitivity analysis result as filter, and
-                      - "many2many": normal mapping without being knowledge-informed
-    other_mask (List): the additional mask to be assigned to self.mask with size Nx. Default to None.
-    name (str): the name of the KIM object
-
     Attributes:
     ----------
-    self.data (Data) : argument copy
-    self.map_configs (dict) : argument copy
-    self.map_option (str) : argument copy
-    self.mask_option (str) : argument copy
-    self.trained (bool) : whether KIM has been trained
-    self.loaded_from_other_sources (bool) : whether KIM is loaded from other sources.
-    self.Ns (int) : the number of ensemble members (from data.Ns)
-    self.Nx (int) : the number of input features (from data.Nx)
-    self.Ny (int) : the number of output features (from data.Ny)
-    self.mask (Array) : the masked array with shape (Nx, Ny)
-    self._n_maps (int) : the number of maps
-    self._maps (int) : the trained maps
+    data : Data
+        the copy of the __init__ argument
+    map_configs : dict
+        the copy of the __init__ argument
+    map_option : str
+        the copy of the __init__ argument
+    mask_option : str
+        the copy of the __init__ argument
+    trained : bool
+        whether KIM has been trained
+    loaded_from_other_sources : bool
+        whether KIM is loaded from other sources.
+    Ns : int
+        the number of ensemble members (from data.Ns)
+    Nx : int
+        the number of input features (from data.Nx)
+    Ny : int
+        the number of output features (from data.Ny)
+    mask : Array
+        the masked array with shape (Nx, Ny)
+    _n_maps : int
+        the number of maps
+    _maps : int
+        the trained maps
 
     """
 
@@ -68,6 +81,16 @@ class KIM(object):
         other_mask: Optional[Array]=None,
         name: str='kim'
     ):
+        """Initialization function.
+
+        Args:
+            data (Data): the Data object containing the ensemble data and sensitivity analysis result.
+            map_configs (dict): the mapping configuration, including all the arguments of Map class except x and y.
+            mask_option (str): the masking option including "sensitivity" (using data.sensitivity_mask), and "cond_sensitivity" (using data.cond_sensitivity_mask).
+            map_option (str): the map option including "many2one": knowledge-informed mapping using sensitivity analysis result as filter, and "many2many": normal mapping without being knowledge-informed
+            other_mask (List): the additional mask to be assigned to self.mask with size Nx. Default to None.
+            name (str): the name of the KIM object
+        """
         self.name = name
         # Check whether sensitivity has been performed in Data
         if not data.sensitivity_done and map_option == "many2one":
@@ -423,74 +446,64 @@ class KIM(object):
 
 
 class Map(object):
-    """The class for one mapping training, prediction, saving and loading.
-       Ensemble training is supported through either serial or parallel way,
-       using joblib.
+    """The class for one mapping training, prediction, saving and loading. Ensemble training is supported through either serial or parallel way, using joblib.
        
-
-    Arguments:
-    ----------
-    x (array-like): the predictors with shape (Ns, Nx)
-    y (array-like): the predictands with shape (Ns, Ny)
-    model_type (type): the equinox model class
-    n_model (int): the number of ensemble models
-    ensemble_type (str): the ensemble type, either 'single', 'serial' or 'parallel'.
-    model_hp_choices (dict): the tunable model hyperparameters, in dictionary format 
-        {key: [value1, value2,...]}. The model hyperparameters must follow the arguments
-        of the specified model_type
-    model_hp_fixed (dict): the fixed model hyperparameters, in dictionary format 
-        {key: value}. The model hyperparameters must follow the arguments
-        of the specified model_type
-    optax_hp_choices (dict): the tunable optimizer hyperparameters, in dictionary format 
-        {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments
-        of the specified optax optimizer. Key hyperparameters: 
-        'optimizer_type' (str), 'nsteps' (int), and 'loss_func' (callable)
-    optax_hp_fixed (dict): the fixed optimizer hyperparameters, in dictionary format 
-        {key: value}. The optimizer hyperparameters must follow the arguments
-        of the specified model_type. Key hyperparameters: 
-        'optimizer_type' (str), 'nsteps' (int), and 'loss_func' (callable)
-    dl_hp_choices (dict): the tunable dataloader hyperparameters, in dictionary format 
-        {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments
-        of make_big_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int)
-    dl_hp_fixed (dict): the fixed dataloader hyperparameters, in dictionary format 
-        {key: value}. The optimizer hyperparameters must follow the arguments
-        of make_big_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int
-    training_parallel (bool): whether to perform parallel training
-    ens_seed (Optional[int], optional): the random seed for generating ensemble configurations.
-    parallel_config (Optional[dict], optional): the parallel training configurations following
-        the arguments of joblib.Parallel
-    device (Optional[Device], optional): the computing device to be set
-
-
     Attributes
     ----------
-    self.x (array_like): argument copy
-    self.y (array_like): argument copy
-    self.n_model (int): argument copy
-    self.training_parallel (bool) : argument copy
-    self.model_type (type): argument copy
-    self.ensemble_type (str): argument copy
-    self.model_hp_choices (dict): argument copy
-    self.model_hp_fixed (dict): argument copy
-    self.optax_hp_choices (dict):argument copy
-    self.optax_hp_fixed (dict): argument copy
-    self.dl_hp_choices (dict): argument copy
-    self.dl_hp_fixed (dict): argument copy
-    self.training_parallel (bool): argument copy
-    self.ens_seed (Optional[int], optional): argument copy
-    self.parallel_config (Optional[dict], optional): argument copy
-    self.device (Optional[Device], optional): argument copy
-    self.trained (bool) : whether the mapping has been trained
-    self.loaded_from_other_sources (bool) : whether the mapping is loaded from other sources.
-    self.Ns (int): number of samples
-    self.Nx (int): number of input features
-    self.Ny (int): number of output features
-    self.model_configs (list): model hyperparameters for all ensemble models
-    self.optax_configs (list): optimizer hyperparameters for all ensemble models
-    self.dl_configs (list): dataloader hyperparameters for all ensemble models
-    self.model_ens (list): list of trained model ensemble
-    self.loss_train_ens (list): list of the training losses over steps
-    self.loss_val_ens (list): list of the val losses over steps
+    x : array_like
+        the copy of the __init__ argument
+    y : array_like
+        the copy of the __init__ argument
+    n_model : int
+        the copy of the __init__ argument
+    training_parallel : bool
+        the copy of the __init__ argument
+    model_type : type
+        the copy of the __init__ argument
+    ensemble_type : str
+        the copy of the __init__ argument
+    model_hp_choices : dict
+        the copy of the __init__ argument
+    model_hp_fixed : dict
+        the copy of the __init__ argument
+    optax_hp_choices : dict
+        the copy of the __init__ argument
+    optax_hp_fixed : dict
+        the copy of the __init__ argument
+    dl_hp_choices : dict
+        the copy of the __init__ argument
+    dl_hp_fixed : dict
+        the copy of the __init__ argument
+    training_parallel : bool
+        the copy of the __init__ argument
+    ens_seed : Optional[int], optional)
+        the copy of the __init__ argument
+    parallel_config : Optional[dict], optional)
+        the copy of the __init__ argument
+    device : Optional[Device], optional
+        the copy of the __init__ argument
+    trained : bool
+        whether the mapping has been trained
+    loaded_from_other_sources : bool
+        whether the mapping is loaded from other sources.
+    Ns : int
+        number of samples
+    Nx : int
+        number of input features
+    Ny : int
+        number of output features
+    model_configs : list
+        model hyperparameters for all ensemble models
+    optax_configs : list
+        optimizer hyperparameters for all ensemble models
+    dl_configs : list
+        dataloader hyperparameters for all ensemble models
+    model_ens : list
+        list of trained model ensemble
+    loss_train_ens : list
+        list of the training losses over steps
+    loss_val_ens : list
+        list of the val losses over steps
 
     """
 
@@ -505,6 +518,25 @@ class Map(object):
         parallel_config: Optional[dict]=None,
         device: Optional[Device]=None
     ):
+        """Initialization function.
+
+        Args:
+            x (array-like): the predictors with shape (Ns, Nx)
+            y (array-like): the predictands with shape (Ns, Ny)
+            model_type (type): the equinox model class
+            n_model (int): the number of ensemble models
+            ensemble_type (str): the ensemble type, either 'single', 'serial' or 'parallel'.
+            model_hp_choices (dict): the tunable model hyperparameters, in dictionary format {key: [value1, value2,...]}. The model hyperparameters must follow the arguments of the specified model_type
+            model_hp_fixed (dict): the fixed model hyperparameters, in dictionary format {key: value}. The model hyperparameters must follow the arguments of the specified model_type
+            optax_hp_choices (dict): the tunable optimizer hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of the specified optax optimizer. Key hyperparameters: 'optimizer_type' (str), 'nsteps' (int), and 'loss_func' (callable)
+            optax_hp_fixed (dict): the fixed optimizer hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of the specified model_type. Key hyperparameters: 'optimizer_type' (str), 'nsteps' (int), and 'loss_func' (callable)
+            dl_hp_choices (dict): the tunable dataloader hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int) 
+            dl_hp_fixed (dict): the fixed dataloader hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int
+            training_parallel (bool): whether to perform parallel training
+            ens_seed (Optional[int], optional): the random seed for generating ensemble configurations.
+            parallel_config (Optional[dict], optional): the parallel training configurations following the arguments of joblib.Parallel
+            device (Optional[Device], optional): the computing device to be set
+        """
         # TODO: Need a great way to pass the computational device
         # somehow coupled to the parallel training
         # for now, the parallel training uses joblib through multiple CPUs
