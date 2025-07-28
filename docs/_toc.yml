@@ -9,6 +9,7 @@ parts:
   chapters:
   - file: installation
   - file: math
+  - file: examples/examples
 
 - caption: User guide
   chapters:
@@ -16,7 +17,6 @@ parts:
   - file: run_map
   - file: postprocess
   - file: configs
-  - file: examples/examples
 
 - caption: API and references
   chapters:
