@@ -41,13 +41,11 @@ KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the developmen
 Please refer to [the Approach](./doc/math.md) for a complete description of the mathematical method.
 
 ## Examples
-We provide three cases of applying KIM to performing inverse and forward modeling by using Jupyter notebook to illustrate the package usage
+We provide two cases of applying KIM to performing inverse modeling by using Jupyter notebook to illustrate the package usage.
 
 **Case 1: [Calibrating a cloud chamber model](./examples/im_cloudmodel/).** We develop inverse mappings to estimate two key parameters, i.e., wall fluxes ($\lambda_w$) and collision processes ($\lambda_c$) of a cloud chamber model from synthetic observations.
 
 **Case 2: [Calibrating an integrated hydrological model](./examples/im_ats/).** We develop inverse mappings to estimate eight parameters of the Advanced Terrestrial Simulator (ATS) from the streamflow observations at the outlet of Coal Creek watershed, CO, USA.
-
-**Case 3: [Developing emulator for surface heat fluxes from eddy covariance observations](./examples/fm_evapotranspiration/).** We developes a forward mapping to emulate the surface heat fluxes by using the atmospheric forcings and environmental states. The data are collected through an integrated flux tower system located at US-Bi1 -- an agricultural land on Bouldin island of the San Joaquin Sacramento Delta region.
 
 ## Documentation
 

@@ -8,7 +8,7 @@ shopt -s nullglob
 SRC_DIR="../../../examples"
 DEST_DIR="."
 
-EXAMPLES=(im_cloudmodel im_ats fm_evapotranspiration)
+EXAMPLES=(im_cloudmodel im_ats)
 
 for ex in "${EXAMPLES[@]}"; do
     dest="$DEST_DIR/$ex"

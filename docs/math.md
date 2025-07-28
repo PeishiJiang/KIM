@@ -31,7 +31,7 @@ When evaluating the estimation on the test dataset, we further quantified the bi
 $$
 \begin{align}
     \text{Bias} &= E(|\mu_w - y|) \notag\\
-    \text{Uncertainty} &= E(\sigma_w / y) \notag,
+    \text{Uncertainty} &= E(\sigma_w / |y|) \notag,
 \end{align}
 $$
 
