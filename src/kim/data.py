@@ -121,7 +121,7 @@ class Data(object):
            The results are updated in `self.sensitivity_done`, `self.sensitivity`, `self.sensitivity_mask`, and `self.cond_sensitivity_mask`.
         
         Args:
-            method (str): The sensitivity methods, including:
+            method (str): The preliminary analysis method, including:
                 `gsa`: the pairwise global sensitivity analysis
                 `pc`: a modified PC algorithm that include conditional indendpence test after gsa
                 Defaults to `gsa`.
@@ -130,13 +130,14 @@ class Data(object):
                 `it-knn`: the information-theoretic measures (MI and CMI) using knn approach
                 `corr`: the correlation coefficient
                 Defaults to `corr`.
-            sst (bool): whether to perform statistical significance test. Defaults to False.
-            ntest (int): number of shuffled samples in sst. Defaults to 100.
-            alpha (float): the significance level. Defaults to 0.05.
-            bins (int): the number of bins for each dimension when metric == "it-knn". Defaults to 10.
-            k (int): the number of nearest neighbors when metric == "it-knn". Defaults to 5.
-            seed_shuffle (int): the random seed number for doing shuffle test. Defaults to 5.
-            verbose (int): the verbosity level (0: normal, 1: debug). Defaults to 0.
+            sst (bool): Whether to perform the statistical significance test or the shuffle test. Defaults to False.
+            ntest (int): The number of shuffled samples in sst. Defaults to 100.
+            alpha (float): The significance level. Defaults to 0.05.
+            bins (int): The number of bins for each dimension when metric == "it-bins". Defaults to 10.
+            k (int): The number of nearest neighbors when metric == "it-knn". Defaults to 5.
+            n_jobs (int): The number of processers/threads used by joblib.Parallel. Defaults to -1.
+            seed_shuffle (int): The random seed number for doing shuffle test. Defaults to 5.
+            verbose (int): The verbosity level (0: normal, 1: debug). Defaults to 0.
         """
         sensitivity_config = self.sensitivity_config
         # xdata, ydata = self.xdata, self.ydata

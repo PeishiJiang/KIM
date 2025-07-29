@@ -1,35 +1,45 @@
 # Configuring KIM
 
 **TBD**
+The configurations are written in Python dictionary and passed into the related Python class.
 
 ## Configuring data class
+Below are the parameters used to configure and initialize the `Data` class:
 ```python
 data_params = {
     "xscaler_type": "minmax",  # scaler for the x (input) data
     "yscaler_type": "minmax",  # scaler for the y (output) data
 }
 ```
-- `"xscaler_type"`:
-- `"yscaler_type"`:
+- `"xscaler_type"` **(str, default='')**: The type of x data scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
+- `"yscaler_type"` **(str, default='')**: The type of y data scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
 
 
 ## Configuring preliminary analysis
+Below are the parameters to configure the preliminary analysis and passed into `Data.calculate_sensitivity` method.
 ```python
 sensitivity_params = {
     "method": "pc", "metric": "it-knn",
-    "sst": True, "ntest": 100, "alpha": 0.05, "k": 3,
+    "sst": True, "ntest": 100, "alpha": 0.05, "bins":10, "k": 3,
     "n_jobs": 100, "seed_shuffle": 1234,
     "verbose": 1
 }
 ```
-- `"method"`:
-- `"metric"`:
-- `"sst"`:
-- `"ntest"`:
-- `"alpha"`:
-- `"n_jobs"`:
-- `"seed_shuffle"`:
-- `"verbose"`:
+- `"method"` **(str, default='gsa')**: The preliminary analysis method, including:
+    - `gsa`: the pairwise global sensitivity analysis;
+    - `pc`: a modified PC algorithm that include conditional indendpence test for redundancy check/filtering after gsa
+- `"metric"` **(str, default='it-bins')**: The metric calculating the sensitivity, including:
+    - `it-bins`: the information-theoretic measures (MI and CMI) using the binning approach
+    - `it-knn`: the information-theoretic measures (MI and CMI) using the k-nearest-neighbor approach
+    - `corr`: the correlation coefficient
+- `"sst"` **(bool, default=False)**: Whether to perform the statistical significance test or the shuffle test
+- `"ntest"` **(int, default=100)**: The number of shuffled samples in sst
+- `"alpha"` **(float, default=0.05)**: The significance level used in the shuffle test
+- `"bins"` **(int, default=10)**: The number of bins for each dimension when `"metric"` == "it-bins"
+- `"k"` **(int, default=3)**: The number of nearest neighbors when `"metric"` == "it-knn"
+- `"n_jobs"` **(int, default=-1)**: The number of processers/threads used by `joblib.Parallel`
+- `"seed_shuffle"` **(int, default=1234)**: The random seed number for doing shuffle test
+- `"verbose"` **(int, default=0)**: The verbosity level (0: normal, 1: debug)
 
 
 ## Configuring ensemble learning
