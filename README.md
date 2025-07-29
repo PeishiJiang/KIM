@@ -1,5 +1,7 @@
 # Knowledge-Informed Mapping (KIM) Toolkit
 
+![](./docs/figures/Figure-KIM.png){ width=80% }
+
 ## Table of Contents
 - [Overview](#overview)
 - [Installation](#installation)
