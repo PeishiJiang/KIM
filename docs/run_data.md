@@ -2,6 +2,29 @@
 
 We first perform the preliminary data analysis. Depending on the configurations, this procedure potentially involves the following two steps: (1) a global sensitivity analysis and (2) redundancy check using conditional mutual information.
 
+# Consider a multivariate model
+## Model Overview
+
+Let the input vector be:  
+**x** = [x₁, x₂, x₃, x₄]
+
+Let the output vector be:  
+**y** = [y₁, y₂, y₃]
+
+The model is defined as:
+
+- y₁ = sin(x₁) + log(1 + x₂²)  
+- y₂ = exp(−x₃) + 0.5 · x₁²  
+- y₃ = x₄ / (1 + x₂²) + tanh(x₃)
+
+## Dependencies
+
+- **y₁** depends on **x₁** and **x₂** only  
+- **y₂** depends on **x₁** and **x₃** only  
+- **y₃** depends on **x₂**, **x₃**, and **x₄**
+
+Thus, not all inputs are important for all outputs — this creates a **sparse input-output dependency structure**.
+
 ## Preparing the inputs and outputs
 **TBD**
 
