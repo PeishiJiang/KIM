@@ -7,7 +7,11 @@ Striving for scientific hypothesis testing and discovery, Earth scientists often
 
 Nevertheless, constructing the mapping $ƒ$ that connects all inputs $\mathbf{X}$ to all outputs $\mathbf{Y}$ is usually challenging due to (1) limited data/simulations for training; (2) uninformative relations between some members of $\mathbf{X}$ and $\mathbf{Y}$; and (3) the structural uncertainty of $ƒ$. To that, {cite:t}`Jiang:2023` and {cite:t}`Wang:2025` leveraged the idea of integrating scientific knowledge with deep learning {cite:t}`Willard:2022` to develop knowledge-informed mapping (KIM) by using (1) information theory to uncover the dependencies between $\mathbf{X}$ and $\mathbf{Y}$ that guides the design of $f$ and (2) ensemble learning to account for uncertainty due to the model structure error of $f$. The goal of this package is to open source such an easy-to-use tool.
 
-![Comparison between KIM and the original mapping.\label{fig:kim}](../docs/figures/Figure-KIM.png){ width=80% }
+<!-- ![Comparison between KIM and the original mapping.\label{fig:kim}](../docs/figures/Figure-KIM.png){ width=80% } -->
+<figure>
+  <img src="../docs/figures/Figure-KIM.png" alt="">
+  <figcaption><strong>Figure 1.</strong> Comparison between KIM and the original mapping.</figcaption>
+</figure>
 
 ```{tableofcontents}
 ```

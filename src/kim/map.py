@@ -87,7 +87,7 @@ class KIM(object):
             data (Data): the Data object containing the ensemble data and sensitivity analysis result.
             map_configs (dict): the mapping configuration, including all the arguments of Map class except x and y.
             mask_option (str): the masking option including "sensitivity" (using data.sensitivity_mask), and "cond_sensitivity" (using data.cond_sensitivity_mask).
-            map_option (str): the map option including "many2one": knowledge-informed mapping using sensitivity analysis result as filter, and "many2many": normal mapping without being knowledge-informed
+            map_option (str): the map option including "many2one": knowledge-informed mapping using preliminary analysis result as filter, and "many2many": the original mapping without being knowledge-informed
             other_mask (List): the additional mask to be assigned to self.mask with size Nx. Default to None.
             name (str): the name of the KIM object
         """
@@ -509,12 +509,12 @@ class Map(object):
 
     def __init__(
         self, x: Array, y: Array, model_type: type=MLP, 
-        n_model: int=0, ensemble_type: str='single',
+        n_model: int=1, ensemble_type: str='single',
         model_hp_choices: dict={}, model_hp_fixed: dict={}, 
         optax_hp_choices: dict={}, optax_hp_fixed: dict={},
         dl_hp_choices: dict={}, dl_hp_fixed: dict={},
         training_parallel: bool=True,
-        ens_seed: Optional[int]=None,
+        ens_seed: int=100,
         parallel_config: Optional[dict]=None,
         device: Optional[Device]=None
     ):
@@ -525,15 +525,15 @@ class Map(object):
             y (array-like): the predictands with shape (Ns, Ny)
             model_type (type): the equinox model class
             n_model (int): the number of ensemble models
-            ensemble_type (str): the ensemble type, either 'single', 'serial' or 'parallel'.
+            ensemble_type (str): the ensemble type, either 'single', 'ens_random' or 'ens_grid'.
             model_hp_choices (dict): the tunable model hyperparameters, in dictionary format {key: [value1, value2,...]}. The model hyperparameters must follow the arguments of the specified model_type
             model_hp_fixed (dict): the fixed model hyperparameters, in dictionary format {key: value}. The model hyperparameters must follow the arguments of the specified model_type
             optax_hp_choices (dict): the tunable optimizer hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of the specified optax optimizer. Key hyperparameters: 'optimizer_type' (str), 'nsteps' (int), and 'loss_func' (callable)
             optax_hp_fixed (dict): the fixed optimizer hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of the specified model_type. Key hyperparameters: 'optimizer_type' (str), 'nsteps' (int), and 'loss_func' (callable)
-            dl_hp_choices (dict): the tunable dataloader hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int) 
-            dl_hp_fixed (dict): the fixed dataloader hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int
+            dl_hp_choices (dict): the tunable dataloader hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of make_pytorch_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int) 
+            dl_hp_fixed (dict): the fixed dataloader hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of make_pytorch_data_loader. Key hyperparameters: 'batch_size' (int) and 'num_train_sample' (int)
             training_parallel (bool): whether to perform parallel training
-            ens_seed (Optional[int], optional): the random seed for generating ensemble configurations.
+            ens_seed (int): the random seed for generating ensemble configurations.
             parallel_config (Optional[dict], optional): the parallel training configurations following the arguments of joblib.Parallel
             device (Optional[Device], optional): the computing device to be set
         """
