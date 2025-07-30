@@ -2,18 +2,19 @@
 
 ## Loading the results
 ```python
+from pathlib import Path
 from kim.map import KIM
 from kim.data import Data
 
 # Load the preliminary analysis result
-f_data = './examples/tutorial/data'
+f_data = Path('./examples/tutorial/data')
 data = Data(None, None)
 data.load(f_data, check_xy=False)
 
 # Load the ensemble learning result
-f_kim = './examples/tutorial/kim'
+f_kim = Path('./examples/tutorial/kim')
 kim = KIM(data, map_configs={}, mask_option="cond_sensitivity", map_option='many2one')
-kim.load(f_kim_save)
+kim.load(f_kim)
 
 # Calculate the training performances on the test dataset
 results = kim.evaluate_maps_on_givendata()
@@ -23,6 +24,7 @@ results = kim.evaluate_maps_on_givendata()
 ## Plotting the preliminary analysis results
 ```python
 from kim.utils import plot_sensitivity
+import matplotlib.pyplot as plt
 # Global sensitivity analysis
 fig, ax = plt.subplots(1, 1, figsize=(8, 4))
 plot_sensitivity(data.sensitivity.T)
@@ -34,8 +36,8 @@ ax.set(title='Gloabal sensitivity using mutual information', xlabel='X', ylabel=
 from kim.utils import plot_sensitivity_mask
 # Global sensitivity + redundancy filtering check
 fig, ax = plt.subplots(1, 1, figsize=(8, 4))
-plot_sensitivity_mask(data.cond_sensitivity_mask.T, ylabels=x_vars, xlabels=y_vars)
-ax.set(title='Global sensitivity + Redundancy filtering mask')
+plot_sensitivity_mask(data.cond_sensitivity_mask.T)
+ax.set(title='Global sensitivity + Redundancy filtering mask', xlabel='X', ylabel='Y');
 
 ```
 

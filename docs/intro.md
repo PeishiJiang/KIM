@@ -9,7 +9,7 @@ Nevertheless, constructing the mapping $ƒ$ that connects all inputs $\mathbf{X}
 
 <!-- ![Comparison between KIM and the original mapping.\label{fig:kim}](../docs/figures/Figure-KIM.png){ width=80% } -->
 <figure>
-  <img src="../docs/figures/Figure-KIM.png" alt="">
+  <img src="./figures/Figure-KIM.png" alt="">
   <figcaption><strong>Figure 1.</strong> Comparison between KIM and the original mapping.</figcaption>
 </figure>
 

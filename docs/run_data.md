@@ -35,7 +35,7 @@ data_params = {
 sensitivity_params = {
     "method": "pc", "metric": "it-knn",
     "sst": True, "ntest": 100, "alpha": 0.05, "k": 3,
-    "n_jobs": 100, "seed_shuffle": 1234,
+    "n_jobs": 4, "seed_shuffle": 1234,
     "verbose": 1
 }
 ```
@@ -52,7 +52,8 @@ data.calculate_sensitivity(**sensitivity_params)
 ## Save the results
 
 ```python
-f_data_save = './examples/tutorial/data'
+from pathlib import Path
+f_data_save = Path('./examples/tutorial/data')
 data.save(f_data_save)
 ```
 

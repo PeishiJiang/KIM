@@ -8,6 +8,8 @@ import json
 import pickle
 from pathlib import Path, PosixPath
 
+from typing import Optional
+
 from .pre_analysis import analyze_interdependency
 from .utils import get_scaler
 
@@ -66,49 +68,59 @@ class Data(object):
 
     """
 
-    def __init__(self, xdata: Array, ydata: Array, xscaler_type: str='', yscaler_type: str=''):
+    def __init__(self, xdata: Optional[Array]=None, ydata: Optional[Array]=None, 
+                 fdata: Optional[PosixPath]=None, xscaler_type: str='', yscaler_type: str=''):
         """Initialization function.
 
         Args:
             xdata (array-like): the predictors with shape (Ns, Nx)
+            fdata (PosixPath): the root path where an existing data instance will be loaded
             ydata (array-like): the predictands with shape (Ns, Ny)
             xscaler_type (str): the type of xdata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
             yscaler_type (str): the type of ydata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
         """
-        # Data array
-        self.xdata = xdata
-        self.ydata = ydata
+        if fdata is not None:
+           self.sensitivity_done = True
+           self.load(fdata, check_xy=False, overwrite=True) 
+        
+        elif xdata is None or ydata is None:
+            raise Exception("xdata and ydata are not given!")
+        
+        else:
+            # Data array
+            self.xdata = xdata
+            self.ydata = ydata
 
-        # Data dimensions
-        assert xdata.shape[0] == ydata.shape[0], \
-            "xdata and ydata must be the same number of samples"
-        self.Ns = xdata.shape[0]
-        self.Nx = xdata.shape[1]
-        self.Ny = ydata.shape[1]
+            # Data dimensions
+            assert xdata.shape[0] == ydata.shape[0], \
+                "xdata and ydata must be the same number of samples"
+            self.Ns = xdata.shape[0]
+            self.Nx = xdata.shape[1]
+            self.Ny = ydata.shape[1]
 
-        # Create the transformer of the data
-        self.xscaler_type = xscaler_type.lower()
-        self.yscaler_type = yscaler_type.lower()
-        self.xscaler = get_scaler(self.xdata, self.xscaler_type)
-        self.yscaler = get_scaler(self.ydata, self.yscaler_type)
+            # Create the transformer of the data
+            self.xscaler_type = xscaler_type.lower()
+            self.yscaler_type = yscaler_type.lower()
+            self.xscaler = get_scaler(self.xdata, self.xscaler_type)
+            self.yscaler = get_scaler(self.ydata, self.yscaler_type)
 
-        # Data sensitivity
-        self.sensitivity_config = {
-            "method": None,
-            "metric": None,
-            "sst": None,
-            "ntest": None,
-            "alpha": None,
-            "bins": None,
-            "k": None,
-            "n_jobs": None,
-            "seed_shuffle": None,
-        }
-        self.sensitivity = np.zeros([self.Nx, self.Ny])
-        self.sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
-        self.cond_sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
-        self.sensitivity_done = False
-        self.loaded_from_other_sources = False
+            # Data sensitivity
+            self.sensitivity_config = {
+                "method": None,
+                "metric": None,
+                "sst": None,
+                "ntest": None,
+                "alpha": None,
+                "bins": None,
+                "k": None,
+                "n_jobs": None,
+                "seed_shuffle": None,
+            }
+            self.sensitivity = np.zeros([self.Nx, self.Ny])
+            self.sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
+            self.cond_sensitivity_mask = np.zeros([self.Nx, self.Ny], dtype='bool')
+            self.sensitivity_done = False
+            self.loaded_from_other_sources = False
     
 
     def calculate_sensitivity(

@@ -42,7 +42,7 @@ map_configs = {
     'ens_seed': 1024,
     'training_parallel': True,
     'parallel_config': {
-        'n_jobs': 2, 
+        'n_jobs': 4, 
         'backend': 'loky',
         'verbose': 1
     },
@@ -54,13 +54,15 @@ map_configs = {
 
 ```python
 kim_map = KIM(data, map_configs, mask_option="cond_sensitivity", map_option='many2one')
+kim_map.train()
 ```
 
 
 ## Save the training results
 
 ```python
-f_kim = './examples/tutorial/kim'
-kim1.save(f_kim)
+from pathlib import Path
+f_kim = Path('./examples/tutorial/kim')
+kim_map.save(f_kim)
 
 ```
