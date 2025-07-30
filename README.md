@@ -2,7 +2,6 @@
 
 <figure>
   <img src="./docs/figures/Figure-KIM.png" alt="">
-  <figcaption>Comparison between Knowledge-Informed Mapping (KIM) and the original mapping.</figcaption>
 </figure>
 
 ## Table of Contents

@@ -25,6 +25,11 @@ bibliography: paper.bib
 
 ---
 
+**Peishi Jiang\textsuperscript{1,2}, Aaron Wang\textsuperscript{1}, Susannah M. Burrows\textsuperscript{1}, Maser Mahfouz\textsuperscript{1}**
+
+\textsuperscript{1} Atmospheric, Climate, and Earth Sciences Division, Pacific Northwest National Laboratory, Richland, WA, USA  
+\textsuperscript{2} Civil, Construction and Environmental Engineering, University of Alabama, Tuscaloosa, AL, USA
+
 # Summary
 We present a Knowledge-Informed Mapping toolkit in Python programming language, named KIM, to optimize the development of the mapping $ƒ$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM builds on the methodology development of deep learning-based inverse mapping in @Jiang:2023 and @Wang:2025. It involves two key procedures: (1) an exploratory data analysis using information theory to identify the dependency between $\mathbf{X}$ and $\mathbf{Y}$ and filter out both insignificant and redundant inputs through global sensitivity analysis and conditional independence testing; and (2) ensemble learning of $ƒ$ using neural networks to account for its structural uncertainty. KIM offers a preliminary understanding of data interdependencies while optimizing the training step with uncertainty accounted for. We demonstrate the applications of KIM through two use cases of developing inverse mappings for learning the parameters of an integrated hydrological model and a large eddy simulation cloud model. We expect this toolkit will be helpful to glue the model data integration for Earth science applications.
 
@@ -54,21 +59,17 @@ where $\mathbf{X}^{S_1}_j \backslash X_i$ is the remaining set of $\mathbf{X}^{S
 To address this, we leverage the idea of Peter-Clark algorithm for causal inference detection [@Spirtes:2001] to evaluate the zeroness of a high-dimensional conditional mutual information by gradually adding conditioning variables. Specifically, we approximated $I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i)$ via $I(X_i;Y_j|\mathbf{X}^{S_2}_j)$, where $\mathbf{X}^{S_2}_j$ is a subset of $\mathbf{X}^{S_1}_j \backslash X_i$ with cardinality $\leq 3$. Starting with the cardinality of one, i.e. $|\mathbf{X}^{S_2}_j|=1$,  we conducted statistical significance test on assessing $I(X_i;Y_j|\mathbf{X}^{S_2}_j) = 0$ by exhausting all the combinations out of $\mathbf{X}^{S_1}_j \backslash X_i$ that constitute $\mathbf{X}^{S_2}_j$. We removed $X_i$ from $\mathbf{X}^{S}_j$ when $I(X_i;Y_j|\mathbf{X}^{S_2}_j) = 0$.
 
 **Step 3: Uncertainty aware estimation by training ensemble neural networks.** For each parameter $Y_i$, we train an ensemble of fully-connected neural networks by varying the hyperparameters, including the number of hidden layers, the number of hidden neurons, and the learning rate. We split the $N_e$ model realizations into training, validation, and testing dataset. For each model inference, the ensemble learning enables the predictions through weighted mean $\mu_w$ and weighted standard deviation $\sigma_w$ as:
-$$
 \begin{align}
     \mu_w &= \sum^{N_e}_{k=1} w_k \cdot \tilde{y_k} \notag\\
     \sigma_w &= \sqrt{\sum^{N_e}_{k=1} w_k \cdot (\tilde{y_k}-\mu_w)^2}, \notag
 \end{align}
-$$
 where $N_e$ is the number of ensemble neural networks; $\tilde{y_k}$ is the estimation by the $k$ th neural network; $w_k$ is the weight to the $k$ th prediction and is calculated through the corresponding loss value in the validation dataset $\mathcal{L}_{k,\text{val}}$, such that $w_k = \frac{1/\mathcal{L}_{k,\text{val}}}{\sum^{N_e}_{k=1} 1/\mathcal{L}_{k,\text{val}}}$.
 
 When evaluating the estimation on the test dataset, we further quantified the bias and uncertainty of the prediction as:
-$$
 \begin{align}
     \text{Bias} &= E(|\mu_w - y|) \notag\\
     \text{Uncertainty} &= E(\sigma_w / |y|) \notag,
 \end{align}
-$$
 where $E$ is the expectation operator and $y$ is the true value.
 
 
