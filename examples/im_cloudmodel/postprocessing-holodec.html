@@ -1,0 +1,1422 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Read the data &#8212; KIM Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/im_cloudmodel/postprocessing-holodec';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">KIM Documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    KIM: A Knowledge-Informed Mapping toolkit
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../math.html">Math behind KIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../run_data.html">Performing the preliminary analysis</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../run_map.html">Performing ensemble neural network training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../postprocess.html">Postprocessing the training results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configs.html">Configuring KIM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API and references</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../api/kim.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/PeishiJiang/KIM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/PeishiJiang/KIM/issues/new?title=Issue%20on%20page%20%2Fexamples/im_cloudmodel/postprocessing-holodec.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/examples/im_cloudmodel/postprocessing-holodec.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Read the data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Read the data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-preliminary-analysis-results">Load the preliminary analysis results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-sensitivity-analysis-results">Plot the sensitivity analysis results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mapping-results">Load the mapping results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-training-results-on-test-dataset">Plot the training results on test dataset</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-versus-true-scatter-plots">Prediction versus true (scatter plots)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-versus-true-with-uncertainty">Performance versus true (with uncertainty)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-plots-plots-specific-to-cloud-chamber-system">Backup plots: Plots specific to cloud chamber system</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>This notebook is used to postprocessing the inverse modeling results of the cloud chamber model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Libraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># import sys</span>
+<span class="c1"># sys.path.append(&#39;/people/jian449/KIM/src&#39;)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kim.map</span><span class="w"> </span><span class="kn">import</span> <span class="n">KIM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kim.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kim.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_sensitivity_mask</span><span class="p">,</span> <span class="n">plot_sensitivity</span><span class="p">,</span> <span class="n">plot_1to1_scatter</span><span class="p">,</span> <span class="n">plot_1to1_uncertainty</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="o">%</span><span class="k">matplotlib</span> inline 
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="read-the-data">
+<h1>Read the data<a class="headerlink" href="#read-the-data" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># File and folder paths</span>
+<span class="n">dir_case</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./&quot;</span><span class="p">)</span>
+<span class="c1"># Training data</span>
+<span class="n">dir_data</span> <span class="o">=</span> <span class="n">dir_case</span> <span class="o">/</span> <span class="s2">&quot;data-holodec-PoissonPertb&quot;</span>
+<span class="n">f_para</span> <span class="o">=</span> <span class="n">dir_data</span> <span class="o">/</span> <span class="s2">&quot;Output.csv&quot;</span>
+<span class="n">f_state</span> <span class="o">=</span> <span class="n">dir_data</span> <span class="o">/</span> <span class="s2">&quot;Input_np_holodec.csv&quot;</span>
+
+<span class="c1"># Saving folder</span>
+<span class="n">dir_results</span> <span class="o">=</span> <span class="n">dir_case</span> <span class="o">/</span> <span class="s2">&quot;results-holodec&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_para</span><span class="p">,</span> <span class="n">df_state</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f_para</span><span class="p">),</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f_state</span><span class="p">)</span>
+<span class="n">y_vars</span><span class="p">,</span> <span class="n">x_vars</span> <span class="o">=</span> <span class="n">df_para</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">df_state</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">df_para</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df_state</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;$\lambda_w$&#39;</span><span class="p">,</span> <span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">(\lambda_c)$&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:4: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+&lt;&gt;:4: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+&lt;&gt;:4: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+&lt;&gt;:4: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+/tmp/ipykernel_128531/2363140426.py:4: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+  y_vars = [&#39;$\lambda_w$&#39;, &#39;$\log_{10}(\lambda_c)$&#39;]
+/tmp/ipykernel_128531/2363140426.py:4: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+  y_vars = [&#39;$\lambda_w$&#39;, &#39;$\log_{10}(\lambda_c)$&#39;]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((513, 1458), (513, 2))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-the-preliminary-analysis-results">
+<h1>Load the preliminary analysis results<a class="headerlink" href="#load-the-preliminary-analysis-results" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_data_save</span> <span class="o">=</span> <span class="n">dir_results</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f_data_save</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="plot-the-sensitivity-analysis-results">
+<h1>Plot the sensitivity analysis results<a class="headerlink" href="#plot-the-sensitivity-analysis-results" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plot_sensitivity</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">sensitivity</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">xlabels</span><span class="o">=</span><span class="n">y_vars</span><span class="p">,</span> <span class="n">ylabels</span><span class="o">=</span><span class="n">x_vars</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Global sensitivity using mutual information&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Parameters&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Model states&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.5, 1.0, &#39;Global sensitivity&#39;),
+ Text(85.72222222222221, 0.5, &#39;Parameters&#39;),
+ Text(0.5, 7.722222222222216, &#39;Model states&#39;)]
+</pre></div>
+</div>
+<img alt="../../_images/412fbb0f599f9d56a473074498d0fa18f5416ba251a99051a9ee5fe06a650485.png" src="../../_images/412fbb0f599f9d56a473074498d0fa18f5416ba251a99051a9ee5fe06a650485.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plot_sensitivity_mask</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">sensitivity_mask</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">xlabels</span><span class="o">=</span><span class="n">y_vars</span><span class="p">,</span> <span class="n">ylabels</span><span class="o">=</span><span class="n">x_vars</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Global sensitivity&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Parameters&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Model states&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">sensitivity_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1168,  813])
+</pre></div>
+</div>
+<img alt="../../_images/3a8d72a15032e91ec39f325fb1818e13eef7568f445a8b40b1b2f3ccff938958.png" src="../../_images/3a8d72a15032e91ec39f325fb1818e13eef7568f445a8b40b1b2f3ccff938958.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plot_sensitivity_mask</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">cond_sensitivity_mask</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">xlabels</span><span class="o">=</span><span class="n">y_vars</span><span class="p">,</span> <span class="n">ylabels</span><span class="o">=</span><span class="n">x_vars</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Global sensitivity + Redundancy filtering mask&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Parameters&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Model states&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">cond_sensitivity_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1043,  336])
+</pre></div>
+</div>
+<img alt="../../_images/8222baf23502b821281646bdeb56a571e5adb580b8f8e04c70b41467ba89e20b.png" src="../../_images/8222baf23502b821281646bdeb56a571e5adb580b8f8e04c70b41467ba89e20b.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-the-mapping-results">
+<h1>Load the mapping results<a class="headerlink" href="#load-the-mapping-results" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kim1</span></code>: The naive inverse mapping from all <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> to all <span class="math notranslate nohighlight">\(\mathbf{X}\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kim2</span></code>: The knowledge-informed inverse mapping from sensitive <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> to each of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> using global sensitivity analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kim3</span></code>: The knowledge-informed inverse mapping from sensitive <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> to each of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> using global sensitivity analysis + redundancy filtering check</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_kim_save1</span> <span class="o">=</span> <span class="n">dir_case</span> <span class="o">/</span> <span class="s2">&quot;results-holodec/map_many2many&quot;</span>
+<span class="n">f_kim_save2</span> <span class="o">=</span> <span class="n">dir_case</span> <span class="o">/</span> <span class="s2">&quot;results-holodec/map_many2one&quot;</span>
+<span class="n">f_kim_save3</span> <span class="o">=</span> <span class="n">dir_case</span> <span class="o">/</span> <span class="s2">&quot;results-holodec/map_many2one_cond&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize three diffferent KIMs</span>
+<span class="n">kim1</span> <span class="o">=</span> <span class="n">KIM</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">map_configs</span><span class="o">=</span><span class="p">{},</span> <span class="n">map_option</span><span class="o">=</span><span class="s1">&#39;many2many&#39;</span><span class="p">)</span>
+<span class="n">kim2</span> <span class="o">=</span> <span class="n">KIM</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">map_configs</span><span class="o">=</span><span class="p">{},</span> <span class="n">mask_option</span><span class="o">=</span><span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span> <span class="n">map_option</span><span class="o">=</span><span class="s1">&#39;many2one&#39;</span><span class="p">)</span>
+<span class="n">kim3</span> <span class="o">=</span> <span class="n">KIM</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">map_configs</span><span class="o">=</span><span class="p">{},</span> <span class="n">mask_option</span><span class="o">=</span><span class="s2">&quot;cond_sensitivity&quot;</span><span class="p">,</span> <span class="n">map_option</span><span class="o">=</span><span class="s1">&#39;many2one&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load the trained mappings</span>
+<span class="n">kim1</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f_kim_save1</span><span class="p">)</span>
+<span class="n">kim2</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f_kim_save2</span><span class="p">)</span>
+<span class="n">kim3</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f_kim_save3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print(np.mean([loss[-1] for loss in kim1.maps[0].loss_val_ens]))</span>
+<span class="c1"># print(np.mean([loss[-1] for loss in kim2.maps[0].loss_val_ens]))</span>
+<span class="c1"># print(np.mean([loss[-1] for loss in kim3.maps[0].loss_val_ens]))</span>
+<span class="c1"># # kims = [kim1, kim2, kim3]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the performance metrics</span>
+<span class="n">kims</span> <span class="o">=</span> <span class="p">[</span><span class="n">kim1</span><span class="p">,</span> <span class="n">kim2</span><span class="p">,</span> <span class="n">kim3</span><span class="p">]</span>
+<span class="c1"># labels = [&#39;kim1&#39;, &#39;kim2&#39;, &#39;kim3&#39;]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;$M_0$&#39;</span><span class="p">,</span> <span class="s1">&#39;$M_1$&#39;</span><span class="p">,</span> <span class="s1">&#39;$M_2$&#39;</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">kim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kims</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">kim</span><span class="o">.</span><span class="n">evaluate_maps_on_givendata</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/KIM/src/kim/map.py:252: RuntimeWarning: divide by zero encountered in divide
+  &#39;train&#39;: np.mean(y_stdw_train/y_true_train, axis=0),
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/KIM/src/kim/map.py:252: RuntimeWarning: divide by zero encountered in divide
+  &#39;train&#39;: np.mean(y_stdw_train/y_true_train, axis=0),
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:80: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/.conda/envs/kim/lib/python3.12/site-packages/hydroeval/objective_functions.py:126: RuntimeWarning: invalid value encountered in divide
+  r = r_num / r_den
+/global/cfs/cdirs/m1800/peishi/KIM/src/kim/map.py:252: RuntimeWarning: divide by zero encountered in divide
+  &#39;train&#39;: np.mean(y_stdw_train/y_true_train, axis=0),
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="plot-the-training-results-on-test-dataset">
+<h1>Plot the training results on test dataset<a class="headerlink" href="#plot-the-training-results-on-test-dataset" title="Link to this heading">#</a></h1>
+<section id="prediction-versus-true-scatter-plots">
+<h2>Prediction versus true (scatter plots)<a class="headerlink" href="#prediction-versus-true-scatter-plots" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_or_test</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">y_var</span> <span class="o">=</span> <span class="n">y_vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">model</span><span class="p">]</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">plot_1to1_scatter</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">iy</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">train_or_test</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">y_var</span><span class="o">=</span><span class="n">y_var</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/151538a42a1c53763c149e19f22cc63d1459d3f0a43d677d6b5ef2987a5d486b.png" src="../../_images/151538a42a1c53763c149e19f22cc63d1459d3f0a43d677d6b5ef2987a5d486b.png" />
+</div>
+</div>
+</section>
+<section id="performance-versus-true-with-uncertainty">
+<h2>Performance versus true (with uncertainty)<a class="headerlink" href="#performance-versus-true-with-uncertainty" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_or_test</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">y_var</span> <span class="o">=</span> <span class="n">y_vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">model</span><span class="p">]</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">plot_1to1_uncertainty</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">iy</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">train_or_test</span><span class="o">=</span><span class="n">train_or_test</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">y_var</span><span class="o">=</span><span class="n">y_var</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1ea3e48d0897f2ae60bc108058873918d9cc39eccdcdcb4b1279ac82649b5b12.png" src="../../_images/1ea3e48d0897f2ae60bc108058873918d9cc39eccdcdcb4b1279ac82649b5b12.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="backup-plots-plots-specific-to-cloud-chamber-system">
+<h1>Backup plots: Plots specific to cloud chamber system<a class="headerlink" href="#backup-plots-plots-specific-to-cloud-chamber-system" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s make a big pandas dataframe</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">xv</span> <span class="ow">in</span> <span class="n">x_vars</span><span class="p">]</span>
+<span class="n">time</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">xv</span> <span class="ow">in</span> <span class="n">x_vars</span><span class="p">]</span>
+<span class="n">varn</span> <span class="o">=</span> <span class="p">[</span><span class="n">xv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">xv</span> <span class="ow">in</span> <span class="n">x_vars</span><span class="p">]</span>
+<span class="n">df_sen</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">loc</span>
+<span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
+<span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;varn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">varn</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">yvarn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">y_vars</span><span class="p">):</span>
+    <span class="n">df_sen</span><span class="p">[</span><span class="n">yvarn</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sensitivity</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">df_sen</span><span class="p">[</span><span class="n">yvarn</span><span class="o">+</span><span class="s2">&quot;_mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sensitivity_mask</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">df_sen</span><span class="p">[</span><span class="n">yvarn</span><span class="o">+</span><span class="s2">&quot;_condmask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">cond_sensitivity_mask</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>    
+
+<span class="n">varn_set</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">varn</span><span class="p">)))</span>
+<span class="n">time_set</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span>
+<span class="n">loc_set</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">loc</span><span class="p">)))</span>
+
+<span class="c1"># Set up the gradual changing color lines</span>
+<span class="c1"># cmap = plt.cm.gist_rainbow  # You can choose other colormaps like &#39;plasma&#39;, &#39;inferno&#39;, &#39;magma&#39;, etc.</span>
+<span class="c1"># colors = cmap(np.linspace(0, 1, len(loc_set)))</span>
+
+<span class="n">cmap1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues_r</span>
+<span class="n">colors1</span> <span class="o">=</span> <span class="n">cmap1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">cmap2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Oranges_r</span>
+<span class="n">colors2</span> <span class="o">=</span> <span class="n">cmap2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">cmap3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Greys_r</span>
+<span class="n">colors3</span> <span class="o">=</span> <span class="n">cmap3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">colors1</span><span class="p">,</span> <span class="n">colors2</span><span class="p">,</span> <span class="n">colors3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot -- sensitivity only</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">yvarn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">y_vars</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">varn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">varn_set</span><span class="p">):</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">loc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">loc_set</span><span class="p">):</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df_sen</span><span class="p">[(</span><span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;varn&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">varn</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">loc</span><span class="p">)]</span>
+            <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">yvarn</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">if</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">19</span><span class="p">]:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;-*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;s</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;s</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">varn</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (min)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Sensitivity&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">yvarn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/069781ac789c1a1c05b7ba55dcfbef043518124d6a6f066952b8872c0d199db7.png" src="../../_images/069781ac789c1a1c05b7ba55dcfbef043518124d6a6f066952b8872c0d199db7.png" />
+<img alt="../../_images/1ac6f4569270d65a8f9284df29be805cdd2eddf21d992df437a3b3aad97406ae.png" src="../../_images/1ac6f4569270d65a8f9284df29be805cdd2eddf21d992df437a3b3aad97406ae.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot -- sensitivity filtered by conditional mask</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">yvarn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">y_vars</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">varn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">varn_set</span><span class="p">):</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">loc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">loc_set</span><span class="p">):</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df_sen</span><span class="p">[(</span><span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;varn&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">varn</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_sen</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">loc</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">yvarn</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">yvarn</span><span class="o">+</span><span class="s1">&#39;_condmask&#39;</span><span class="p">]</span>
+            <span class="n">d</span><span class="p">[</span><span class="o">~</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> 
+            <span class="k">if</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">19</span><span class="p">]:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;-*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;s</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;s</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">varn</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (min)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Sensitivity&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">yvarn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/fc7ac01dcbcd6fdc88ea38b285712da2e308efca0b8af5f698254adc3c350354.png" src="../../_images/fc7ac01dcbcd6fdc88ea38b285712da2e308efca0b8af5f698254adc3c350354.png" />
+<img alt="../../_images/ee5679823349c918f406cea89dc98dc5324a9c003cf76f955b1e009ca5fd9eed.png" src="../../_images/ee5679823349c918f406cea89dc98dc5324a9c003cf76f955b1e009ca5fd9eed.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "kim"
+        },
+        kernelOptions: {
+            name: "kim",
+            path: "./examples/im_cloudmodel"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'kim'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Read the data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-preliminary-analysis-results">Load the preliminary analysis results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-sensitivity-analysis-results">Plot the sensitivity analysis results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mapping-results">Load the mapping results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-training-results-on-test-dataset">Plot the training results on test dataset</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-versus-true-scatter-plots">Prediction versus true (scatter plots)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-versus-true-with-uncertainty">Performance versus true (with uncertainty)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#backup-plots-plots-specific-to-cloud-chamber-system">Backup plots: Plots specific to cloud chamber system</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Peishi Jiang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

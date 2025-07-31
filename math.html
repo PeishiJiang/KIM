@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Math behind KIM &#8212; KIM Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'math';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples/examples.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">KIM Documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    KIM: A Knowledge-Informed Mapping toolkit
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Math behind KIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="run_data.html">Performing the preliminary analysis</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="run_map.html">Performing ensemble neural network training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocess.html">Postprocessing the training results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configs.html">Configuring KIM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API and references</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="api/kim.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/PeishiJiang/KIM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/PeishiJiang/KIM/issues/new?title=Issue%20on%20page%20%2Fmath.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/math.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Math behind KIM</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="math-behind-kim">
+<h1>Math behind KIM<a class="headerlink" href="#math-behind-kim" title="Link to this heading">#</a></h1>
+<p>Consider a vector of inputs <span class="math notranslate nohighlight">\(\mathbf{X} = [X_1,...,X_{N_x}]\)</span> and a vector of outputs <span class="math notranslate nohighlight">\(\mathbf{Y} = [Y_1,...,Y_{N_y}]\)</span>. The objective is to build up a mapping function <span class="math notranslate nohighlight">\(f\)</span> from <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> to  <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>, such that <span class="math notranslate nohighlight">\(f: \mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_y}\)</span>, based on <span class="math notranslate nohighlight">\(N_e\)</span> pairs/realizations of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>. However, it is oftentimes hard to develop an accurate composite <span class="math notranslate nohighlight">\(f\)</span>, given the limited training data, partially due to the high computational cost of model ensemble simulation. Instead, it would be desirable to develop a separate inverse mapping <span class="math notranslate nohighlight">\(f_i\)</span> for each <span class="math notranslate nohighlight">\(Y_j \in \mathbf{Y}\)</span> by using a reduced space <span class="math notranslate nohighlight">\(\mathbf{X}^S_j \in \mathbf{X}\)</span> that is most relevant to <span class="math notranslate nohighlight">\(Y_j\)</span>, such that <span class="math notranslate nohighlight">\(f_j: \mathbb{R}^{N_{x_j}} \rightarrow \mathbb{R}\)</span> (see examples in <span id="id1">Jiang <em>et al.</em> [<a class="reference internal" href="bibliography.html#id2" title="P. Jiang, P. Shuai, A. Sun, M. K. Mudunuru, and X. Chen. Knowledge-informed deep learning for hydrological model calibration: an application to coal creek watershed in colorado. Hydrology and Earth System Sciences, 27(14):2621–2644, 2023. URL: https://hess.copernicus.org/articles/27/2621/2023/, doi:10.5194/hess-27-2621-2023.">5</a>]</span> and <span id="id2">Wang <em>et al.</em> [<a class="reference internal" href="bibliography.html#id3" title="A. Wang, P. Jiang, S. Burrows, S. Glienke, M. Ovchinnikov, and N. Mahfouz. Inverse mapping of the collision kernel and wall flux scaling in a large-scale convection-cloud chamber using local sensors and knowledge-informed deep learning. Manuscript to be submitted for Journal of Advances in Modeling Earth Systems, 2025.">9</a>]</span>. The identification of <span class="math notranslate nohighlight">\(\mathbf{X}_j\)</span> for a given <span class="math notranslate nohighlight">\(Y_j\)</span> involves a two-step filtering as follows.</p>
+<p><strong>Step 1: Filtering by global sensitivity analysis.</strong> We first perform a mutual information-based global sensitivity analysis to narrow down a subset <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j\)</span>, each of which shares zero information with <span class="math notranslate nohighlight">\(Y_j\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{X}^{S_1}_j = \{X_i: I(X_i;Y_j) \neq 0 \quad \text{with} \: X_i \in \mathbf{X}\},\]</div>
+<p>where <span class="math notranslate nohighlight">\(I(X_i;Y_j)\)</span> is the mutual information between <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(Y_j\)</span> <span id="id3">[<a class="reference internal" href="bibliography.html#id4" title="Thomas M. Cover and Joy A. Thomas. Elements of Information Theory (Wiley Series in Telecommunications and Signal Processing). Wiley-Interscience, 2006. ISBN 0471241954.">2</a>]</span>. Based on the <span class="math notranslate nohighlight">\(N_e\)</span> realizations, <span class="math notranslate nohighlight">\(I\)</span> is calculated on the joint probability of <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(Y_j\)</span> using either binning method or k-nearest-neighbor method. Following <span id="id4">Jiang <em>et al.</em> [<a class="reference internal" href="bibliography.html#id2" title="P. Jiang, P. Shuai, A. Sun, M. K. Mudunuru, and X. Chen. Knowledge-informed deep learning for hydrological model calibration: an application to coal creek watershed in colorado. Hydrology and Earth System Sciences, 27(14):2621–2644, 2023. URL: https://hess.copernicus.org/articles/27/2621/2023/, doi:10.5194/hess-27-2621-2023.">5</a>]</span>, a statistical significance test is performed to identify the significant <span class="math notranslate nohighlight">\(I\)</span> (i.e., <span class="math notranslate nohighlight">\(I(X_i;Y_j) \neq 0\)</span>) with a significance level of <span class="math notranslate nohighlight">\(1-\alpha\)</span> on 100 bootstrap samples.</p>
+<p><strong>Step 2: Filtering by redundancy check.</strong> Then, we conduct a further assessment that filtered out any model output in <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j\)</span> whose dynamics are redundant to <span class="math notranslate nohighlight">\(Y_j\)</span> given the knowledge of other outputs. This is achieved through a conditional independence test using conditional mutual information [&#64;Cover:2006] given as:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{X}^{S}_j = \{X_i: I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i) \neq 0 \quad \text{with} \: X_i \in \mathbf{X}^{S_1}_j \},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j \backslash X_i\)</span> is the remaining set of <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j\)</span> by excluding <span class="math notranslate nohighlight">\(X_i\)</span>; <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i)\)</span> is the conditional mutual information between <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(Y_j\)</span> conditioning on <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j \backslash X_i\)</span>. <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i) = 0\)</span> indicates that <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(Y_j\)</span> are independent given the knowledge of <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j \backslash X_i\)</span>. However, calculating <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j \backslash X_i\)</span>. <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i)\)</span> faces the curse of dimensionality due to the potential high dimension in <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j\)</span>.</p>
+<p>To address this, we leverage the idea of Peter-Clark algorithm for causal inference detection <span id="id5">[<a class="reference internal" href="bibliography.html#id7" title="Peter Spirtes, Clark Glymour, and Richard Scheines. Causation, Prediction, and Search. The MIT Press, 01 2001. ISBN 9780262284158. URL: https://doi.org/10.7551/mitpress/1754.001.0001, doi:10.7551/mitpress/1754.001.0001.">8</a>]</span> to evaluate the zeroness of a high-dimensional conditional mutual information by gradually adding conditioning variables. Specifically, we approximated <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i)\)</span> via <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_2}_j)\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{X}^{S_2}_j\)</span> is a subset of <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j \backslash X_i\)</span> with cardinality <span class="math notranslate nohighlight">\(\leq 3\)</span>. Starting with the cardinality of one, i.e. <span class="math notranslate nohighlight">\(|\mathbf{X}^{S_2}_j|=1\)</span>,  we conducted statistical significance test on assessing <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_2}_j) = 0\)</span> by exhausting all the combinations out of <span class="math notranslate nohighlight">\(\mathbf{X}^{S_1}_j \backslash X_i\)</span> that constitute <span class="math notranslate nohighlight">\(\mathbf{X}^{S_2}_j\)</span>. We removed <span class="math notranslate nohighlight">\(X_i\)</span> from <span class="math notranslate nohighlight">\(\mathbf{X}^{S}_j\)</span> when <span class="math notranslate nohighlight">\(I(X_i;Y_j|\mathbf{X}^{S_2}_j) = 0\)</span>.</p>
+<p><strong>Step 3: Uncertainty aware estimation by training ensemble neural networks.</strong> For each parameter <span class="math notranslate nohighlight">\(Y_i\)</span>, we train an ensemble of fully-connected neural networks by varying the hyperparameters, including the number of hidden layers, the number of hidden neurons, and the learning rate. We split the <span class="math notranslate nohighlight">\(N_e\)</span> model realizations into training, validation, and testing dataset. For each model inference, the ensemble learning enables the predictions through weighted mean <span class="math notranslate nohighlight">\(\mu_w\)</span> and weighted standard deviation <span class="math notranslate nohighlight">\(\sigma_w\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    \mu_w &amp;= \sum^{N_e}_{k=1} w_k \cdot \tilde{y_k} \notag\\
+    \sigma_w &amp;= \sqrt{\sum^{N_e}_{k=1} w_k \cdot (\tilde{y_k}-\mu_w)^2}, \notag
+\end{align}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(N_e\)</span> is the number of ensemble neural networks; <span class="math notranslate nohighlight">\(\tilde{y_k}\)</span> is the estimation by the <span class="math notranslate nohighlight">\(k\)</span> th neural network; <span class="math notranslate nohighlight">\(w_k\)</span> is the weight to the <span class="math notranslate nohighlight">\(k\)</span> th prediction and is calculated through the corresponding loss value in the validation dataset <span class="math notranslate nohighlight">\(\mathcal{L}_{k,\text{val}}\)</span>, such that <span class="math notranslate nohighlight">\(w_k = \frac{1/\mathcal{L}_{k,\text{val}}}{\sum^{N_e}_{k=1} 1/\mathcal{L}_{k,\text{val}}}\)</span>.</p>
+<p>When evaluating the estimation on the test dataset, we further quantified the bias and uncertainty of the prediction as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    \text{Bias} &amp;= E(|\mu_w - y|) \notag\\
+    \text{Uncertainty} &amp;= E(\sigma_w / |y|) \notag,
+\end{align}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(E\)</span> is the expectation operator and <span class="math notranslate nohighlight">\(y\)</span> is the true value.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples/examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Peishi Jiang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

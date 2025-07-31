@@ -1,0 +1,1572 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; KIM Documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/kim';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliography" href="../bibliography.html" />
+    <link rel="prev" title="Configuring KIM" href="../configs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">KIM Documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    KIM: A Knowledge-Informed Mapping toolkit
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math.html">Math behind KIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../run_data.html">Performing the preliminary analysis</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../run_map.html">Performing ensemble neural network training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../postprocess.html">Postprocessing the training results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configs.html">Configuring KIM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API and references</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/PeishiJiang/KIM" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/PeishiJiang/KIM/issues/new?title=Issue%20on%20page%20%2Fapi/kim.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/kim.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>API Reference</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-pre-analysis-modules">kim.pre_analysis Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.pre_analysis.pairwise_analysis.pairwise_analysis"><code class="docutils literal notranslate"><span class="pre">pairwise_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.pre_analysis.pc_analysis.pc"><code class="docutils literal notranslate"><span class="pre">pc()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-data-data-class">kim.data.Data Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xdata"><code class="docutils literal notranslate"><span class="pre">Data.xdata</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.ydata"><code class="docutils literal notranslate"><span class="pre">Data.ydata</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.Ns"><code class="docutils literal notranslate"><span class="pre">Data.Ns</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.Nx"><code class="docutils literal notranslate"><span class="pre">Data.Nx</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.Ny"><code class="docutils literal notranslate"><span class="pre">Data.Ny</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xscaler_type"><code class="docutils literal notranslate"><span class="pre">Data.xscaler_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.yscaler_type"><code class="docutils literal notranslate"><span class="pre">Data.yscaler_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xscaler"><code class="docutils literal notranslate"><span class="pre">Data.xscaler</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.yscaler"><code class="docutils literal notranslate"><span class="pre">Data.yscaler</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity_config"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity_done"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity_done</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity_mask"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity_mask</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.cond_sensitivity_mask"><code class="docutils literal notranslate"><span class="pre">Data.cond_sensitivity_mask</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.__init__"><code class="docutils literal notranslate"><span class="pre">Data.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.calculate_sensitivity"><code class="docutils literal notranslate"><span class="pre">Data.calculate_sensitivity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.load"><code class="docutils literal notranslate"><span class="pre">Data.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.save"><code class="docutils literal notranslate"><span class="pre">Data.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xdata_scaled"><code class="docutils literal notranslate"><span class="pre">Data.xdata_scaled</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.ydata_scaled"><code class="docutils literal notranslate"><span class="pre">Data.ydata_scaled</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-map-kim-class">kim.map.KIM Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM"><code class="docutils literal notranslate"><span class="pre">KIM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.__init__"><code class="docutils literal notranslate"><span class="pre">KIM.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.evaluate_maps_on_givendata"><code class="docutils literal notranslate"><span class="pre">KIM.evaluate_maps_on_givendata()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.load"><code class="docutils literal notranslate"><span class="pre">KIM.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.maps"><code class="docutils literal notranslate"><span class="pre">KIM.maps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.n_maps"><code class="docutils literal notranslate"><span class="pre">KIM.n_maps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.predict"><code class="docutils literal notranslate"><span class="pre">KIM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.save"><code class="docutils literal notranslate"><span class="pre">KIM.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.train"><code class="docutils literal notranslate"><span class="pre">KIM.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-map-map-class">kim.map.Map Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map"><code class="docutils literal notranslate"><span class="pre">Map</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.x"><code class="docutils literal notranslate"><span class="pre">Map.x</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.y"><code class="docutils literal notranslate"><span class="pre">Map.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.n_model"><code class="docutils literal notranslate"><span class="pre">Map.n_model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.training_parallel"><code class="docutils literal notranslate"><span class="pre">Map.training_parallel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_type"><code class="docutils literal notranslate"><span class="pre">Map.model_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.ensemble_type"><code class="docutils literal notranslate"><span class="pre">Map.ensemble_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_hp_choices"><code class="docutils literal notranslate"><span class="pre">Map.model_hp_choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_hp_fixed"><code class="docutils literal notranslate"><span class="pre">Map.model_hp_fixed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.optax_hp_choices"><code class="docutils literal notranslate"><span class="pre">Map.optax_hp_choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.optax_hp_fixed"><code class="docutils literal notranslate"><span class="pre">Map.optax_hp_fixed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.dl_hp_choices"><code class="docutils literal notranslate"><span class="pre">Map.dl_hp_choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.dl_hp_fixed"><code class="docutils literal notranslate"><span class="pre">Map.dl_hp_fixed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">Map.training_parallel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.ens_seed"><code class="docutils literal notranslate"><span class="pre">Map.ens_seed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.parallel_config"><code class="docutils literal notranslate"><span class="pre">Map.parallel_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.device"><code class="docutils literal notranslate"><span class="pre">Map.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.trained"><code class="docutils literal notranslate"><span class="pre">Map.trained</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.loaded_from_other_sources"><code class="docutils literal notranslate"><span class="pre">Map.loaded_from_other_sources</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.Ns"><code class="docutils literal notranslate"><span class="pre">Map.Ns</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.Nx"><code class="docutils literal notranslate"><span class="pre">Map.Nx</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.Ny"><code class="docutils literal notranslate"><span class="pre">Map.Ny</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_configs"><code class="docutils literal notranslate"><span class="pre">Map.model_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.optax_configs"><code class="docutils literal notranslate"><span class="pre">Map.optax_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.dl_configs"><code class="docutils literal notranslate"><span class="pre">Map.dl_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_ens"><code class="docutils literal notranslate"><span class="pre">Map.model_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.loss_train_ens"><code class="docutils literal notranslate"><span class="pre">Map.loss_train_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.loss_val_ens"><code class="docutils literal notranslate"><span class="pre">Map.loss_val_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.__init__"><code class="docutils literal notranslate"><span class="pre">Map.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Map.dl_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.load"><code class="docutils literal notranslate"><span class="pre">Map.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">Map.loss_train_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><code class="docutils literal notranslate"><span class="pre">Map.loss_val_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><code class="docutils literal notranslate"><span class="pre">Map.model_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">Map.model_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">Map.n_model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">Map.optax_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.predict"><code class="docutils literal notranslate"><span class="pre">Map.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.save"><code class="docutils literal notranslate"><span class="pre">Map.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.train"><code class="docutils literal notranslate"><span class="pre">Map.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h1>
+<section id="kim-pre-analysis-modules">
+<h2>kim.pre_analysis Modules<a class="headerlink" href="#kim-pre-analysis-modules" title="Link to this heading">#</a></h2>
+<dl class="py function" id="module-kim.pre_analysis.pairwise_analysis">
+<dt class="sig sig-object py" id="kim.pre_analysis.pairwise_analysis.pairwise_analysis">
+<span class="sig-name descname"><span class="pre">pairwise_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_calculator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetricBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1234</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/pre_analysis/pairwise_analysis.html#pairwise_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.pre_analysis.pairwise_analysis.pairwise_analysis" title="Link to this definition">#</a></dt>
+<dd><p>Perform the pairwise analysis using either mutual information or correlation coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xdata</strong> (<em>array-like</em>) – the predictors with shape (Ns, Nx)</p></li>
+<li><p><strong>ydata</strong> (<em>array-like</em>) – the predictands with shape (Ns, Ny)</p></li>
+<li><p><strong>metric_calculator</strong> (<em>class</em>) – the metric calculator</p></li>
+<li><p><strong>sst</strong> (<em>bool</em>) – whether to perform statistical significance test. Defaults to False.</p></li>
+<li><p><strong>ntest</strong> (<em>int</em>) – number of shuffled samples in sst. Defaults to 100.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – the significance level. Defaults to 0.05.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – the number of processers/threads used by joblib. Defaults to -1.</p></li>
+<li><p><strong>seed_shuffle</strong> (<em>int</em>) – the random seed number for doing shuffle test. Defaults to 1234.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – the verbosity level (0: normal, 1: debug). Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the sensitivity, the sensitivity mask</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(array, array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-kim.pre_analysis.pc_analysis">
+<dt class="sig sig-object py" id="kim.pre_analysis.pc_analysis.pc">
+<span class="sig-name descname"><span class="pre">pc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_calculator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetricBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond_metric_calculator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MetricBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ncond_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1234</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/pre_analysis/pc_analysis.html#pc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.pre_analysis.pc_analysis.pc" title="Link to this definition">#</a></dt>
+<dd><p>The modified PC algorithm adapted to the X –&gt; Y mapping problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xdata</strong> (<em>array-like</em>) – the predictors with shape (Ns, Nx)</p></li>
+<li><p><strong>ydata</strong> (<em>array-like</em>) – the predictands with shape (Ns, Ny)</p></li>
+<li><p><strong>metric_calculator</strong> (<em>class</em>) – the metric calculator for unconditional relation</p></li>
+<li><p><strong>cond_metric_calculator</strong> (<em>class</em>) – the metric calculator for conditional relation</p></li>
+<li><p><strong>ntest</strong> (<em>int</em>) – number of shuffled samples in sst. Defaults to 100.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – the significance level. Defaults to 0.05.</p></li>
+<li><p><strong>Ncond_max</strong> (<em>int</em>) – the maximum number of conditions used by cond_metric_calculator. Defaults to 3.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – the number of processers/threads used by joblib. Defaults to -1.</p></li>
+<li><p><strong>seed_shuffle</strong> (<em>int</em>) – the random seed number for doing shuffle test. Defaults to 1234.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – the verbosity level (0: normal, 1: debug). Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the sensitivity, the sensitivity mask, the conditional sensitivity mask</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(array, array, array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="kim-data-data-class">
+<h2>kim.data.Data Class<a class="headerlink" href="#kim-data-data-class" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kim.data.Data">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xscaler_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yscaler_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/data.html#Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.data.Data" title="Link to this definition">#</a></dt>
+<dd><p>The Data object.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.xdata">
+<span class="sig-name descname"><span class="pre">xdata</span></span><a class="headerlink" href="#kim.data.Data.xdata" title="Link to this definition">#</a></dt>
+<dd><p>the copy of xdata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.ydata">
+<span class="sig-name descname"><span class="pre">ydata</span></span><a class="headerlink" href="#kim.data.Data.ydata" title="Link to this definition">#</a></dt>
+<dd><p>the copy of ydata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.Ns">
+<span class="sig-name descname"><span class="pre">Ns</span></span><a class="headerlink" href="#kim.data.Data.Ns" title="Link to this definition">#</a></dt>
+<dd><p>the number of samples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.Nx">
+<span class="sig-name descname"><span class="pre">Nx</span></span><a class="headerlink" href="#kim.data.Data.Nx" title="Link to this definition">#</a></dt>
+<dd><p>the number of predictors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.Ny">
+<span class="sig-name descname"><span class="pre">Ny</span></span><a class="headerlink" href="#kim.data.Data.Ny" title="Link to this definition">#</a></dt>
+<dd><p>the number of predictands</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.xscaler_type">
+<span class="sig-name descname"><span class="pre">xscaler_type</span></span><a class="headerlink" href="#kim.data.Data.xscaler_type" title="Link to this definition">#</a></dt>
+<dd><p>the type of xdata scaler, either ‘minmax’, ‘normalize’, ‘standard’, or ‘log’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.yscaler_type">
+<span class="sig-name descname"><span class="pre">yscaler_type</span></span><a class="headerlink" href="#kim.data.Data.yscaler_type" title="Link to this definition">#</a></dt>
+<dd><p>the type of ydata scaler, either ‘minmax’, ‘normalize’, ‘standard’, or ‘log’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.xscaler">
+<span class="sig-name descname"><span class="pre">xscaler</span></span><a class="headerlink" href="#kim.data.Data.xscaler" title="Link to this definition">#</a></dt>
+<dd><p>the xdata scaler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.yscaler">
+<span class="sig-name descname"><span class="pre">yscaler</span></span><a class="headerlink" href="#kim.data.Data.yscaler" title="Link to this definition">#</a></dt>
+<dd><p>the ydata scaler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.sensitivity_config">
+<span class="sig-name descname"><span class="pre">sensitivity_config</span></span><a class="headerlink" href="#kim.data.Data.sensitivity_config" title="Link to this definition">#</a></dt>
+<dd><p>the sensitivity analysis configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.sensitivity_done">
+<span class="sig-name descname"><span class="pre">sensitivity_done</span></span><a class="headerlink" href="#kim.data.Data.sensitivity_done" title="Link to this definition">#</a></dt>
+<dd><p>whether the sensitivity analysis is performed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.sensitivity">
+<span class="sig-name descname"><span class="pre">sensitivity</span></span><a class="headerlink" href="#kim.data.Data.sensitivity" title="Link to this definition">#</a></dt>
+<dd><p>the calculated sensitivity with shape (Nx, Ny)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.sensitivity_mask">
+<span class="sig-name descname"><span class="pre">sensitivity_mask</span></span><a class="headerlink" href="#kim.data.Data.sensitivity_mask" title="Link to this definition">#</a></dt>
+<dd><p>the calculated sensitivity mask with shape (Nx, Ny)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.data.Data.cond_sensitivity_mask">
+<span class="sig-name descname"><span class="pre">cond_sensitivity_mask</span></span><a class="headerlink" href="#kim.data.Data.cond_sensitivity_mask" title="Link to this definition">#</a></dt>
+<dd><p>the calculated conditional sensitivity mask with shape (Nx, Ny)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.data.Data.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xscaler_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yscaler_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/data.html#Data.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.data.Data.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialization function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xdata</strong> (<em>array-like</em>) – the predictors with shape (Ns, Nx)</p></li>
+<li><p><strong>fdata</strong> (<em>PosixPath</em>) – the root path where an existing data instance will be loaded</p></li>
+<li><p><strong>ydata</strong> (<em>array-like</em>) – the predictands with shape (Ns, Ny)</p></li>
+<li><p><strong>xscaler_type</strong> (<em>str</em>) – the type of xdata scaler, either <cite>minmax</cite>, <cite>normalize</cite>, <cite>standard</cite>, <cite>log</cite>, or ``</p></li>
+<li><p><strong>yscaler_type</strong> (<em>str</em>) – the type of ydata scaler, either <cite>minmax</cite>, <cite>normalize</cite>, <cite>standard</cite>, <cite>log</cite>, or ``</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.data.Data.calculate_sensitivity">
+<span class="sig-name descname"><span class="pre">calculate_sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gsa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'it-bins'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1234</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/data.html#Data.calculate_sensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.data.Data.calculate_sensitivity" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Calculate the sensitivity between <cite>self.xdata</cite> and <cite>self.ydata</cite> using either <cite>pairwise_analysis</cite> or <cite>pc</cite> method.</dt><dd><p>The results are updated in <cite>self.sensitivity_done</cite>, <cite>self.sensitivity</cite>, <cite>self.sensitivity_mask</cite>, and <cite>self.cond_sensitivity_mask</cite>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>str</em>) – The preliminary analysis method, including:
+<cite>gsa</cite>: the pairwise global sensitivity analysis
+<cite>pc</cite>: a modified PC algorithm that include conditional indendpence test after gsa
+Defaults to <cite>gsa</cite>.</p></li>
+<li><p><strong>metric</strong> (<em>str</em>) – The metric calculating the sensitivity, including:
+<cite>it-bins</cite>: the information-theoretic measures (MI and CMI) using binning approach
+<cite>it-knn</cite>: the information-theoretic measures (MI and CMI) using knn approach
+<cite>corr</cite>: the correlation coefficient
+Defaults to <cite>corr</cite>.</p></li>
+<li><p><strong>sst</strong> (<em>bool</em>) – Whether to perform the statistical significance test or the shuffle test. Defaults to False.</p></li>
+<li><p><strong>ntest</strong> (<em>int</em>) – The number of shuffled samples in sst. Defaults to 100.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – The significance level. Defaults to 0.05.</p></li>
+<li><p><strong>bins</strong> (<em>int</em>) – The number of bins for each dimension when metric == “it-bins”. Defaults to 10.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – The number of nearest neighbors when metric == “it-knn”. Defaults to 5.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – The number of processers/threads used by joblib.Parallel. Defaults to -1.</p></li>
+<li><p><strong>seed_shuffle</strong> (<em>int</em>) – The random seed number for doing shuffle test. Defaults to 5.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em>) – The verbosity level (0: normal, 1: debug). Defaults to 0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.data.Data.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/data.html#Data.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.data.Data.load" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>load data and sensitivity analysis results from specified location, including:</dt><dd><ul class="simple">
+<li><p>data (x, y) and scaler</p></li>
+<li><p>sensitivity analysis configuration</p></li>
+<li><p>sensitivity analysis results</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rootpath</strong> (<em>PosixPath</em>) – the root path where data will be loaded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.data.Data.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/data.html#Data.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.data.Data.save" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Save data and sensitivity analysis results to specified location, including:</dt><dd><ul class="simple">
+<li><p>data (x, y) and scaler</p></li>
+<li><p>sensitivity analysis configuration</p></li>
+<li><p>sensitivity analysis results</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rootpath</strong> (<em>PosixPath</em>) – the root path where data will be saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kim.data.Data.xdata_scaled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xdata_scaled</span></span><a class="headerlink" href="#kim.data.Data.xdata_scaled" title="Link to this definition">#</a></dt>
+<dd><p>Perform normalization on <cite>self.xdata</cite> based on the given normalization type <cite>self.xscaler_type</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the scaled <cite>self.xdata</cite></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kim.data.Data.ydata_scaled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ydata_scaled</span></span><a class="headerlink" href="#kim.data.Data.ydata_scaled" title="Link to this definition">#</a></dt>
+<dd><p>Perform normalization on <cite>self.ydata</cite> based on the given normalization type <cite>self.yscaler_type</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the scaled <cite>self.ydata</cite></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="kim-map-kim-class">
+<h2>kim.map.KIM Class<a class="headerlink" href="#kim-map-kim-class" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kim.map.KIM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KIM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kim.data.Data" title="kim.data.Data"><span class="pre">Data</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cond_sensitivity'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'many2one'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'kim'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM" title="Link to this definition">#</a></dt>
+<dd><p>The class for knowledge-informed mapping training, prediction, saving and loading.</p>
+<section id="attributes">
+<h3>Attributes:<a class="headerlink" href="#attributes" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">Data</span></dt><dd><p>the copy of the __init__ argument</p>
+</dd>
+<dt>map_configs<span class="classifier">dict</span></dt><dd><p>the copy of the __init__ argument</p>
+</dd>
+<dt>map_option<span class="classifier">str</span></dt><dd><p>the copy of the __init__ argument</p>
+</dd>
+<dt>mask_option<span class="classifier">str</span></dt><dd><p>the copy of the __init__ argument</p>
+</dd>
+<dt>trained<span class="classifier">bool</span></dt><dd><p>whether KIM has been trained</p>
+</dd>
+<dt>loaded_from_other_sources<span class="classifier">bool</span></dt><dd><p>whether KIM is loaded from other sources.</p>
+</dd>
+<dt>Ns<span class="classifier">int</span></dt><dd><p>the number of ensemble members (from data.Ns)</p>
+</dd>
+<dt>Nx<span class="classifier">int</span></dt><dd><p>the number of input features (from data.Nx)</p>
+</dd>
+<dt>Ny<span class="classifier">int</span></dt><dd><p>the number of output features (from data.Ny)</p>
+</dd>
+<dt>mask<span class="classifier">Array</span></dt><dd><p>the masked array with shape (Nx, Ny)</p>
+</dd>
+<dt>_n_maps<span class="classifier">int</span></dt><dd><p>the number of maps</p>
+</dd>
+<dt>_maps<span class="classifier">int</span></dt><dd><p>the trained maps</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.KIM.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kim.data.Data" title="kim.data.Data"><span class="pre">Data</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_configs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cond_sensitivity'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'many2one'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'kim'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialization function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#kim.data.Data" title="kim.data.Data"><em>Data</em></a>) – the Data object containing the ensemble data and sensitivity analysis result.</p></li>
+<li><p><strong>map_configs</strong> (<em>dict</em>) – the mapping configuration, including all the arguments of Map class except x and y.</p></li>
+<li><p><strong>mask_option</strong> (<em>str</em>) – the masking option including “sensitivity” (using data.sensitivity_mask), and “cond_sensitivity” (using data.cond_sensitivity_mask).</p></li>
+<li><p><strong>map_option</strong> (<em>str</em>) – the map option including “many2one”: knowledge-informed mapping using sensitivity analysis result as filter, and “many2many”: normal mapping without being knowledge-informed</p></li>
+<li><p><strong>other_mask</strong> (<em>List</em>) – the additional mask to be assigned to self.mask with size Nx. Default to None.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – the name of the KIM object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.KIM.evaluate_maps_on_givendata">
+<span class="sig-name descname"><span class="pre">evaluate_maps_on_givendata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM.evaluate_maps_on_givendata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM.evaluate_maps_on_givendata" title="Link to this definition">#</a></dt>
+<dd><p>Perform predictions on the given dataset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.KIM.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM.load" title="Link to this definition">#</a></dt>
+<dd><p>load the trained KIM from specified location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rootpath</strong> (<em>PosixPath</em>) – the root path where KIM will be loaded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kim.map.KIM.maps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">maps</span></span><a class="headerlink" href="#kim.map.KIM.maps" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kim.map.KIM.n_maps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_maps</span></span><a class="headerlink" href="#kim.map.KIM.n_maps" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.KIM.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM.predict" title="Link to this definition">#</a></dt>
+<dd><p>Prediction using the trained KIM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>Array</em>) – predictors with shape (Ns,…,Nx)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.KIM.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM.save" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Save the KIM, including:</dt><dd><ul class="simple">
+<li><p>the data object</p></li>
+<li><p>all the mappings</p></li>
+<li><p>the remaining configurations</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rootpath</strong> (<em>PosixPath</em>) – the root path where data will be saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.KIM.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#KIM.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.KIM.train" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="kim-map-map-class">
+<h2>kim.map.Map Class<a class="headerlink" href="#kim-map-map-class" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kim.map.Map">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x:</span> <span class="pre">~jax.Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y:</span> <span class="pre">~jax.Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'kim.mapping_model.mlp.MLP'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_model:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble_type:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'single'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_hp_choices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_hp_fixed:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optax_hp_choices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optax_hp_fixed:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dl_hp_choices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dl_hp_fixed:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parallel:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ens_seed:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_config:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">~jaxlib._jax.Device</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#Map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.Map" title="Link to this definition">#</a></dt>
+<dd><p>The class for one mapping training, prediction, saving and loading. Ensemble training is supported through either serial or parallel way, using joblib.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#kim.map.Map.x" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#kim.map.Map.y" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.n_model">
+<span class="sig-name descname"><span class="pre">n_model</span></span><a class="headerlink" href="#kim.map.Map.n_model" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.training_parallel">
+<span class="sig-name descname"><span class="pre">training_parallel</span></span><a class="headerlink" href="#kim.map.Map.training_parallel" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.model_type">
+<span class="sig-name descname"><span class="pre">model_type</span></span><a class="headerlink" href="#kim.map.Map.model_type" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.ensemble_type">
+<span class="sig-name descname"><span class="pre">ensemble_type</span></span><a class="headerlink" href="#kim.map.Map.ensemble_type" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.model_hp_choices">
+<span class="sig-name descname"><span class="pre">model_hp_choices</span></span><a class="headerlink" href="#kim.map.Map.model_hp_choices" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.model_hp_fixed">
+<span class="sig-name descname"><span class="pre">model_hp_fixed</span></span><a class="headerlink" href="#kim.map.Map.model_hp_fixed" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.optax_hp_choices">
+<span class="sig-name descname"><span class="pre">optax_hp_choices</span></span><a class="headerlink" href="#kim.map.Map.optax_hp_choices" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.optax_hp_fixed">
+<span class="sig-name descname"><span class="pre">optax_hp_fixed</span></span><a class="headerlink" href="#kim.map.Map.optax_hp_fixed" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.dl_hp_choices">
+<span class="sig-name descname"><span class="pre">dl_hp_choices</span></span><a class="headerlink" href="#kim.map.Map.dl_hp_choices" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.dl_hp_fixed">
+<span class="sig-name descname"><span class="pre">dl_hp_fixed</span></span><a class="headerlink" href="#kim.map.Map.dl_hp_fixed" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">training_parallel</span></span><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.ens_seed">
+<span class="sig-name descname"><span class="pre">ens_seed</span></span><a class="headerlink" href="#kim.map.Map.ens_seed" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[int], optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.parallel_config">
+<span class="sig-name descname"><span class="pre">parallel_config</span></span><a class="headerlink" href="#kim.map.Map.parallel_config" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[dict], optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.device">
+<span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#kim.map.Map.device" title="Link to this definition">#</a></dt>
+<dd><p>the copy of the __init__ argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Device], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.trained">
+<span class="sig-name descname"><span class="pre">trained</span></span><a class="headerlink" href="#kim.map.Map.trained" title="Link to this definition">#</a></dt>
+<dd><p>whether the mapping has been trained</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.loaded_from_other_sources">
+<span class="sig-name descname"><span class="pre">loaded_from_other_sources</span></span><a class="headerlink" href="#kim.map.Map.loaded_from_other_sources" title="Link to this definition">#</a></dt>
+<dd><p>whether the mapping is loaded from other sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.Ns">
+<span class="sig-name descname"><span class="pre">Ns</span></span><a class="headerlink" href="#kim.map.Map.Ns" title="Link to this definition">#</a></dt>
+<dd><p>number of samples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.Nx">
+<span class="sig-name descname"><span class="pre">Nx</span></span><a class="headerlink" href="#kim.map.Map.Nx" title="Link to this definition">#</a></dt>
+<dd><p>number of input features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.Ny">
+<span class="sig-name descname"><span class="pre">Ny</span></span><a class="headerlink" href="#kim.map.Map.Ny" title="Link to this definition">#</a></dt>
+<dd><p>number of output features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.model_configs">
+<span class="sig-name descname"><span class="pre">model_configs</span></span><a class="headerlink" href="#kim.map.Map.model_configs" title="Link to this definition">#</a></dt>
+<dd><p>model hyperparameters for all ensemble models</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.optax_configs">
+<span class="sig-name descname"><span class="pre">optax_configs</span></span><a class="headerlink" href="#kim.map.Map.optax_configs" title="Link to this definition">#</a></dt>
+<dd><p>optimizer hyperparameters for all ensemble models</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.dl_configs">
+<span class="sig-name descname"><span class="pre">dl_configs</span></span><a class="headerlink" href="#kim.map.Map.dl_configs" title="Link to this definition">#</a></dt>
+<dd><p>dataloader hyperparameters for all ensemble models</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.model_ens">
+<span class="sig-name descname"><span class="pre">model_ens</span></span><a class="headerlink" href="#kim.map.Map.model_ens" title="Link to this definition">#</a></dt>
+<dd><p>list of trained model ensemble</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.loss_train_ens">
+<span class="sig-name descname"><span class="pre">loss_train_ens</span></span><a class="headerlink" href="#kim.map.Map.loss_train_ens" title="Link to this definition">#</a></dt>
+<dd><p>list of the training losses over steps</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kim.map.Map.loss_val_ens">
+<span class="sig-name descname"><span class="pre">loss_val_ens</span></span><a class="headerlink" href="#kim.map.Map.loss_val_ens" title="Link to this definition">#</a></dt>
+<dd><p>list of the val losses over steps</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.Map.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x:</span> <span class="pre">~jax.Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y:</span> <span class="pre">~jax.Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'kim.mapping_model.mlp.MLP'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_model:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble_type:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'single'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_hp_choices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_hp_fixed:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optax_hp_choices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optax_hp_fixed:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dl_hp_choices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dl_hp_fixed:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parallel:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ens_seed:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_config:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">~jaxlib._jax.Device</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#Map.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.Map.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialization function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array-like</em>) – the predictors with shape (Ns, Nx)</p></li>
+<li><p><strong>y</strong> (<em>array-like</em>) – the predictands with shape (Ns, Ny)</p></li>
+<li><p><strong>model_type</strong> (<em>type</em>) – the equinox model class</p></li>
+<li><p><strong>n_model</strong> (<em>int</em>) – the number of ensemble models</p></li>
+<li><p><strong>ensemble_type</strong> (<em>str</em>) – the ensemble type, either ‘single’, ‘serial’ or ‘parallel’.</p></li>
+<li><p><strong>model_hp_choices</strong> (<em>dict</em>) – the tunable model hyperparameters, in dictionary format {key: [value1, value2,…]}. The model hyperparameters must follow the arguments of the specified model_type</p></li>
+<li><p><strong>model_hp_fixed</strong> (<em>dict</em>) – the fixed model hyperparameters, in dictionary format {key: value}. The model hyperparameters must follow the arguments of the specified model_type</p></li>
+<li><p><strong>optax_hp_choices</strong> (<em>dict</em>) – the tunable optimizer hyperparameters, in dictionary format {key: [value1, value2,…]}. The optimizer hyperparameters must follow the arguments of the specified optax optimizer. Key hyperparameters: ‘optimizer_type’ (str), ‘nsteps’ (int), and ‘loss_func’ (callable)</p></li>
+<li><p><strong>optax_hp_fixed</strong> (<em>dict</em>) – the fixed optimizer hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of the specified model_type. Key hyperparameters: ‘optimizer_type’ (str), ‘nsteps’ (int), and ‘loss_func’ (callable)</p></li>
+<li><p><strong>dl_hp_choices</strong> (<em>dict</em>) – the tunable dataloader hyperparameters, in dictionary format {key: [value1, value2,…]}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: ‘batch_size’ (int) and ‘num_train_sample’ (int)</p></li>
+<li><p><strong>dl_hp_fixed</strong> (<em>dict</em>) – the fixed dataloader hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: ‘batch_size’ (int) and ‘num_train_sample’ (int</p></li>
+<li><p><strong>training_parallel</strong> (<em>bool</em>) – whether to perform parallel training</p></li>
+<li><p><strong>ens_seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – the random seed for generating ensemble configurations.</p></li>
+<li><p><strong>parallel_config</strong> (<em>Optional</em><em>[</em><em>dict</em><em>]</em><em>, </em><em>optional</em>) – the parallel training configurations following the arguments of joblib.Parallel</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>Device</em><em>]</em><em>, </em><em>optional</em>) – the computing device to be set</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dl_configs</span></span><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.Map.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#Map.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.Map.load" title="Link to this definition">#</a></dt>
+<dd><p>load the trained mapping from specified location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rootpath</strong> (<em>PosixPath</em>) – the root path where mappings will be loaded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loss_train_ens</span></span><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id3">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loss_val_ens</span></span><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id4">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model_configs</span></span><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id5">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model_ens</span></span><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id6">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_model</span></span><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id7">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">optax_configs</span></span><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.Map.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#Map.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.Map.predict" title="Link to this definition">#</a></dt>
+<dd><p>Prediction using the trained mapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>Array</em>) – predictors with shape (Ns,…,Nx)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.Map.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rootpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#Map.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.Map.save" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Save the trained mapping to specified location, including:</dt><dd><ul class="simple">
+<li><p>trained models</p></li>
+<li><p>model/optax/dl configurations</p></li>
+<li><p>loss values for both training and validation sets</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rootpath</strong> (<em>PosixPath</em>) – the root path where mappings will be saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kim.map.Map.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kim/map.html#Map.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kim.map.Map.train" title="Link to this definition">#</a></dt>
+<dd><p>Mapping training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>int</em>) – the verbosity level (0: normal, 1: debug)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./api"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../configs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configuring KIM</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../bibliography.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bibliography</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-pre-analysis-modules">kim.pre_analysis Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.pre_analysis.pairwise_analysis.pairwise_analysis"><code class="docutils literal notranslate"><span class="pre">pairwise_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.pre_analysis.pc_analysis.pc"><code class="docutils literal notranslate"><span class="pre">pc()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-data-data-class">kim.data.Data Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xdata"><code class="docutils literal notranslate"><span class="pre">Data.xdata</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.ydata"><code class="docutils literal notranslate"><span class="pre">Data.ydata</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.Ns"><code class="docutils literal notranslate"><span class="pre">Data.Ns</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.Nx"><code class="docutils literal notranslate"><span class="pre">Data.Nx</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.Ny"><code class="docutils literal notranslate"><span class="pre">Data.Ny</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xscaler_type"><code class="docutils literal notranslate"><span class="pre">Data.xscaler_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.yscaler_type"><code class="docutils literal notranslate"><span class="pre">Data.yscaler_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xscaler"><code class="docutils literal notranslate"><span class="pre">Data.xscaler</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.yscaler"><code class="docutils literal notranslate"><span class="pre">Data.yscaler</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity_config"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity_done"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity_done</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.sensitivity_mask"><code class="docutils literal notranslate"><span class="pre">Data.sensitivity_mask</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.cond_sensitivity_mask"><code class="docutils literal notranslate"><span class="pre">Data.cond_sensitivity_mask</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.__init__"><code class="docutils literal notranslate"><span class="pre">Data.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.calculate_sensitivity"><code class="docutils literal notranslate"><span class="pre">Data.calculate_sensitivity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.load"><code class="docutils literal notranslate"><span class="pre">Data.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.save"><code class="docutils literal notranslate"><span class="pre">Data.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.xdata_scaled"><code class="docutils literal notranslate"><span class="pre">Data.xdata_scaled</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.data.Data.ydata_scaled"><code class="docutils literal notranslate"><span class="pre">Data.ydata_scaled</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-map-kim-class">kim.map.KIM Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM"><code class="docutils literal notranslate"><span class="pre">KIM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.__init__"><code class="docutils literal notranslate"><span class="pre">KIM.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.evaluate_maps_on_givendata"><code class="docutils literal notranslate"><span class="pre">KIM.evaluate_maps_on_givendata()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.load"><code class="docutils literal notranslate"><span class="pre">KIM.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.maps"><code class="docutils literal notranslate"><span class="pre">KIM.maps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.n_maps"><code class="docutils literal notranslate"><span class="pre">KIM.n_maps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.predict"><code class="docutils literal notranslate"><span class="pre">KIM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.save"><code class="docutils literal notranslate"><span class="pre">KIM.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.KIM.train"><code class="docutils literal notranslate"><span class="pre">KIM.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kim-map-map-class">kim.map.Map Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map"><code class="docutils literal notranslate"><span class="pre">Map</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.x"><code class="docutils literal notranslate"><span class="pre">Map.x</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.y"><code class="docutils literal notranslate"><span class="pre">Map.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.n_model"><code class="docutils literal notranslate"><span class="pre">Map.n_model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.training_parallel"><code class="docutils literal notranslate"><span class="pre">Map.training_parallel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_type"><code class="docutils literal notranslate"><span class="pre">Map.model_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.ensemble_type"><code class="docutils literal notranslate"><span class="pre">Map.ensemble_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_hp_choices"><code class="docutils literal notranslate"><span class="pre">Map.model_hp_choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_hp_fixed"><code class="docutils literal notranslate"><span class="pre">Map.model_hp_fixed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.optax_hp_choices"><code class="docutils literal notranslate"><span class="pre">Map.optax_hp_choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.optax_hp_fixed"><code class="docutils literal notranslate"><span class="pre">Map.optax_hp_fixed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.dl_hp_choices"><code class="docutils literal notranslate"><span class="pre">Map.dl_hp_choices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.dl_hp_fixed"><code class="docutils literal notranslate"><span class="pre">Map.dl_hp_fixed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">Map.training_parallel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.ens_seed"><code class="docutils literal notranslate"><span class="pre">Map.ens_seed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.parallel_config"><code class="docutils literal notranslate"><span class="pre">Map.parallel_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.device"><code class="docutils literal notranslate"><span class="pre">Map.device</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.trained"><code class="docutils literal notranslate"><span class="pre">Map.trained</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.loaded_from_other_sources"><code class="docutils literal notranslate"><span class="pre">Map.loaded_from_other_sources</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.Ns"><code class="docutils literal notranslate"><span class="pre">Map.Ns</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.Nx"><code class="docutils literal notranslate"><span class="pre">Map.Nx</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.Ny"><code class="docutils literal notranslate"><span class="pre">Map.Ny</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_configs"><code class="docutils literal notranslate"><span class="pre">Map.model_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.optax_configs"><code class="docutils literal notranslate"><span class="pre">Map.optax_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.dl_configs"><code class="docutils literal notranslate"><span class="pre">Map.dl_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.model_ens"><code class="docutils literal notranslate"><span class="pre">Map.model_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.loss_train_ens"><code class="docutils literal notranslate"><span class="pre">Map.loss_train_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.loss_val_ens"><code class="docutils literal notranslate"><span class="pre">Map.loss_val_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.__init__"><code class="docutils literal notranslate"><span class="pre">Map.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Map.dl_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.load"><code class="docutils literal notranslate"><span class="pre">Map.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">Map.loss_train_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><code class="docutils literal notranslate"><span class="pre">Map.loss_val_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><code class="docutils literal notranslate"><span class="pre">Map.model_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">Map.model_ens</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">Map.n_model</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">Map.optax_configs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.predict"><code class="docutils literal notranslate"><span class="pre">Map.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.save"><code class="docutils literal notranslate"><span class="pre">Map.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kim.map.Map.train"><code class="docutils literal notranslate"><span class="pre">Map.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Peishi Jiang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
