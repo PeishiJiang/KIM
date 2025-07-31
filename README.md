@@ -42,7 +42,7 @@ KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the developmen
 
 ## Documentation
 <!-- Please refer to [the Approach](./doc/math.md) for a complete description of the mathematical method. -->
-The official documentation is hosted on [the package website](peishijiang.github.io/KIM). Please refer to [Math behind KIM](https://peishijiang.github.io/KIM/math.html) for a complete description of the theory behind the package.
+The official documentation is hosted on [the package website](https://peishijiang.github.io/KIM). Please refer to [Math behind KIM](https://peishijiang.github.io/KIM/math.html) for a complete description of the theory behind the package.
 
 ## Examples
 We provide one tutorial case and two real cases of applying KIM to performing inverse modeling by using Jupyter notebook to illustrate the package usage.
