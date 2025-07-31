@@ -7,9 +7,8 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Installation](#installation)
-- [Getting Started](#getting-started)
-- [Examples](#examples)
 - [Documentation](#documentation)
+- [Examples](#examples)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 - [How to Cite](#how-to-cite)
@@ -41,18 +40,18 @@ KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the developmen
     git clone https://github.com/PeishiJiang/KIM.git
     ```
 
-## Background
-Please refer to [the Approach](./doc/math.md) for a complete description of the mathematical method.
+## Documentation
+<!-- Please refer to [the Approach](./doc/math.md) for a complete description of the mathematical method. -->
+The official documentation is hosted on [the package website](TBD). Please refer to [Math behind KIM](TBD) for a complete description of the theory behind the package.
 
 ## Examples
-We provide two cases of applying KIM to performing inverse modeling by using Jupyter notebook to illustrate the package usage.
+We provide one tutorial case and two real cases of applying KIM to performing inverse modeling by using Jupyter notebook to illustrate the package usage.
+
+**Case 0: [Emulating a multivariate nonlinear system](./examples/tutorial/).** We develop forward mappings to emulate three predictand driven by four predictors via a nonlinear system.
 
 **Case 1: [Calibrating a cloud chamber model](./examples/im_cloudmodel/).** We develop inverse mappings to estimate two key parameters, i.e., wall fluxes ($\lambda_w$) and collision processes ($\lambda_c$) of a cloud chamber model from synthetic observations.
 
 **Case 2: [Calibrating an integrated hydrological model](./examples/im_ats/).** We develop inverse mappings to estimate eight parameters of the Advanced Terrestrial Simulator (ATS) from the streamflow observations at the outlet of Coal Creek watershed, CO, USA.
-
-## Documentation
-
 
 ## License
 Distributed under the Simplified BSD License. See [LICENSE](./LICENSE) for more information.
@@ -61,7 +60,7 @@ Distributed under the Simplified BSD License. See [LICENSE](./LICENSE) for more 
 This work was funded by the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory. 
 
 ## How to Cite
-
+The repository is under review. We will provide a complete citation upon the acceptance of the repo/paper.
 
 ## Contacts
 Peishi Jiang (shixijps@gmail.com)
