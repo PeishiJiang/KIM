@@ -13,7 +13,9 @@ authors:
     affiliation: 1
   - name: Susannah M. Burrows
     affiliation: 1
-  - name: Maser Mahfouz
+  - name: Naser Mahfouz
+    affiliation: 1
+  - name: Xingyuan Chen
     affiliation: 1
 affiliations:
  - name: Atmospheric, Climate, and Earth Sciences Division, Pacific Northwest National Laboratory, Richland, Washington, USA
@@ -25,7 +27,7 @@ bibliography: paper.bib
 
 ---
 
-**Peishi Jiang\textsuperscript{1,2}, Aaron Wang\textsuperscript{1}, Susannah M. Burrows\textsuperscript{1}, Maser Mahfouz\textsuperscript{1}**
+**Peishi Jiang\textsuperscript{1,2}, Aaron Wang\textsuperscript{1}, Susannah M. Burrows\textsuperscript{1}, Naser Mahfouz\textsuperscript{1}, Xingyuan Chen\textsuperscript{1}**
 
 \textsuperscript{1} Atmospheric, Climate, and Earth Sciences Division, Pacific Northwest National Laboratory, Richland, WA, USA  
 \textsuperscript{2} Civil, Construction and Environmental Engineering, University of Alabama, Tuscaloosa, AL, USA
