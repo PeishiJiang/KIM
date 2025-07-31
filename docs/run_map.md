@@ -1,11 +1,9 @@
 # Performing ensemble neural network training
 
-Then, we leveraged the preliminary data analysis result to train the ensemble inverse mapping.
+Then, we leveraged the preliminary data analysis result from [here](./run_data.md) to train the ensemble inverse mapping.
 
 ## Configuring the ensemble learning
-**TBD**
-
-The detailed configurations can be found in this [post](./configs.md)
+We first provides the parameters used by the ensemble learning. The detailed configurations can be found in this [post](./configs.md)
 ```python
 from kim.map import KIM
 from kim.mapping_model import MLP
@@ -51,7 +49,6 @@ map_configs = {
 ```
 
 ## Train the ensemble neural network
-
 ```python
 kim_map = KIM(data, map_configs, mask_option="cond_sensitivity", map_option='many2one')
 kim_map.train()
@@ -62,7 +59,6 @@ kim_map.train()
 
 ```python
 from pathlib import Path
-f_kim = Path('./examples/tutorial/kim')
+f_kim = Path('./kim')
 kim_map.save(f_kim)
-
 ```
