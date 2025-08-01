@@ -13,7 +13,7 @@ We recommend installing the `pip`-based package through a virtual environment su
    conda activate kim
    ```
 
-4. Install Turboflow using pip within the activated virtual environment:
+4. Install the package using pip within the activated virtual environment:
    ```bash
    pip install kim-jax
    ```
