@@ -30,7 +30,7 @@ KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the developmen
    conda activate kim
    ```
 
-4. Install Turboflow using pip within the activated virtual environment:
+4. Install the package using pip within the activated virtual environment:
    ```bash
    pip install kim-jax
    ```
