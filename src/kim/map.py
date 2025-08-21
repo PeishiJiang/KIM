@@ -147,7 +147,8 @@ class KIM(object):
             maps = self._init_map_many2one()
         # Train
         for one_map in maps:
-            one_map.train(verbose=verbose)
+            if one_map is not None:
+                one_map.train(verbose=verbose)
         self._maps = maps
         self.trained = True
     
@@ -381,7 +382,8 @@ class KIM(object):
         # Save all the mappings
         f_map_set = [rootpath / f'map{i}' for i in range(self._n_maps)]
         for i,one_map in enumerate(self._maps):
-            one_map.save(f_map_set[i])
+            if one_map is not None:
+                one_map.save(f_map_set[i])
 
         # Save the remaining configurations
         f_configs = rootpath / "configs.pkl"
@@ -438,7 +440,8 @@ class KIM(object):
             f_mapping_set = [rootpath / f'map{i}' for i in range(self._n_maps)]
             maps = self._init_map_many2one()
             for i,one_map in enumerate(maps):
-                one_map.load(f_mapping_set[i])
+                if one_map is not None:
+                    one_map.load(f_mapping_set[i])
         self._maps = maps
 
         self.trained = True

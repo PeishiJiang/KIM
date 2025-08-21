@@ -39,7 +39,7 @@ We present a Knowledge-Informed Mapping toolkit in Python programming language, 
 # Statement of need
 Striving for scientific hypothesis testing and discovery, Earth scientists oftentimes develop data-driven mappings -- either for inverse modeling, as part of model calibration, or forward modeling, as an emulator. Both approaches benefit from an efficient way of mapping, $ƒ$, that projects from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. While the forward modeling focuses on developmeng an emulator, the inverse modeling involves developing a mapping from model outputs to model parameters, such that once trained, the mapping can directly infer the parameters based on observations. Such mapping approach has seen successes in addressing inverse and forward problems in multiple studies across Earth sciences [@Krasnopolsky:2003; @HU:2014; @Cromwell:2021; @Mudunuru:2022].
 
-Nevertheless, constructing the mapping $ƒ$ that connects all inputs $\mathbf{X}$ to all outputs $\mathbf{Y}$ is usually challenging due to (1) limited data/simulations for training; (2) uninformative relations between some members of $\mathbf{X}$ and $\mathbf{Y}$; and (3) the structural uncertainty of $ƒ$. To that, @Jiang:2023 and @Wang:2025 lneveraged the idea of integrating scientific knowledge with deep learning [@Willard:2022] to develop knowledge-informed mapping (KIM) by using (1) information theory to uncover the dependencies between $\mathbf{X}$ and $\mathbf{Y}$ that guides the design of $f$ and (2) ensemble learning to account for uncertainty due to the model structure error of $f$. The goal of this paper is to document and open source KIM for a general public usage. Figure \autoref{fig:kim} shows the general procedures of KIM which are detailed in the next section.
+Nevertheless, constructing the mapping $ƒ$ that connects all inputs $\mathbf{X}$ to all outputs $\mathbf{Y}$ is usually challenging due to (1) limited data/simulations for training; (2) uninformative relations between some members of $\mathbf{X}$ and $\mathbf{Y}$; and (3) the structural uncertainty of the mapping $ƒ$. To that, @Jiang:2023 and @Wang:2025 lneveraged the idea of integrating scientific knowledge with deep learning [@Willard:2022] to develop knowledge-informed mapping (KIM) by using (1) information theory to uncover the dependencies between $\mathbf{X}$ and $\mathbf{Y}$ that guides the design of $f$ and (2) ensemble learning to account for uncertainty due to the model structure error of $f$. The goal of this paper is to document and open source KIM for a general public usage. \autoref{fig:kim} shows the general procedures of KIM which are detailed in the next section.
 
 ![Comparison between KIM and the original mapping.\label{fig:kim}](../docs/figures/Figure-KIM.png){ width=80% }
 
@@ -52,7 +52,7 @@ $$\mathbf{X}^{S_1}_j = \{X_i: I(X_i;Y_j) \neq 0 \quad \text{with} \: X_i \in \ma
 
 where $I(X_i;Y_j)$ is the mutual information between $X_i$ and $Y_j$ [@Cover:2006]. Based on the $N_e$ realizations, $I$ is calculated on the joint probability of $X_i$ and $Y_j$ using either binning method or k-nearest-neighbor method. Following @Jiang:2023, a statistical significance test is performed to identify the significant $I$ (i.e., $I(X_i;Y_j) \neq 0$) with a significance level of $1-\alpha$ on 100 bootstrap samples.
 
-**Step 2: Filtering by redundancy check.** Then, we conduct a further assessment that filtered out any model output in $\mathbf{X}^{S_1}_j$ whose dynamics are redundant to $Y_j$ given the knowledge of other outputs. This is achieved through a conditional independence test using conditional mutual information [@Cover:2006] given as:
+**Step 2: Filtering by redundancy check.** Then, we conduct a further assessment that filters out any model output in $\mathbf{X}^{S_1}_j$ whose dynamics are redundant to $Y_j$ given the knowledge of other outputs. This is achieved through a conditional independence test using conditional mutual information [@Cover:2006] given as:
 
 $$\mathbf{X}^{S}_j = \{X_i: I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i) \neq 0 \quad \text{with} \: X_i \in \mathbf{X}^{S_1}_j \},$$
 
@@ -78,9 +78,9 @@ where $E$ is the expectation operator and $y$ is the true value.
 # Examples
 We present two applications of KIM in performing inverse modeling, with Jupyter notebook provided in the repository to guide the package usage. For each case, we developed three types of inverse mappings: (1) the original inverse mapping without knowledge-informed, denoted as $M_0$; (2) the knowledge-informed inverse mapping only using global sensitivity analysis (Step 1), denoted as $M_1$; and (3) the knowledge-informed inverse mapping using both Step 1 and Step 2, denoted as $M_2$. 100 neural networks, $N_e=1$, are trained for each mapping. The remaining configurations can be found in the example jupyter notebook.
 
-**Case 1: Calibrating a cloud chamber model.** Cloud chamber model has been widely applied as a virtual reality of a true cloud chamber to study both turbulence and clouds and reveal aerosol–cloud–turbulence interactions [@Wang:2024]. The objective of this example is to estimate two key parameters, i.e., wall fluxes ($\lambda_w$) and collision processes ($\lambda_c$) using inverse mapping. To that, an ensemble of 513 model runs were generated based on a model set up shown in Figure TBD, by varying the values of the two parameters using Sobol sequence. 27 Virtual sensors are configured, each of which 'records' multiple variables including flow properties and cloud properties. The statistics of these variables, calculated over six 5-min periods, are used as the inputs of the inverse mappings, including the temporal standard deviation of vertical velocity ($W$ std), the temporal mean of temperature ($T$ mean), the temporal standard deviation of temperature ($T$ std), the temporal mean of supersaturation ($SS$ mean), the temporal standard deviation of supersaturation ($SS$ std), the mean radius of droplet size distribution (DSD) ($R$ mean, with $R$ representing radius hereafter), the standard deviation of radius ($R$ std), the skewness of radius ($R$ skew), and the kurtosis of radius ($R$ kurt).
+**Case 1: Calibrating a cloud chamber model.** Cloud chamber model has been widely applied as a virtual reality of a true cloud chamber to study turbulence, clouds, and their interactions [@Thomas2019scaling; @Wang:2024; @Wang2024dual; @Wang2024glaciation; @Wang2025intercomparison]. The objective of this example is to estimate two key parameters, i.e., the scaling coefficients of wall fluxes ($\lambda_w$) and collision processes ($\lambda_c$) using inverse mapping. To that, an ensemble of 513 model runs were generated based on a model set up detailed in @Wang:2025, by varying the values of the two parameters using Sobol sequence. 27 virtual sensors are configured, each of which 'records' multiple variables including flow properties and cloud properties. The statistics of these variables, calculated over six 5-min periods, are used as the inputs of the inverse mappings, including the temporal standard deviation of vertical velocity, the temporal mean of temperature, the temporal standard deviation of temperature, the temporal mean of supersaturation, the temporal standard deviation of supersaturation, the droplet radius mean, standard deviation, skewness, and kurtosis. Later in \autoref{fig:cc-1}, these statistics are indicated as Wstd, Tmean, Tstd, SSmean, SSstd, Rmean, Rstd, Rskew, and Rkurt, respectively. 
 
-Figure \autoref{fig:cc-1} shows the sensitivity analysis and the redundancy check. These two steps greatly reduce the total number of critical model states as the inputs to the inverse mappings. For $\lambda_w$, it drops from 1458 first to 1168 (via global sensitivity analysis) and then to 1043 (via redundancy checks). For the logarithm of $\lambda_c$, it is reduced to only 336 model states. The corresponding training results in the test dataset are shown in Figure \autoref{fig:cc-2}. It is obvious that the two KIMs, i.e., $M_1$ and $M_2$, outperforms the original inverse mapping that takes all 1043 as the inputs, with reduced bias and uncertainty.
+\autoref{fig:cc-1} shows the sensitivity analysis and the redundancy check. These two steps greatly reduce the total number of critical model states as the inputs to the inverse mappings. For $\lambda_w$, it drops from 1458 first to 1168 (via global sensitivity analysis) and then to 1043 (via redundancy checks). For the logarithm of $\lambda_c$, it is reduced to only 336 model states. The corresponding training results in the test dataset are shown in \autoref{fig:cc-2}. It is obvious that the two KIMs, i.e., $M_1$ and $M_2$, outperforms the original inverse mapping that takes all 1043 as the inputs, with reduced bias and uncertainty.
 
 ![Preliminary analysis of cloud chamber ensemble modeling.\label{fig:cc-1}](../docs/figures/im_cloudchamber_1.png){ width=80% }
 
@@ -89,7 +89,7 @@ Figure \autoref{fig:cc-1} shows the sensitivity analysis and the redundancy chec
 
 **Case 2: Calibrating an integrated hydrological model.** The Advanced Terrestrial Simulator (ATS) is an integrated hydrological models used to simulate hydrological fluxes across a watershed [@Coon:2019]. Here, we calibrated ATS against the streamflow observations at the outlet of Coal Creek watershed, CO, USA. The objective is to estimate eight models parameters categorized into evapotranspiration (ET), snow melting, and subsurface permeability. See @Jiang:2023 for more detailed information.
 
-The mutual information-based sensitivity analysis and the redundancy filtering are shown in Figure \autoref{fig:ats-1}. Similar to the cloud chamber case, the two steps greatly narrow down the streamflows that are useful to inform the estimation of each parameter. Figure \autoref{fig:ats-2} shows the corresponding scatter plots between prediction and true for the test dataset, where the bias and uncertainty are drastically lowered by using the two KIMs.
+The mutual information-based sensitivity analysis and the redundancy filtering are shown in \autoref{fig:ats-1}. Similar to the cloud chamber case, the two steps greatly narrow down the streamflows that are useful to inform the estimation of each parameter. \autoref{fig:ats-2} shows the corresponding scatter plots between prediction and true for the test dataset, where the bias and uncertainty are drastically lowered by using the two KIMs.
 
 ![Preliminary analysis of ATS ensemble modeling.\label{fig:ats-1}](../docs/figures/im_ats_1.png){ width=80% }
 
@@ -103,37 +103,3 @@ This work was funded by the Laboratory Directed Research and Development Program
 
 
 # References
-
-<!-- TBD
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-TBD
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
-
-# Acknowledgements
-
-TBD
-
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
-
-# References -->
