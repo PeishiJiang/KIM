@@ -323,9 +323,10 @@ class KIM(object):
             for i,one_map in enumerate(self._maps):
                 one_mask = self.mask[:,i]
                 if one_mask.sum() == 0:
+                    print(f"The {i}th map is None.")
                     assert one_map is None
                     y_e = np.empty([n_ens, Ns, 1]) + np.nan
-                    w = np.empty([n_ens, Ns, 1]) + np.nan
+                    w = np.empty([n_ens, 1]) + np.nan
                     y_m = np.empty([Ns, 1]) + np.nan
                     y_mw = np.empty([Ns, 1]) + np.nan
                 else:
