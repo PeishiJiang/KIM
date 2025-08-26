@@ -57,7 +57,7 @@ We provide one tutorial case and two real cases of applying KIM to performing in
 Distributed under the Simplified BSD License. See [LICENSE](./LICENSE) for more information.
 
 ## Acknowledgements
-This work was funded by the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory. 
+This work was funded by the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory and the IDEAS-Watersheds project. 
 
 ## How to Cite
 The repository is under review. We will provide a complete citation upon the acceptance of the repo/paper.
