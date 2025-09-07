@@ -126,7 +126,7 @@ class Data(object):
     def calculate_sensitivity(
         self, method: str='gsa', metric: str='it-bins', 
         sst: bool=False, ntest: int=100, alpha: float=0.05, 
-        bins: int=10, k: int=5, n_jobs=-1, seed_shuffle: int=1234,
+        bins: int=10, k: int=5, n_jobs=-1, Ncond_max=3, seed_shuffle: int=1234,
         verbose: int=0
     ):
         """Calculate the sensitivity between `self.xdata` and `self.ydata` using either `pairwise_analysis` or `pc` method.
@@ -156,7 +156,7 @@ class Data(object):
         xdata_scaled, ydata_scaled = self.xdata_scaled, self.ydata_scaled
         # Calculate sensitivity
         sensitivity, sensitivity_mask, cond_sensitivity_mask = analyze_interdependency(
-            xdata_scaled, ydata_scaled, method, metric, sst, 
+            xdata_scaled, ydata_scaled, method, metric, sst, Ncond_max,
             ntest, alpha, bins, k, n_jobs, seed_shuffle, verbose=verbose
         )
 

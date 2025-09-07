@@ -12,7 +12,7 @@ from jaxtyping import Array
 
 def analyze_interdependency(
     xdata: Array, ydata: Array, method: str='gsa', metric: str='it-bins', 
-    sst: bool=False, ntest: int=100, alpha: float=0.05, bins: int=10, 
+    sst: bool=False, Ncond_max: int=3, ntest: int=100, alpha: float=0.05, bins: int=10, 
     k: int=5, n_jobs: int=-1, seed_shuffle: int=1234, verbose: int=0,
 ):
     """Function for performing the interdependency between x and y.
@@ -68,7 +68,8 @@ def analyze_interdependency(
     elif method.lower() == "pc":
         sensitivity, sensitivity_mask, cond_sensitivity_mask = pc(
             xdata, ydata, metric_calculator, cond_metric_calculator, ntest=ntest, 
-            alpha=alpha, n_jobs=n_jobs, seed_shuffle=seed_shuffle, verbose=verbose
+            alpha=alpha, Ncond_max=Ncond_max, n_jobs=n_jobs, seed_shuffle=seed_shuffle, 
+            verbose=verbose
         )
 
     else:
