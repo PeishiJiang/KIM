@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -475,7 +475,7 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_sensitivity</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;gsa&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;it-bins&#39;</span><span class="p">,</span> 
         <span class="n">sst</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ntest</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> 
-        <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed_shuffle</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1234</span><span class="p">,</span>
+        <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ncond_max</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">seed_shuffle</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1234</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the sensitivity between `self.xdata` and `self.ydata` using either `pairwise_analysis` or `pc` method.</span>
@@ -505,7 +505,7 @@ document.write(`
         <span class="n">xdata_scaled</span><span class="p">,</span> <span class="n">ydata_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xdata_scaled</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ydata_scaled</span>
         <span class="c1"># Calculate sensitivity</span>
         <span class="n">sensitivity</span><span class="p">,</span> <span class="n">sensitivity_mask</span><span class="p">,</span> <span class="n">cond_sensitivity_mask</span> <span class="o">=</span> <span class="n">analyze_interdependency</span><span class="p">(</span>
-            <span class="n">xdata_scaled</span><span class="p">,</span> <span class="n">ydata_scaled</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">sst</span><span class="p">,</span> 
+            <span class="n">xdata_scaled</span><span class="p">,</span> <span class="n">ydata_scaled</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">sst</span><span class="p">,</span> <span class="n">Ncond_max</span><span class="p">,</span>
             <span class="n">ntest</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">,</span> <span class="n">seed_shuffle</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
         <span class="p">)</span>
 
