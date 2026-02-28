@@ -19,9 +19,10 @@ def compute_metrics(
     assert pred.shape == true.shape
 
     if mask_nan:
-        mask = np.isnan(pred)
-        pred = pred[~mask]
-        true = true[~mask]
+        mask1 = np.isnan(pred)
+        mask2 = np.isnan(true)
+        pred = pred[~mask1 & ~mask2]
+        true = true[~mask1 & ~mask2]
 
     # Relative square error
     def func_rse(pred, true):

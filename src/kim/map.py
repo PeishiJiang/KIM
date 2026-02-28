@@ -227,15 +227,23 @@ class KIM(object):
             rmse_test, mkge_test = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
             for i in range(Nens):
                 for j in range(Ny):
-                    metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j])
-                    rmse_train[i,j] = metrics['rmse']
-                    mkge_train[i,j] = metrics['mkge']
-                    metrics = compute_metrics(y_ens_val[i,...,j], y_true_val[...,j])
-                    rmse_val[i,j] = metrics['rmse']
-                    mkge_val[i,j] = metrics['mkge']
-                    metrics = compute_metrics(y_ens_test[i,...,j], y_true_test[...,j])
-                    rmse_test[i,j] = metrics['rmse']
-                    mkge_test[i,j] = metrics['mkge']
+                    if self.map_option == "many2many" or self.maps[j] is not None:
+                        metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j], mask_nan=True)
+                        rmse_train[i,j] = metrics['rmse']
+                        mkge_train[i,j] = metrics['mkge']
+                        metrics = compute_metrics(y_ens_val[i,...,j], y_true_val[...,j], mask_nan=True)
+                        rmse_val[i,j] = metrics['rmse']
+                        mkge_val[i,j] = metrics['mkge']
+                        metrics = compute_metrics(y_ens_test[i,...,j], y_true_test[...,j], mask_nan=True)
+                        rmse_test[i,j] = metrics['rmse']
+                        mkge_test[i,j] = metrics['mkge']
+                    else:
+                        rmse_train[i,j] = np.nan
+                        mkge_train[i,j] = np.nan
+                        rmse_val[i,j] = np.nan
+                        mkge_val[i,j] = np.nan
+                        rmse_test[i,j] = np.nan
+                        mkge_test[i,j] = np.nan
         elif 'num_train_sample' in self.map_configs['dl_hp_fixed'] and \
              'num_val_sample' not in self.map_configs['dl_hp_fixed']:
             rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
@@ -243,21 +251,31 @@ class KIM(object):
             rmse_test, mkge_test = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
             for i in range(Nens):
                 for j in range(Ny):
-                    metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j])
-                    rmse_train[i,j] = metrics['rmse']
-                    mkge_train[i,j] = metrics['mkge']
-                    metrics = compute_metrics(y_ens_test[i,...,j], y_true_test[...,j])
-                    rmse_test[i,j] = metrics['rmse']
-                    mkge_test[i,j] = metrics['mkge']
+                    if self.map_option == "many2many" or self.maps[j] is not None:
+                        metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j], mask_nan=True)
+                        rmse_train[i,j] = metrics['rmse']
+                        mkge_train[i,j] = metrics['mkge']
+                        metrics = compute_metrics(y_ens_test[i,...,j], y_true_test[...,j], mask_nan=True)
+                        rmse_test[i,j] = metrics['rmse']
+                        mkge_test[i,j] = metrics['mkge']
+                    else:
+                        rmse_train[i,j] = np.nan
+                        mkge_train[i,j] = np.nan
+                        rmse_test[i,j] = np.nan
+                        mkge_test[i,j] = np.nan
         else:
             rmse_train, mkge_train = np.zeros([Nens,Ny]), np.zeros([Nens,Ny])
             rmse_val, mkge_val = None, None
             rmse_test, mkge_test = None, None
             for i in range(Nens):
                 for j in range(Ny):
-                    metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j])
-                    rmse_train[i,j] = metrics['rmse']
-                    mkge_train[i,j] = metrics['mkge']
+                    if self.map_option == "many2many" or self.maps[j] is not None:
+                        metrics = compute_metrics(y_ens_train[i,...,j], y_true_train[...,j], mask_nan=True)
+                        rmse_train[i,j] = metrics['rmse']
+                        mkge_train[i,j] = metrics['mkge']
+                    else:
+                        rmse_train[i,j] = np.nan
+                        mkge_train[i,j] = np.nan
 
         ens_predict = {'train': y_ens_train, 'val': y_ens_val, 'test': y_ens_test}
         wm_predict = {'train': y_mw_train, 'val': y_mw_val, 'test': y_mw_test}

@@ -12,3 +12,16 @@ docs/.ipynb_checkpoints/
 **/._.DS_Store
 
 tests/.pytest_cache
+
+dist/*
+
+KIM.code-workspace
+docs/examples/im_ats/kim 3.ipynb
+docs/examples/im_cloudmodel/kim-holodec 3.ipynb
+docs/examples/im_cloudmodel/postprocessing-holodec 2.ipynb
+examples/im_cloudmodel_AaronWang/
+examples/tutorial/data/
+examples/tutorial/examples/
+examples/tutorial/kim/
+paper/paper.pdf
+paper/paper.pdf-v1
