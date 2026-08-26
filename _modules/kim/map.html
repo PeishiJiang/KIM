@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -433,7 +433,7 @@ document.write(`
 <span class="sd">            data (Data): the Data object containing the ensemble data and sensitivity analysis result.</span>
 <span class="sd">            map_configs (dict): the mapping configuration, including all the arguments of Map class except x and y.</span>
 <span class="sd">            mask_option (str): the masking option including &quot;sensitivity&quot; (using data.sensitivity_mask), and &quot;cond_sensitivity&quot; (using data.cond_sensitivity_mask).</span>
-<span class="sd">            map_option (str): the map option including &quot;many2one&quot;: knowledge-informed mapping using sensitivity analysis result as filter, and &quot;many2many&quot;: normal mapping without being knowledge-informed</span>
+<span class="sd">            map_option (str): the map option including &quot;many2one&quot;: knowledge-informed mapping using preliminary analysis result as filter, and &quot;many2many&quot;: the original mapping without being knowledge-informed</span>
 <span class="sd">            other_mask (List): the additional mask to be assigned to self.mask with size Nx. Default to None.</span>
 <span class="sd">            name (str): the name of the KIM object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -496,7 +496,8 @@ document.write(`
             <span class="n">maps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_map_many2one</span><span class="p">()</span>
         <span class="c1"># Train</span>
         <span class="k">for</span> <span class="n">one_map</span> <span class="ow">in</span> <span class="n">maps</span><span class="p">:</span>
-            <span class="n">one_map</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">one_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">one_map</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maps</span> <span class="o">=</span> <span class="n">maps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trained</span> <span class="o">=</span> <span class="kc">True</span></div>
 
@@ -624,9 +625,10 @@ document.write(`
             <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true_test</span><span class="o">-</span><span class="n">y_mw_test</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="n">wrelauncert</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;train&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_stdw_train</span><span class="o">/</span><span class="n">y_true_train</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
-            <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_stdw_val</span><span class="o">/</span><span class="n">y_true_val</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-            <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_stdw_test</span><span class="o">/</span><span class="n">y_true_test</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="s1">&#39;train&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_stdw_train</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true_train</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+            <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_stdw_val</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true_val</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_stdw_test</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true_test</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># &#39;test&#39;: np.mean(y_stdw_test, axis=0)</span>
         <span class="p">}</span>
 
         <span class="k">return</span> <span class="p">{</span>
@@ -676,9 +678,10 @@ document.write(`
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">one_map</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maps</span><span class="p">):</span>
                 <span class="n">one_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">one_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">th map is None.&quot;</span><span class="p">)</span>
                     <span class="k">assert</span> <span class="n">one_map</span> <span class="ow">is</span> <span class="kc">None</span>
                     <span class="n">y_e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">n_ens</span><span class="p">,</span> <span class="n">Ns</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-                    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">n_ens</span><span class="p">,</span> <span class="n">Ns</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">n_ens</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                     <span class="n">y_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">Ns</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                     <span class="n">y_mw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">Ns</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -738,7 +741,8 @@ document.write(`
         <span class="c1"># Save all the mappings</span>
         <span class="n">f_map_set</span> <span class="o">=</span> <span class="p">[</span><span class="n">rootpath</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;map</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_maps</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">one_map</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maps</span><span class="p">):</span>
-            <span class="n">one_map</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f_map_set</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">one_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">one_map</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f_map_set</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
         <span class="c1"># Save the remaining configurations</span>
         <span class="n">f_configs</span> <span class="o">=</span> <span class="n">rootpath</span> <span class="o">/</span> <span class="s2">&quot;configs.pkl&quot;</span>
@@ -798,7 +802,8 @@ document.write(`
             <span class="n">f_mapping_set</span> <span class="o">=</span> <span class="p">[</span><span class="n">rootpath</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;map</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_maps</span><span class="p">)]</span>
             <span class="n">maps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_map_many2one</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">one_map</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">maps</span><span class="p">):</span>
-                <span class="n">one_map</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f_mapping_set</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">one_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">one_map</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f_mapping_set</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maps</span> <span class="o">=</span> <span class="n">maps</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">trained</span> <span class="o">=</span> <span class="kc">True</span>
@@ -875,12 +880,12 @@ document.write(`
 <a class="viewcode-back" href="../../api/kim.html#kim.map.Map.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">model_type</span><span class="p">:</span> <span class="nb">type</span><span class="o">=</span><span class="n">MLP</span><span class="p">,</span> 
-        <span class="n">n_model</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ensemble_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span>
+        <span class="n">n_model</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ensemble_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span>
         <span class="n">model_hp_choices</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="p">{},</span> <span class="n">model_hp_fixed</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="p">{},</span> 
         <span class="n">optax_hp_choices</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="p">{},</span> <span class="n">optax_hp_fixed</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">dl_hp_choices</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="p">{},</span> <span class="n">dl_hp_fixed</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">training_parallel</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">ens_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ens_seed</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="n">parallel_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Device</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
@@ -891,15 +896,15 @@ document.write(`
 <span class="sd">            y (array-like): the predictands with shape (Ns, Ny)</span>
 <span class="sd">            model_type (type): the equinox model class</span>
 <span class="sd">            n_model (int): the number of ensemble models</span>
-<span class="sd">            ensemble_type (str): the ensemble type, either &#39;single&#39;, &#39;serial&#39; or &#39;parallel&#39;.</span>
+<span class="sd">            ensemble_type (str): the ensemble type, either &#39;single&#39;, &#39;ens_random&#39; or &#39;ens_grid&#39;.</span>
 <span class="sd">            model_hp_choices (dict): the tunable model hyperparameters, in dictionary format {key: [value1, value2,...]}. The model hyperparameters must follow the arguments of the specified model_type</span>
 <span class="sd">            model_hp_fixed (dict): the fixed model hyperparameters, in dictionary format {key: value}. The model hyperparameters must follow the arguments of the specified model_type</span>
 <span class="sd">            optax_hp_choices (dict): the tunable optimizer hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of the specified optax optimizer. Key hyperparameters: &#39;optimizer_type&#39; (str), &#39;nsteps&#39; (int), and &#39;loss_func&#39; (callable)</span>
 <span class="sd">            optax_hp_fixed (dict): the fixed optimizer hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of the specified model_type. Key hyperparameters: &#39;optimizer_type&#39; (str), &#39;nsteps&#39; (int), and &#39;loss_func&#39; (callable)</span>
-<span class="sd">            dl_hp_choices (dict): the tunable dataloader hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: &#39;batch_size&#39; (int) and &#39;num_train_sample&#39; (int) </span>
-<span class="sd">            dl_hp_fixed (dict): the fixed dataloader hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of make_big_data_loader. Key hyperparameters: &#39;batch_size&#39; (int) and &#39;num_train_sample&#39; (int</span>
+<span class="sd">            dl_hp_choices (dict): the tunable dataloader hyperparameters, in dictionary format {key: [value1, value2,...]}. The optimizer hyperparameters must follow the arguments of make_pytorch_data_loader. Key hyperparameters: &#39;batch_size&#39; (int) and &#39;num_train_sample&#39; (int) </span>
+<span class="sd">            dl_hp_fixed (dict): the fixed dataloader hyperparameters, in dictionary format {key: value}. The optimizer hyperparameters must follow the arguments of make_pytorch_data_loader. Key hyperparameters: &#39;batch_size&#39; (int) and &#39;num_train_sample&#39; (int)</span>
 <span class="sd">            training_parallel (bool): whether to perform parallel training</span>
-<span class="sd">            ens_seed (Optional[int], optional): the random seed for generating ensemble configurations.</span>
+<span class="sd">            ens_seed (int): the random seed for generating ensemble configurations.</span>
 <span class="sd">            parallel_config (Optional[dict], optional): the parallel training configurations following the arguments of joblib.Parallel</span>
 <span class="sd">            device (Optional[Device], optional): the computing device to be set</span>
 <span class="sd">        &quot;&quot;&quot;</span>

@@ -7,7 +7,7 @@ $$\mathbf{X}^{S_1}_j = \{X_i: I(X_i;Y_j) \neq 0 \quad \text{with} \: X_i \in \ma
 
 where $I(X_i;Y_j)$ is the mutual information between $X_i$ and $Y_j$ {cite:p}`Cover:2006`. Based on the $N_e$ realizations, $I$ is calculated on the joint probability of $X_i$ and $Y_j$ using either binning method or k-nearest-neighbor method. Following {cite:t}`Jiang:2023`, a statistical significance test is performed to identify the significant $I$ (i.e., $I(X_i;Y_j) \neq 0$) with a significance level of $1-\alpha$ on 100 bootstrap samples.
 
-**Step 2: Filtering by redundancy check.** Then, we conduct a further assessment that filtered out any model output in $\mathbf{X}^{S_1}_j$ whose dynamics are redundant to $Y_j$ given the knowledge of other outputs. This is achieved through a conditional independence test using conditional mutual information [@Cover:2006] given as:
+**Step 2: Filtering by redundancy check.** Then, we conduct a further assessment that filtered out any model output in $\mathbf{X}^{S_1}_j$ whose dynamics are redundant to $Y_j$ given the knowledge of other outputs. This is achieved through a conditional independence test using conditional mutual information {cite:p}`Cover:2006` given as:
 
 $$\mathbf{X}^{S}_j = \{X_i: I(X_i;Y_j|\mathbf{X}^{S_1}_j \backslash X_i) \neq 0 \quad \text{with} \: X_i \in \mathbf{X}^{S_1}_j \},$$
 
