@@ -33,14 +33,14 @@ bibliography: paper.bib
 \textsuperscript{2} Civil, Construction and Environmental Engineering, University of Alabama, Tuscaloosa, AL, USA
 
 # Summary
-We present a Knowledge-Informed Mapping toolkit in Python programming language, named KIM, to optimize the development of the mapping $ƒ$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM builds on the methodology development of deep learning-based inverse mapping in @Jiang:2023 and @Wang:2025. 
+We present a Knowledge-Informed Mapping toolkit in Python programming language, named KIM, to optimize the development of the mapping $f$ from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. KIM builds on the methodology development of deep learning-based inverse mapping in @Jiang:2023 and @Wang:2025. 
 KIM offers a preliminary understanding of data interdependencies while optimizing the training step with uncertainty accounted for. We expect this toolkit will be helpful to glue the model data integration for Earth science applications.
 
 # Statement of need
 Striving for scientific hypothesis testing and discovery, Earth scientists oftentimes develop data-driven mappings -- either for inverse modeling, as part of model calibration, or forward modeling, as an emulator. Both approaches benefit from an efficient way of mapping, $f$, that projects from a vector of inputs $\mathbf{X}$ to a vector of outputs $\mathbf{Y}$. 
 Such mapping approach has seen successes in addressing inverse and forward problems in multiple studies across Earth sciences [@Krasnopolsky:2003; @HU:2014; @Cromwell:2021; @Mudunuru:2022].
 
-Nevertheless, constructing the mapping $ƒ$ that connects all inputs $\mathbf{X}$ to all outputs $\mathbf{Y}$ is usually challenging due to (1) limited data/simulations for training; (2) uninformative relations between some members of $\mathbf{X}$ and $\mathbf{Y}$; and (3) the structural uncertainty of the mapping $ƒ$. To that, @Jiang:2023 and @Wang:2025 leveraged the idea of integrating scientific knowledge with deep learning [@Willard:2022] to develop knowledge-informed mapping (KIM). The goal of this paper is to document and open source KIM for a general public usage. \autoref{fig:kim} shows the general procedures of KIM which are detailed in the next section.
+Nevertheless, constructing the mapping $f$ that connects all inputs $\mathbf{X}$ to all outputs $\mathbf{Y}$ is usually challenging due to (1) limited data/simulations for training; (2) uninformative relations between some members of $\mathbf{X}$ and $\mathbf{Y}$; and (3) the structural uncertainty of the mapping $f$. To that, @Jiang:2023 and @Wang:2025 leveraged the idea of integrating scientific knowledge with deep learning [@Willard:2022] to develop knowledge-informed mapping (KIM). The goal of this paper is to document and open source KIM for a general public usage. \autoref{fig:kim} shows the general procedures of KIM which are detailed in the next section.
 
 ![Comparison between KIM and the original mapping.\label{fig:kim}](../docs/figures/Figure-KIM.png){ width=80% }
 
