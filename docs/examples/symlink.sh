@@ -26,33 +26,3 @@ for ex in "${EXAMPLES[@]}"; do
 
     cd ../
 done
-
-# # Define source and destination directories
-# SRC_DIR="../../examples"
-# DEST_DIR="."
-
-# EXAMPLES=("im_cloudmodel" "im_ats" "fm_evapotranspiration")
-
-# # Ensure the destination directories exists
-# for ex in "${EXAMPLES[@]}"; do
-#     mkdir -p "$DEST_DIR/$(basename "$ex")"
-# done
-
-# # Find and symlink all ex*.ipynb files
-# for ex in "${EXAMPLES[@]}"; do
-#     # Training notebooks
-#     for notebook in "$SRC_DIR"/$(basename "$ex")/kim*.ipynb; do
-#         if [ -f "$notebook" ]; then
-#             ln -sf "$notebook" "$DEST_DIR/$(basename "$ex")/$(basename "$notebook")"
-#             echo "Symlinked: $notebook -> $DEST_DIR/$(basename "$ex")/$(basename "$notebook")"
-#         fi
-#     done
-
-#     # Postprocessing notebooks
-#     for notebook in "$SRC_DIR"/$(basename "$ex")/postprocess*.ipynb; do
-#         if [ -f "$notebook" ]; then
-#             ln -sf "$notebook" "$DEST_DIR/$(basename "$ex")/$(basename "$notebook")"
-#             echo "Symlinked: $notebook -> $DEST_DIR/$(basename "$ex")/$(basename "$notebook")"
-#         fi
-#     done
-# done
