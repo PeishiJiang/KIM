@@ -40,6 +40,11 @@ KIM is a Knowledge-Informed Mapping toolkit in Python to optimize the developmen
     git clone https://github.com/PeishiJiang/KIM.git
     ```
 
+6. (Optional, needed to run the example notebooks) Register the `kim` virtual environment as a Jupyter kernel, since the example notebooks pin `"kernelspec": {"name": "kim"}`:
+    ```bash
+    python -m ipykernel install --user --name kim
+    ```
+
 ## Documentation
 <!-- Please refer to [the Approach](./doc/math.md) for a complete description of the mathematical method. -->
 The official documentation is hosted on [the package website](https://peishijiang.github.io/KIM). Please refer to [Math behind KIM](https://peishijiang.github.io/KIM/math.html) for a complete description of the theory behind the package.
