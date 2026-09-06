@@ -44,6 +44,12 @@ Nevertheless, constructing the mapping $f$ that connects all inputs $\mathbf{X}$
 
 ![Comparison between KIM and the original mapping.\label{fig:kim}](../docs/figures/Figure-KIM.png){ width=80% }
 
+# State of the field
+Several open-source tools address individual pieces of the KIM workflow, but none integrate them into a single, ready-to-use pipeline for constructing uncertainty-aware forward/inverse mappings in Earth science applications. For global sensitivity analysis, `SALib` [@Herman:2017] is the most widely used Python package, offering methods such as Sobol, Morris, and FAST. However, SALib treats sensitivity analysis as a standalone diagnostic step: it does not provide a conditional-independence-based redundancy filter, nor does it feed its results into a subsequent model-training stage. For conditional independence testing, `tigramite` [@Runge:2019] implements the PC algorithm for causal discovery among time series, including a conditional independence test whose residual-based implementation inspired KIM's own (Step 2 of Mathematical approach section). However, tigramite is designed to recover causal graphs, not to construct a predictive mapping, and has no ensemble-learning or uncertainty-quantification component. For the mapping step itself, general-purpose libraries such as `scikit-learn` and deep learning frameworks (`JAX`, `PyTorch`) supply the regression and neural-network building blocks, but leave input pruning, ensemble configuration, and per-output uncertainty aggregation entirely to the user.
+
+# Research impact statement
+KIM's contribution is to integrate these three stages, i.e., filtering by global sensitivity analysis, filtering by conditional independence, and ensemble-learning-based mapping with uncertainty quantification, into a single package that operationalizes the methodology validated in @Jiang:2023 and @Wang:2025. Rather than contribute this workflow piecemeal to SALib, tigramite, or scikit-learn, each of which serves a broader purpose, we built a focused package so the full workflow is reproducible end to end from a single dependency and openly shared Jupyter notebook examples. This mapping methodology has already been validated in peer-reviewed scientific research, rather than being a speculative or purely illustrative tool. @Jiang:2023, published in *Hydrology and Earth System Sciences*, applied the knowledge-informed inverse mapping approach that KIM implements to calibrate the Advanced Terrestrial Simulator against streamflow observations at the Coal Creek Watershed, Colorado -- one of the two worked examples distributed with this package. @Wang:2025, published in *Journal of Advances in Modeling Earth Systems*, applies the same approach to estimate wall-flux and collision-kernel scaling parameters in a cloud chamber model, KIM's second worked example.
+
 # Mathematical approach
 Consider a vector of inputs $\mathbf{X} = [X_1,...,X_{N_x}]$ and a vector of outputs $\mathbf{Y} = [Y_1,...,Y_{N_y}]$. The objective is to build up a mapping function $f$ from $\mathbf{X}$ to  $\mathbf{Y}$, such that $f: \mathbb{R}^{N_x} \rightarrow \mathbb{R}^{N_y}$, based on $N_e$ pairs/realizations of $\mathbf{X}$ and $\mathbf{Y}$. Instead of developing a lumped mapping, we aim to develop a separate inverse mapping $f_i$ for each $Y_j \in \mathbf{Y}$ by using a reduced space $\mathbf{X}^S_j \in \mathbf{X}$ that is most relevant to $Y_j$, such that $f_j: \mathbb{R}^{N_{x_j}} \rightarrow \mathbb{R}$ (see examples in @Jiang:2023 and @Wang:2025), which involves the following steps.
 
@@ -67,6 +73,17 @@ When evaluating the estimation on the test dataset, we further quantified the bi
 \end{align}
 where $E$ is the expectation operator; $y$ is the true value; $\mu_w$ and $\sigma_w$ are the mean and standard deviation of the ensemble predictions weighted by their accuracy in the validation set.
 
+# Software design
+KIM's architecture directly mirrors the three-step methodology described above.
+
+**Two-stage filtering as a separate, model-agnostic layer.** The `Data` class and the `pre_analysis` subpackage implement Steps 1-2 independently of any neural network code. Both mutual information and conditional mutual information are available via either a binning estimator or a k-nearest-neighbor estimator, and their statistical significance is assessed with a permutation shuffle test.
+
+**Two-level mapping API that encodes the modeling philosophy.** The `KIM` class orchestrates one or many `Map` objects: with `map_option="many2one"`, the class trains one independent ensemble mapping per output $Y_j$, restricted to the reduced input subset selected by the chosen mask based on the filtering step; with `map_option="many2many"`, the class trains a single lumped mapping using all inputs, which serves as the non-knowledge-informed baseline used for comparison.
+
+**Ensemble uncertainty via configuration.** Rather than requiring users to write a training loop per hyperparameter combination, `Map` accepts separate "choices" and "fixed" dictionaries for model, optimizer, and dataloader hyperparameters, and generates the ensemble's configurations from an `ensemble_type` of `"single"`, `"ens_random"` (random sampling), or `"ens_grid"` (full grid search). Each ensemble member is trained independently and their predictions are aggregated into a validation-loss-weighted mean and standard deviation, giving an uncertainty estimate from the ensemble itself rather than requiring a separate Bayesian or dropout-based UQ method.
+
+Lastly, KIM accelerates the computational time by adopting parallel computing via the following two ways. First, KIM trains ensemble members of neural networks in parallel by using `joblib.Parallel` with the `loky` backend. Second, the same technique is applied to the permutation-based shuffle tests in the sensitivity analysis. This trades inter-process overhead for training throughput that scales with available CPU cores without requiring GPU access.
+
 # Examples
 We present two applications of KIM in performing inverse modeling, with Jupyter notebook provided in the repository to guide the package usage. For each case, we developed three types of inverse mappings: (1) the original inverse mapping without knowledge-informed, denoted as $M_0$; (2) the knowledge-informed inverse mapping only using global sensitivity analysis (Step 1), denoted as $M_1$; and (3) the knowledge-informed inverse mapping using both Step 1 and Step 2, denoted as $M_2$. The configurations can be found in the example jupyter notebook.
 
@@ -76,12 +93,14 @@ We present two applications of KIM in performing inverse modeling, with Jupyter 
 
 ![Estimation of the two parameters of the cloud chamber model.\label{fig:cc-2}](../docs/figures/im_cloudchamber_2.png){ width=80% }
 
-
 **Case 2: Calibrating an integrated hydrological model.** The Advanced Terrestrial Simulator (ATS) is an integrated hydrological models used to simulate hydrological fluxes across a watershed [@Coon:2019]. Here, we calibrated ATS against the streamflow observations at the outlet of Coal Creek watershed, CO, USA. The objective is to estimate eight models parameters categorized into evapotranspiration (ET), snow melting, and subsurface permeability. See @Jiang:2023 for more detailed information. The preliminary analysis and parameter estimation results are shown in \autoref{fig:ats-1} and \autoref{fig:ats-2}, respectively. 
 
 ![Preliminary analysis of ATS ensemble modeling (the inputs $\mathbf{X}$: simulated streamflows; $\mathbf{Y}$: eight parameters of the ATS model).\label{fig:ats-1}](../docs/figures/im_ats_1.png){ width=80% }
 
 ![Estimation of four (out of eight) parameters of the ATS model.\label{fig:ats-2}](../docs/figures/im_ats_2.png){ width=80% }
+
+# AI usage disclosure
+AI tools were used in a limited and supportive role to assist in the development of this library and in drafting the manuscript. Specifically, the authors used Claude to refine the documentation and suggest code improvement. All the AI-generated codes and documentation were reviewed by the authors to ensure that they accurately reflected the intended function and design of the software. The original draft of the manuscript was written by the authors and subsequently improved through feedback and revisions from the reviewers, editors, and Claude. All underlying scientific motivation, software architecture, analyses, and final interpretations were conceived, verified, and approved by the authors.
 
 # Acknowledgements
 This work was supported by both the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory and the IDEAS-Watersheds project. The Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory is a multiprogram national laboratory operated by Battelle for the U.S. Department of Energy. Pacific Northwest National Laboratory is operated for the DOE by Battelle Memorial Institute under contract DE-AC05-76RL01830. The IDEAS-Watersheds project is funded by the U.S. Department of Energy (DOE), Office of Science (SC) Biological and Environmental Research (BER) program, as part of BER’s Environmental System Science (ESS) program. 
