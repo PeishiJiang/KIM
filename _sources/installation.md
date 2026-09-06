@@ -22,3 +22,8 @@ We recommend installing the `pip`-based package through a virtual environment su
     ```bash
     git clone https://github.com/PeishiJiang/KIM.git
     ```
+
+6. (Optional, needed to run the example notebooks) Register the `kim` virtual environment as a Jupyter kernel, since the example notebooks pin `"kernelspec": {"name": "kim"}`:
+    ```bash
+    python -m ipykernel install --user --name kim
+    ```

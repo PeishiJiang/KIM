@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -410,6 +410,11 @@ document.write(`
 </li>
 <li><p>(Optional) Download the git repo to get the example jupyter notebooks:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/PeishiJiang/KIM.git
+</pre></div>
+</div>
+</li>
+<li><p>(Optional, needed to run the example notebooks) Register the <code class="docutils literal notranslate"><span class="pre">kim</span></code> virtual environment as a Jupyter kernel, since the example notebooks pin <code class="docutils literal notranslate"><span class="pre">&quot;kernelspec&quot;:</span> <span class="pre">{&quot;name&quot;:</span> <span class="pre">&quot;kim&quot;}</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>--name<span class="w"> </span>kim
 </pre></div>
 </div>
 </li>
