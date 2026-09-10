@@ -25,3 +25,10 @@ examples/tutorial/examples/
 examples/tutorial/kim/
 paper/paper.pdf
 paper/paper.pdf-v1
+
+# Outputs written by the example notebooks (examples/*/kim*.ipynb save here)
+examples/*/results/
+examples/*/results-*/
+
+# Jupyter autosave checkpoints
+.ipynb_checkpoints/
