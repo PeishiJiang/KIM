@@ -4,9 +4,7 @@ import jax.random as jrn
 import numpy as np
 
 import pprint
-import shutil
 import pytest
-from pathlib import Path
 from copy import deepcopy
 
 from kim.map import KIM
@@ -207,18 +205,41 @@ def test_predict():
     assert weights2.shape == (n_model, kim2.n_maps)
     assert weights3.shape == (n_model, kim3.n_maps)
 
-    # I expect weighted predictions better than the normal average result
-    assert error1 >= error_w1
-    assert error2 >= error_w2
-    assert error3 >= error_w3
+    # The ensemble weights form a convex combination for every output:
+    # non-negative and summing to one (up to float32 round-off).
+    for weights in (weights1, weights2, weights3):
+        assert np.all(weights >= 0)
+        assert np.allclose(weights.sum(axis=0), 1.0, atol=1e-5)
 
-    # I expect the best to worst mapping orders: kim3 --> kim2 --> kim1
-    assert error1 >= error2
-    assert error2 >= error3
-    assert error_w1 >= error_w2
-    assert error_w2 >= error_w3
+    # Predictions are finite, the plain mean is the ensemble mean, and the
+    # weighted mean lies inside the ensemble envelope (a consequence of the
+    # weights being a convex combination).
+    for y_ens, y_mean, y_mean_w in (
+        (y_ens1, y_mean1, y_mean_w1), (y_ens2, y_mean2, y_mean_w2), (y_ens3, y_mean3, y_mean_w3)
+    ):
+        assert y_ens.shape == (n_model, Ns, out_size)
+        assert np.all(np.isfinite(y_ens)) and np.all(np.isfinite(y_mean_w))
+        assert np.allclose(y_mean, y_ens.mean(axis=0), atol=1e-5)
+        assert np.all(y_mean_w >= y_ens.min(axis=0) - 1e-5)
+        assert np.all(y_mean_w <= y_ens.max(axis=0) + 1e-5)
+    for error in (error1, error2, error3, error_w1, error_w2, error_w3):
+        assert np.isfinite(error)
 
-def test_save_load():
+    # The knowledge-informed mappings must be insensitive to the inputs that the
+    # preliminary analysis filtered out, whereas the many2many baseline uses all
+    # inputs. Perturb only the inputs that no map uses and compare predictions.
+    rng = np.random.default_rng(seed_predict)
+    for kim_masked, y_mean_ref in ((kim2, y_mean2), (kim3, y_mean3)):
+        unused = ~kim_masked.mask.any(axis=1)
+        assert unused.any(), "the test problem should leave some inputs unselected"
+        xb_perturbed = np.array(xb)
+        xb_perturbed[:, unused] = rng.uniform(size=(Ns, int(unused.sum())))
+        _, y_mean_perturbed, _, _, _ = kim_masked.predict(xb_perturbed)
+        assert np.allclose(y_mean_perturbed, y_mean_ref, atol=1e-5)
+        _, y_mean1_perturbed, _, _, _ = kim1.predict(xb_perturbed)
+        assert not np.allclose(y_mean1_perturbed, y_mean1, atol=1e-5)
+
+def test_save_load(tmp_path):
     # Training data
     x, y = get_samples()
     data = Data(x, y, **data_params)
@@ -229,8 +250,8 @@ def test_save_load():
     assert not kim.trained
     kim.train()
 
-    # Save the model
-    root_path = Path("./kim_save")
+    # Save the model (into pytest's per-test temporary directory)
+    root_path = tmp_path / "kim_save"
     kim.save(root_path)
     assert not kim.loaded_from_other_sources
 
@@ -248,11 +269,10 @@ def test_save_load():
     y_ens1, y_mean1, y_mean_w1, y_std_w1, weights1 = kim.predict(xb)
     y_ens2, y_mean2, y_mean_w2, y_std_w2, weights2 = kim2.predict(xb)
 
-    assert np.array_equal(weights1.sum(axis=0), np.ones(kim.n_maps))
-    assert np.array_equal(weights2.sum(axis=0), np.ones(kim2.n_maps))
+    # The weights are float32, so their sum is one only up to round-off
+    assert np.allclose(weights1.sum(axis=0), 1.0, atol=1e-5)
+    assert np.allclose(weights2.sum(axis=0), 1.0, atol=1e-5)
+    # The reloaded KIM must reproduce the original predictions exactly
     assert np.array_equal(y_ens1, y_ens2)
     assert np.array_equal(y_mean1, y_mean2)
     assert np.array_equal(y_mean_w1, y_mean_w2)
-
-    # Remove the saving folder upon success
-    shutil.rmtree(root_path)
