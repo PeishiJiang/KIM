@@ -224,9 +224,11 @@ def computeMIknn(x: Array, y: Array, k: int=2) -> float:
     rset[rset == 0] = 1e-14
 
     # Get the number of nearest neighbors for X and Y based on the ball radius
+    # (one vectorized query per tree instead of a Python loop over the points)
+    radii = (rset - 1e-15).ravel()
     treey, treex = cKDTree(y), cKDTree(x)
-    kyset = np.array([len(treey.query_ball_point(y[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
-    kxset = np.array([len(treex.query_ball_point(x[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
+    kyset = treey.query_ball_point(y, radii, p=float('inf'), return_length=True)
+    kxset = treex.query_ball_point(x, radii, p=float('inf'), return_length=True)
 
     # Compute information metrics
     return digamma(npts) + digamma(k) - np.mean(digamma(kyset)) - np.mean(digamma(kxset))
@@ -266,14 +268,13 @@ def computeCMIknn(x: Array, y: Array, cdata: Array, k: int=2) -> float:
     # Locate the index where rset are zero, and change these values to 1e-14
     rset[rset == 0] = 1e-14
 
-    # Get the number of nearest neighbors for X and Y based on the ball radius
-    # treey, treex = cKDTree(y), cKDTree(x)
-    # kyset = np.array([len(treey.query_ball_point(y[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
-    # kxset = np.array([len(treex.query_ball_point(x[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
+    # Get the number of nearest neighbors for (Y,C), (X,C) and C based on the ball radius
+    # (one vectorized query per tree instead of a Python loop over the points)
+    radii = (rset - 1e-15).ravel()
     treeyc, treexc, treec = cKDTree(ycdata), cKDTree(xcdata), cKDTree(cdata)
-    kycset = np.array([len(treeyc.query_ball_point(ycdata[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
-    kxcset = np.array([len(treexc.query_ball_point(xcdata[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
-    kcset  = np.array([len(treec.query_ball_point(cdata[i,:], rset[i]-1e-15, p=float('inf'))) for i in range(npts)])
+    kycset = treeyc.query_ball_point(ycdata, radii, p=float('inf'), return_length=True)
+    kxcset = treexc.query_ball_point(xcdata, radii, p=float('inf'), return_length=True)
+    kcset  = treec.query_ball_point(cdata, radii, p=float('inf'), return_length=True)
 
     # Compute information metrics
     return np.mean(digamma(kcset)) + digamma(k) - np.mean(digamma(kycset)) - np.mean(digamma(kxcset))

@@ -68,10 +68,17 @@ def shuffle_test(
             metrics_shuffled = metric_calculator(x_shuffled, y, cdata) 
         return metrics_shuffled
 
-    # n_jobs = ntest
-    metrics_shuffled_all = Parallel(n_jobs=n_jobs, backend='loky')(
-        delayed(shuffle)(x_shuffled_all[i], y, cdata, metric_calculator) for i in range(ntest)
-    )
+    # Each shuffled metric only takes a few milliseconds, so when this test is
+    # itself run inside a worker (see pairwise_analysis) or n_jobs == 1, a plain
+    # loop avoids the per-call joblib dispatch overhead.
+    if n_jobs == 1:
+        metrics_shuffled_all = [
+            shuffle(x_shuffled_all[i], y, cdata, metric_calculator) for i in range(ntest)
+        ]
+    else:
+        metrics_shuffled_all = Parallel(n_jobs=n_jobs, backend='loky')(
+            delayed(shuffle)(x_shuffled_all[i], y, cdata, metric_calculator) for i in range(ntest)
+        )
     metrics_shuffled_all = np.array(metrics_shuffled_all)
 
     # Calculate 95% and 5% percentiles
