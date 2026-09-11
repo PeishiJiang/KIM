@@ -3,6 +3,7 @@
 # Author: Peishi Jiang <shixijps@gmail.com>
 
 import numpy as np
+from joblib import Parallel, delayed
 
 from .sst import shuffle_test
 from .metric_calculator import MetricBase
@@ -45,19 +46,32 @@ def pairwise_analysis(
     if verbose == 1:
         print("Performing pairwise analysis to remove insensitive inputs ...")
 
-    for i in tqdm(range(Nx)):
-        x = xdata[:,i]
+    def analyze_one_input(x):
+        # Sensitivity of one input x to every output, computed serially in one worker.
+        # shuffle_test reseeds from seed_shuffle on every call, so the result is
+        # independent of which worker runs it and identical to the serial version.
+        sens_i = np.zeros(Ny)
+        mask_i = np.ones(Ny, dtype='bool')
         for j in range(Ny):
             y = ydata[:,j]
             if not sst:
-                sensitivity[i, j] = metric_calculator(x, y)
+                sens_i[j] = metric_calculator(x, y)
             else:
-                metric, significance = shuffle_test(
+                sens_i[j], mask_i[j] = shuffle_test(
                     x, y, metric_calculator, None, ntest, alpha, 
-                    n_jobs=n_jobs, random_seed=seed_shuffle
+                    n_jobs=1, random_seed=seed_shuffle
                 )
-                sensitivity[i, j] = metric
-                sensitivity_mask[i, j] = significance
+        return sens_i, mask_i
+
+    # Parallelize over the Nx inputs. Each task (Ny shuffle tests of ~100 metric
+    # evaluations) is large enough to amortize the dispatch cost, unlike the
+    # previous scheme of one joblib call of ntest tiny tasks per (x, y) pair.
+    results = Parallel(n_jobs=n_jobs, backend='loky')(
+        delayed(analyze_one_input)(xdata[:,i]) for i in tqdm(range(Nx))
+    )
+    for i, (sens_i, mask_i) in enumerate(results):
+        sensitivity[i, :] = sens_i
+        sensitivity_mask[i, :] = mask_i
     
     return sensitivity, sensitivity_mask
 

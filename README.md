@@ -59,6 +59,8 @@ We provide one tutorial case and two real cases of applying KIM to performing in
 
 **Case 2: [Calibrating an integrated hydrological model](./examples/im_ats/).** We develop inverse mappings to estimate eight parameters of the Advanced Terrestrial Simulator (ATS) from the streamflow observations at the outlet of Coal Creek watershed, CO, USA.
 
+**Expected runtime.** The tutorial runs in a few minutes on a laptop. Each real case takes roughly 10-15 minutes on a 16-core laptop (about 3-5 minutes for the sensitivity analysis and shuffle tests, and 6-7 minutes to train the 100-member ensembles); the notebooks cap `n_jobs` at the available CPU cores, so fewer cores mean proportionally longer runs. Both `kim*.ipynb` notebooks save the sensitivity analysis to `results*/data/`, and a second run can skip the analysis by loading it with `Data.load()` instead of calling `Data.calculate_sensitivity()`.
+
 ## License
 Distributed under the Simplified BSD License. See [LICENSE](./LICENSE) for more information.
 

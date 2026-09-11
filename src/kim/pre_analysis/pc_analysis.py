@@ -48,7 +48,8 @@ def pc(xdata: Array, ydata: Array, metric_calculator: MetricBase, cond_metric_ca
     # Perform the pairwise analysis
     # shape: (Nx, Ny)
     sensitivity, sensitivity_mask = pairwise_analysis(
-        xdata, ydata, metric_calculator, True, ntest, alpha, verbose=verbose
+        xdata, ydata, metric_calculator, True, ntest, alpha,
+        n_jobs=n_jobs, seed_shuffle=seed_shuffle, verbose=verbose
     )
     cond_sensitivity_mask = sensitivity_mask.copy()
 
