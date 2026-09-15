@@ -68,8 +68,9 @@ class Data(object):
 
     """
 
-    def __init__(self, xdata: Optional[Array]=None, ydata: Optional[Array]=None, 
-                 fdata: Optional[PosixPath]=None, xscaler_type: str='', yscaler_type: str=''):
+    def __init__(self, xdata: Optional[Array]=None, ydata: Optional[Array]=None,
+                 fdata: Optional[PosixPath]=None, xscaler_type: str='', yscaler_type: str='',
+                 Ns_train: Optional[int]=None, Ns_val: Optional[int]=None):
         """Initialization function.
 
         Args:
@@ -78,6 +79,13 @@ class Data(object):
             ydata (array-like): the predictands with shape (Ns, Ny)
             xscaler_type (str): the type of xdata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
             yscaler_type (str): the type of ydata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``
+            Ns_train (int): the number of training samples. If given, the scalers are fit
+                only on the first `Ns_train + Ns_val` rows (i.e., everything but the held-out
+                test rows), so the test data never informs the scaling. Defaults to None,
+                which fits the scalers on the entire dataset.
+            Ns_val (int): the number of validation samples, used together with `Ns_train`
+                to exclude the test rows from scaler fitting; treated as 0 if not given.
+                Ignored if `Ns_train` is None.
         """
         if fdata is not None:
            self.sensitivity_done = True
@@ -98,11 +106,19 @@ class Data(object):
             self.Nx = xdata.shape[1]
             self.Ny = ydata.shape[1]
 
+            # Rows used to fit the scalers: everything but the held-out test rows
+            self.Ns_train = Ns_train
+            self.Ns_val = Ns_val
+            if Ns_train is None:
+                n_fit = self.Ns
+            else:
+                n_fit = min(Ns_train + (Ns_val or 0), self.Ns)
+
             # Create the transformer of the data
             self.xscaler_type = xscaler_type.lower()
             self.yscaler_type = yscaler_type.lower()
-            self.xscaler = get_scaler(self.xdata, self.xscaler_type)
-            self.yscaler = get_scaler(self.ydata, self.yscaler_type)
+            self.xscaler = get_scaler(self.xdata[:n_fit], self.xscaler_type)
+            self.yscaler = get_scaler(self.ydata[:n_fit], self.yscaler_type)
 
             # Data sensitivity
             self.sensitivity_config = {
