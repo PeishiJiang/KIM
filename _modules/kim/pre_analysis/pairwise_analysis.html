@@ -345,6 +345,7 @@ document.write(`
 <span class="c1"># Author: Peishi Jiang &lt;shixijps@gmail.com&gt;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">joblib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.sst</span><span class="w"> </span><span class="kn">import</span> <span class="n">shuffle_test</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.metric_calculator</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetricBase</span>
@@ -389,19 +390,32 @@ document.write(`
     <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Performing pairwise analysis to remove insensitive inputs ...&quot;</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Nx</span><span class="p">)):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">xdata</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_one_input</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Sensitivity of one input x to every output, computed serially in one worker.</span>
+        <span class="c1"># shuffle_test reseeds from seed_shuffle on every call, so the result is</span>
+        <span class="c1"># independent of which worker runs it and identical to the serial version.</span>
+        <span class="n">sens_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Ny</span><span class="p">)</span>
+        <span class="n">mask_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Ny</span><span class="p">):</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">ydata</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">sst</span><span class="p">:</span>
-                <span class="n">sensitivity</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_calculator</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="n">sens_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_calculator</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">metric</span><span class="p">,</span> <span class="n">significance</span> <span class="o">=</span> <span class="n">shuffle_test</span><span class="p">(</span>
+                <span class="n">sens_i</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">mask_i</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">shuffle_test</span><span class="p">(</span>
                     <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metric_calculator</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ntest</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> 
-                    <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">seed_shuffle</span>
+                    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">seed_shuffle</span>
                 <span class="p">)</span>
-                <span class="n">sensitivity</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span>
-                <span class="n">sensitivity_mask</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">significance</span>
+        <span class="k">return</span> <span class="n">sens_i</span><span class="p">,</span> <span class="n">mask_i</span>
+
+    <span class="c1"># Parallelize over the Nx inputs. Each task (Ny shuffle tests of ~100 metric</span>
+    <span class="c1"># evaluations) is large enough to amortize the dispatch cost, unlike the</span>
+    <span class="c1"># previous scheme of one joblib call of ntest tiny tasks per (x, y) pair.</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;loky&#39;</span><span class="p">)(</span>
+        <span class="n">delayed</span><span class="p">(</span><span class="n">analyze_one_input</span><span class="p">)(</span><span class="n">xdata</span><span class="p">[:,</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Nx</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">sens_i</span><span class="p">,</span> <span class="n">mask_i</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+        <span class="n">sensitivity</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">sens_i</span>
+        <span class="n">sensitivity_mask</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">mask_i</span>
     
     <span class="k">return</span> <span class="n">sensitivity</span><span class="p">,</span> <span class="n">sensitivity_mask</span></div>
 

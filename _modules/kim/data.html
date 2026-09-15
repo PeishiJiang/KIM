@@ -414,8 +414,9 @@ document.write(`
 
 <div class="viewcode-block" id="Data.__init__">
 <a class="viewcode-back" href="../../api/kim.html#kim.data.Data.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xdata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ydata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                 <span class="n">fdata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PosixPath</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xscaler_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">yscaler_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xdata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ydata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">fdata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PosixPath</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xscaler_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">yscaler_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">Ns_train</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ns_val</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization function.</span>
 
 <span class="sd">        Args:</span>
@@ -424,6 +425,13 @@ document.write(`
 <span class="sd">            ydata (array-like): the predictands with shape (Ns, Ny)</span>
 <span class="sd">            xscaler_type (str): the type of xdata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``</span>
 <span class="sd">            yscaler_type (str): the type of ydata scaler, either `minmax`, `normalize`, `standard`, `log`, or ``</span>
+<span class="sd">            Ns_train (int): the number of training samples. If given, the scalers are fit</span>
+<span class="sd">                only on the first `Ns_train + Ns_val` rows (i.e., everything but the held-out</span>
+<span class="sd">                test rows), so the test data never informs the scaling. Defaults to None,</span>
+<span class="sd">                which fits the scalers on the entire dataset.</span>
+<span class="sd">            Ns_val (int): the number of validation samples, used together with `Ns_train`</span>
+<span class="sd">                to exclude the test rows from scaler fitting; treated as 0 if not given.</span>
+<span class="sd">                Ignored if `Ns_train` is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">fdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
            <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_done</span> <span class="o">=</span> <span class="kc">True</span>
@@ -444,11 +452,19 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">Nx</span> <span class="o">=</span> <span class="n">xdata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Ny</span> <span class="o">=</span> <span class="n">ydata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
+            <span class="c1"># Rows used to fit the scalers: everything but the held-out test rows</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Ns_train</span> <span class="o">=</span> <span class="n">Ns_train</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Ns_val</span> <span class="o">=</span> <span class="n">Ns_val</span>
+            <span class="k">if</span> <span class="n">Ns_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">n_fit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ns</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n_fit</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Ns_train</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ns_val</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ns</span><span class="p">)</span>
+
             <span class="c1"># Create the transformer of the data</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xscaler_type</span> <span class="o">=</span> <span class="n">xscaler_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">yscaler_type</span> <span class="o">=</span> <span class="n">yscaler_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">xscaler</span> <span class="o">=</span> <span class="n">get_scaler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xscaler_type</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">yscaler</span> <span class="o">=</span> <span class="n">get_scaler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ydata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yscaler_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xscaler</span> <span class="o">=</span> <span class="n">get_scaler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xdata</span><span class="p">[:</span><span class="n">n_fit</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xscaler_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">yscaler</span> <span class="o">=</span> <span class="n">get_scaler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ydata</span><span class="p">[:</span><span class="n">n_fit</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">yscaler_type</span><span class="p">)</span>
 
             <span class="c1"># Data sensitivity</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity_config</span> <span class="o">=</span> <span class="p">{</span>

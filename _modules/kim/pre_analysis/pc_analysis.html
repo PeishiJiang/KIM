@@ -392,7 +392,8 @@ document.write(`
     <span class="c1"># Perform the pairwise analysis</span>
     <span class="c1"># shape: (Nx, Ny)</span>
     <span class="n">sensitivity</span><span class="p">,</span> <span class="n">sensitivity_mask</span> <span class="o">=</span> <span class="n">pairwise_analysis</span><span class="p">(</span>
-        <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">metric_calculator</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ntest</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+        <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">metric_calculator</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ntest</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">seed_shuffle</span><span class="o">=</span><span class="n">seed_shuffle</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
     <span class="p">)</span>
     <span class="n">cond_sensitivity_mask</span> <span class="o">=</span> <span class="n">sensitivity_mask</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
