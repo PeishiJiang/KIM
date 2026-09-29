@@ -20,7 +20,7 @@ authors:
   - name: Xingyuan Chen
     affiliation: 1
 affiliations:
- - name: Atmospheric, Climate, and Earth Sciences Division, Pacific Northwest National Laboratory, Richland, Washington, USA
+ - name: Pacific Northwest National Laboratory, Richland, Washington, USA
    index: 1
  - name: Civil, Construction and Environmental Engineering, University of Alabama, Tuscaloosa, Alabama, USA
    index: 2
