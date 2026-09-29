@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 fig, ax = plt.subplots(1, 1, figsize=(8, 4))
 plot_sensitivity(data.sensitivity.T)
 ax.set(
-    title='Gloabal sensitivity using mutual information',
+    title='Global sensitivity using mutual information',
     xticklabels=x_labels, yticklabels=y_labels
 );
 
