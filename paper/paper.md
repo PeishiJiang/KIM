@@ -10,10 +10,12 @@ authors:
     orcid: 0000-0003-4968-4258
     affiliation: "1, 2" # (Multiple affiliations must be quoted)
   - name: Aaron Wang
+    orcid: 0000-0002-9289-3234
     affiliation: 1
   - name: Susannah M. Burrows
     affiliation: 1
   - name: Naser Mahfouz
+    orcid: 0000-0002-7097-1430
     affiliation: 1
   - name: Xingyuan Chen
     affiliation: 1
