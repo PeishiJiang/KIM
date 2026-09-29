@@ -13,6 +13,7 @@ authors:
     orcid: 0000-0002-9289-3234
     affiliation: 1
   - name: Susannah M. Burrows
+    orcid: 0000-0002-0745-7252
     affiliation: 1
   - name: Naser Mahfouz
     orcid: 0000-0002-7097-1430
