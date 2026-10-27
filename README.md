@@ -68,7 +68,7 @@ Distributed under the Simplified BSD License. See [LICENSE](./LICENSE) for more 
 This work was funded by the Laboratory Directed Research and Development Program at Pacific Northwest National Laboratory and the IDEAS-Watersheds project. 
 
 ## How to Cite
-The repository is under review. We will provide a complete citation upon the acceptance of the repo/paper.
+Jiang et al., (2026). KIM: Knowledge-Informed Mapping Toolkit. Journal of Open Source Software, 11(126), 11112, https://doi.org/10.21105/joss.11112.
 
 ## Help and Feedback
 - **[GitHub Issues](https://github.com/PeishiJiang/KIM/issues)** for bug reports. Search before opening a new one.
